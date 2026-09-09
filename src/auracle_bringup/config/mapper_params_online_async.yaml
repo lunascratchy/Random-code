@@ -12,7 +12,7 @@ slam_toolbox:
     # ROS Parameters
     odom_frame: odom
     map_frame: map
-    base_frame: base_link
+    base_frame: base_footprint
     # Relative (not /scan): slam_toolbox has no namespace launch arg of its
     # own, so online_async_launch.py applies namespace= directly on the
     # Node. A relative topic name here is required for that to actually

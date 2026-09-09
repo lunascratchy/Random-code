@@ -42,6 +42,18 @@
         <color rgba="1 0 0 1"/>
     </material>
 
+    <!-- BASE FOOTPRINT: ground-projected frame, kept at true wheel-contact
+        height. This is the frame EKF/Nav2/SLAM should track — see ekf.yaml,
+        nav2_params.yaml, mapper_params_online_async.yaml. -->
+    <link name="base_footprint"/>
+
+    <joint name="base_footprint_joint" type="fixed">
+        <parent link="base_footprint"/>
+        <child link="base_link"/>
+        <!-- 0.0707 (wheel center drop from base_link) + 0.0239 (wheel_radius) -->
+        <origin xyz="0 0 0.0946" rpy="0 0 0"/>
+    </joint>
+
     <!-- BASE LINK -->
 
     <link name="base_link">
@@ -495,6 +507,27 @@
         <material>Gazebo/Blue</material>
     </gazebo>
 
-  
+    <!-- Gazebo Sim/ODE does not support <mimic> constraints (see the
+        "Attempting to create a mimic constraint" warning at spawn time), so
+        left/right_wheel_one and left/right_wheel_three are un-driven, free
+        joints sitting in full-friction ground contact in sim. That's enough
+        drag from 4 wheels to stop 2 driven wheels from pivoting the chassis.
+        Cut their friction drastically so they can scrub/slide during turns. -->
+    <gazebo reference="left_wheel_one">
+        <mu1>0.01</mu1>
+        <mu2>0.01</mu2>
+    </gazebo>
+    <gazebo reference="left_wheel_three">
+        <mu1>0.01</mu1>
+        <mu2>0.01</mu2>
+    </gazebo>
+    <gazebo reference="right_wheel_one">
+        <mu1>0.01</mu1>
+        <mu2>0.01</mu2>
+    </gazebo>
+    <gazebo reference="right_wheel_three">
+        <mu1>0.01</mu1>
+        <mu2>0.01</mu2>
+    </gazebo>
 
 </robot>
