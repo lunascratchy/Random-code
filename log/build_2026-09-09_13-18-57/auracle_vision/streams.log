@@ -1,0 +1,22 @@
+[1.430s] Invoking command in '/home/kitana/Documents/auracle_ws/build/auracle_vision': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/kitana/Documents/auracle_ws/build/auracle_vision/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/kitana/Documents/auracle_ws/install/auracle_vision/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/kitana/Documents/auracle_ws/build/auracle_vision/build --no-deps symlink_data
+[1.788s] running develop
+[2.002s] running egg_info
+[2.002s] creating auracle_vision.egg-info
+[2.023s] writing auracle_vision.egg-info/PKG-INFO
+[2.023s] writing dependency_links to auracle_vision.egg-info/dependency_links.txt
+[2.023s] writing requirements to auracle_vision.egg-info/requires.txt
+[2.023s] writing top-level names to auracle_vision.egg-info/top_level.txt
+[2.024s] writing manifest file 'auracle_vision.egg-info/SOURCES.txt'
+[2.067s] reading manifest file 'auracle_vision.egg-info/SOURCES.txt'
+[2.068s] writing manifest file 'auracle_vision.egg-info/SOURCES.txt'
+[2.512s] running build_ext
+[2.512s] Creating /home/kitana/Documents/auracle_ws/install/auracle_vision/lib/python3.12/site-packages/auracle-vision.egg-link (link to .)
+[2.512s] 
+[2.512s] Installed /home/kitana/Documents/auracle_ws/build/auracle_vision
+[2.513s] running symlink_data
+[2.513s] creating /home/kitana/Documents/auracle_ws/install/auracle_vision/share/ament_index
+[2.513s] creating /home/kitana/Documents/auracle_ws/install/auracle_vision/share/ament_index/resource_index
+[2.513s] creating /home/kitana/Documents/auracle_ws/install/auracle_vision/share/ament_index/resource_index/packages
+[2.514s] symbolically linking /home/kitana/Documents/auracle_ws/build/auracle_vision/resource/auracle_vision -> /home/kitana/Documents/auracle_ws/install/auracle_vision/share/ament_index/resource_index/packages
+[2.514s] symbolically linking /home/kitana/Documents/auracle_ws/build/auracle_vision/package.xml -> /home/kitana/Documents/auracle_ws/install/auracle_vision/share/auracle_vision
+[2.563s] Invoked command in '/home/kitana/Documents/auracle_ws/build/auracle_vision' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/kitana/Documents/auracle_ws/build/auracle_vision/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/kitana/Documents/auracle_ws/install/auracle_vision/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/kitana/Documents/auracle_ws/build/auracle_vision/build --no-deps symlink_data

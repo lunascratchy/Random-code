@@ -1,0 +1,9 @@
+/home/kitana/Documents/auracle_ws/build/auracle_bringup/CMakeFiles/uninstall.dir
+/home/kitana/Documents/auracle_ws/build/auracle_bringup/CMakeFiles/auracle_bringup_uninstall.dir
+/home/kitana/Documents/auracle_ws/build/auracle_bringup/CMakeFiles/test.dir
+/home/kitana/Documents/auracle_ws/build/auracle_bringup/CMakeFiles/edit_cache.dir
+/home/kitana/Documents/auracle_ws/build/auracle_bringup/CMakeFiles/rebuild_cache.dir
+/home/kitana/Documents/auracle_ws/build/auracle_bringup/CMakeFiles/list_install_components.dir
+/home/kitana/Documents/auracle_ws/build/auracle_bringup/CMakeFiles/install.dir
+/home/kitana/Documents/auracle_ws/build/auracle_bringup/CMakeFiles/install/local.dir
+/home/kitana/Documents/auracle_ws/build/auracle_bringup/CMakeFiles/install/strip.dir

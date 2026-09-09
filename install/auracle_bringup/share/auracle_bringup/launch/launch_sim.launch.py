@@ -1,0 +1,1 @@
+/home/kitana/Documents/auracle_ws/src/auracle_bringup/launch/launch_sim.launch.py

@@ -1,0 +1,1 @@
+/home/kitana/Documents/auracle_ws/build/auracle_description/ament_cmake_core/auracle_descriptionConfig-version.cmake

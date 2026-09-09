@@ -1,0 +1,1 @@
+/home/kitana/Documents/auracle_ws/build/auracle_bringup/ament_cmake_core/auracle_bringupConfig.cmake

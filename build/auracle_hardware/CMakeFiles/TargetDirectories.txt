@@ -1,0 +1,10 @@
+/home/kitana/Documents/auracle_ws/build/auracle_hardware/CMakeFiles/uninstall.dir
+/home/kitana/Documents/auracle_ws/build/auracle_hardware/CMakeFiles/auracle_hardware_uninstall.dir
+/home/kitana/Documents/auracle_ws/build/auracle_hardware/CMakeFiles/auracle_hardware.dir
+/home/kitana/Documents/auracle_ws/build/auracle_hardware/CMakeFiles/test.dir
+/home/kitana/Documents/auracle_ws/build/auracle_hardware/CMakeFiles/edit_cache.dir
+/home/kitana/Documents/auracle_ws/build/auracle_hardware/CMakeFiles/rebuild_cache.dir
+/home/kitana/Documents/auracle_ws/build/auracle_hardware/CMakeFiles/list_install_components.dir
+/home/kitana/Documents/auracle_ws/build/auracle_hardware/CMakeFiles/install.dir
+/home/kitana/Documents/auracle_ws/build/auracle_hardware/CMakeFiles/install/local.dir
+/home/kitana/Documents/auracle_ws/build/auracle_hardware/CMakeFiles/install/strip.dir

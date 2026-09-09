@@ -1,0 +1,13 @@
+package.xml
+setup.cfg
+setup.py
+auracle_vision/__init__.py
+auracle_vision/camera_node.py
+auracle_vision/detector_node.py
+auracle_vision.egg-info/PKG-INFO
+auracle_vision.egg-info/SOURCES.txt
+auracle_vision.egg-info/dependency_links.txt
+auracle_vision.egg-info/requires.txt
+auracle_vision.egg-info/top_level.txt
+auracle_vision.egg-info/zip-safe
+resource/auracle_vision

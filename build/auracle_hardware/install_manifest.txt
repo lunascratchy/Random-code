@@ -1,0 +1,3 @@
+/home/kitana/Documents/auracle_ws/install/auracle_hardware/lib/libauracle_hardware.so
+/home/kitana/Documents/auracle_ws/install/auracle_hardware/share/auracle_hardware/cmake/export_auracle_hardwareExport.cmake
+/home/kitana/Documents/auracle_ws/install/auracle_hardware/share/auracle_hardware/cmake/export_auracle_hardwareExport-noconfig.cmake
