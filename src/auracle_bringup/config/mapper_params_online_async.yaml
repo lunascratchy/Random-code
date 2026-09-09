@@ -13,7 +13,12 @@ slam_toolbox:
     odom_frame: odom
     map_frame: map
     base_frame: base_link
-    scan_topic: /scan
+    # Relative (not /scan): slam_toolbox has no namespace launch arg of its
+    # own, so online_async_launch.py applies namespace= directly on the
+    # Node. A relative topic name here is required for that to actually
+    # resolve to <namespace>/scan instead of always subscribing to the
+    # global /scan regardless of namespace.
+    scan_topic: scan
     use_map_saver: true
     mode: mapping #localization
 

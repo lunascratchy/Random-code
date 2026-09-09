@@ -11,14 +11,22 @@ from nav2_common.launch import HasNodeParams
 
 def generate_launch_description():
     use_sim_time = LaunchConfiguration('use_sim_time')
+    namespace = LaunchConfiguration('namespace')
     params_file = LaunchConfiguration('params_file')
-    default_params_file = os.path.join(get_package_share_directory("auracle"),
+    default_params_file = os.path.join(get_package_share_directory('auracle_bringup'),
                                        'config', 'mapper_params_online_async.yaml')
 
     declare_use_sim_time_argument = DeclareLaunchArgument(
         'use_sim_time',
         default_value='true',
         description='Use simulation/Gazebo clock')
+    declare_namespace_argument = DeclareLaunchArgument(
+        'namespace',
+        default_value='',
+        description=('Top-level namespace. slam_toolbox has no namespace support of '
+                     'its own upstream, so this is applied directly on the Node below. '
+                     'mapper_params_online_async.yaml\'s scan_topic is relative ("scan") '
+                     'specifically so it resolves under this namespace.'))
     declare_params_file_cmd = DeclareLaunchArgument(
         'params_file',
         default_value=default_params_file,
@@ -48,12 +56,14 @@ def generate_launch_description():
         package='slam_toolbox',
         executable='async_slam_toolbox_node',
         name='slam_toolbox',
+        namespace=namespace,
         output='screen')
 
     start_lifecycle_manager = Node(
         package='nav2_lifecycle_manager',
         executable='lifecycle_manager',
         name='lifecycle_manager_slam',
+        namespace=namespace,
         output='screen',
         parameters=[{'autostart': True},
                     {'node_names': ['slam_toolbox']},
@@ -62,6 +72,7 @@ def generate_launch_description():
     ld = LaunchDescription()
 
     ld.add_action(declare_use_sim_time_argument)
+    ld.add_action(declare_namespace_argument)
     ld.add_action(declare_params_file_cmd)
     ld.add_action(log_param_change)
     ld.add_action(start_async_slam_toolbox_node)
