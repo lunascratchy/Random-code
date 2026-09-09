@@ -1,1 +1,0 @@
-/home/kitana/Documents/auracle_ws/build/auracle_hardware/ament_cmake_core/auracle_hardwareConfig-version.cmake

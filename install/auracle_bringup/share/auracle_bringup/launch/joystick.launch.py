@@ -1,1 +1,0 @@
-/home/kitana/Documents/auracle_ws/src/auracle_bringup/launch/joystick.launch.py
