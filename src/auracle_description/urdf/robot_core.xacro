@@ -3,7 +3,6 @@
 
     <xacro:include filename="inertial_macros.xacro"/>
 
-
     <xacro:property name="chassis_length" value="0.3"/>
     <xacro:property name="chassis_width" value="0.2"/>
     <xacro:property name="chassis_height" value="0.05"/>
@@ -14,7 +13,6 @@
     <xacro:property name="rocker_height" value="0.2"/>
     <xacro:property name="tilted_link" value="0.1"/>
     <xacro:property name="rocker_mass" value="0.5"/>
-    <!-- Measured from emmanuel-assembly.stp tire rolling-surface cylinder (was 0.033) -->
     <xacro:property name="wheel_radius" value="0.0239"/>
     <xacro:property name="wheel_thickness" value="0.026"/>
     <xacro:property name="wheel_mass" value="0.05"/>
@@ -25,43 +23,33 @@
     <material name="white">
         <color rgba="1 1 1 1" />
     </material>
-
     <material name="orange">
         <color rgba="1 0.3 0.1 1"/>
     </material>
-
     <material name="blue">
         <color rgba="0.2 0.2 1 1"/>
     </material>
-
     <material name="black">
         <color rgba="0 0 0 1"/>
     </material>
-
     <material name="red">
         <color rgba="1 0 0 1"/>
     </material>
 
-    <!-- BASE FOOTPRINT: ground-projected frame, kept at true wheel-contact
-        height. This is the frame EKF/Nav2/SLAM should track — see ekf.yaml,
-        nav2_params.yaml, mapper_params_online_async.yaml. -->
+    <!-- BASE FOOTPRINT: ground-projected frame -->
     <link name="base_footprint"/>
 
     <joint name="base_footprint_joint" type="fixed">
         <parent link="base_footprint"/>
         <child link="base_link"/>
-        <!-- 0.0707 (wheel center drop from base_link) + 0.0239 (wheel_radius) -->
         <origin xyz="0 0 0.0946" rpy="0 0 0"/>
     </joint>
 
     <!-- BASE LINK -->
-
     <link name="base_link">
-
     </link>
 
     <!-- CHASSIS LINK -->
-
     <joint name="chassis_joint" type="fixed">
         <parent link="base_link"/>
         <child link="chassis"/>
@@ -91,12 +79,11 @@
         <material>Gazebo/Orange</material>
     </gazebo>
 
- <!-- LEFT WHEEL ROCKER LINK -->
+    <!-- LEFT WHEEL ROCKER LINK -->
     <joint name="left_wheel_rocker_joint" type="fixed">
         <parent link="base_link"/>
         <child link="left_rocker"/>
         <origin xyz="${chassis_length/2} ${chassis_width/2+rocker_width/2} 0" rpy="0 0 ${pi/2}" />
-        
     </joint>
 
     <link name="left_rocker">
@@ -123,7 +110,6 @@
         <parent link="left_rocker"/>
         <child link="tilted_link"/>
         <origin xyz="0 ${rocker_length/2} 0" rpy="${pi/4} 0 0" />
-        
     </joint>
 
     <link name="tilted_link">
@@ -150,7 +136,6 @@
         <parent link="left_rocker"/>
         <child link="tilted_two_link"/>
         <origin xyz="0 ${-rocker_length/2} 0" rpy="${-pi/4} 0 0" />
-        
     </joint>
 
     <link name="tilted_two_link">
@@ -172,13 +157,7 @@
         </xacro:inertial_box>
     </link>
 
-
-    <!-- LEFT WHEEL 1 -->
-
-    <!-- Not wired to ros2_control (only left_wheel_two_joint has a hardware
-         interface/encoder) - mimics left_wheel_two_joint so joint_state_publisher
-         (with use_mimic_tags) can still compute a valid rotation/TF for it instead
-         of it sitting frozen with no transform at all. -->
+    <!-- LEFT WHEEL 1 (Unactuated Front) -->
     <joint name="left_wheel_one_joint" type="continuous">
         <parent link="tilted_two_link"/>
         <child link="left_wheel_one"/>
@@ -208,12 +187,11 @@
         <material>Gazebo/Blue</material>
     </gazebo>
 
-    <!-- TILTED LINK6 -->
+    <!-- TILTED LINK3 -->
     <joint name="tilted_three_joint" type="fixed">
         <parent link="left_rocker"/>
         <child link="tilted_three_link"/>
         <origin xyz="0 ${-rocker_length/2} 0" rpy="${pi/4} 0 0" />
-        
     </joint>
 
     <link name="tilted_three_link">
@@ -235,11 +213,7 @@
         </xacro:inertial_box>
     </link>
 
-
-    <!-- LEFT WHEEL 3 -->
-
-    <!-- Not wired to ros2_control - mimics left_wheel_two_joint, same reasoning
-         as left_wheel_one_joint above. -->
+    <!-- LEFT WHEEL 3 (Unactuated Rear) -->
     <joint name="left_wheel_three_joint" type="continuous">
         <parent link="tilted_three_link"/>
         <child link="left_wheel_three"/>
@@ -269,8 +243,7 @@
         <material>Gazebo/Blue</material>
     </gazebo>
 
-     <!-- LEFT WHEEL 2 -->
-
+    <!-- LEFT WHEEL 2 (Driven Middle - Notice the collision radius bump) -->
     <joint name="left_wheel_two_joint" type="continuous">
         <parent link="tilted_link"/>
         <child link="left_wheel_two"/>
@@ -287,7 +260,7 @@
         </visual>
         <collision>
             <geometry>
-                <sphere radius="${wheel_radius}"/>
+                <sphere radius="${wheel_radius + 0.002}"/>
             </geometry>
         </collision>
         <xacro:inertial_cylinder mass="${wheel_mass}" length="${wheel_thickness}" radius="${wheel_radius}">
@@ -304,7 +277,6 @@
         <parent link="base_link"/>
         <child link="right_rocker"/>
         <origin xyz="${chassis_length/2} ${-chassis_width/2-rocker_width/2} 0" rpy="0 0 ${pi/2}" />
-        
     </joint>
 
     <link name="right_rocker">
@@ -326,12 +298,11 @@
         </xacro:inertial_box>
     </link>
 
-    <!-- TILTED LINK 1-->
+    <!-- TILTED LINK 1 -->
     <joint name="tilted_joint_two" type="fixed">
         <parent link="right_rocker"/>
         <child link="tilted_link_two"/>
         <origin xyz="0 ${rocker_length/2} 0" rpy="${pi/4} 0 0" />
-        
     </joint>
 
     <link name="tilted_link_two">
@@ -358,7 +329,6 @@
         <parent link="right_rocker"/>
         <child link="tilted_two_link_two"/>
         <origin xyz="0 ${-rocker_length/2} 0" rpy="${-pi/4} 0 0" />
-        
     </joint>
 
     <link name="tilted_two_link_two">
@@ -380,13 +350,7 @@
         </xacro:inertial_box>
     </link>
 
-
-    <!-- RIGHT WHEEL 1 -->
-
-    <!-- Not wired to ros2_control (only right_wheel_two_joint has a hardware
-         interface/encoder) - mimics right_wheel_two_joint so joint_state_publisher
-         (with use_mimic_tags) can still compute a valid rotation/TF for it instead
-         of it sitting frozen with no transform at all. -->
+    <!-- RIGHT WHEEL 1 (Unactuated Front) -->
     <joint name="right_wheel_one_joint" type="continuous">
         <parent link="tilted_two_link_two"/>
         <child link="right_wheel_one"/>
@@ -417,11 +381,10 @@
     </gazebo>
 
     <!-- TILTED LINK3 -->
-     <joint name="tilted_two_joint_three" type="fixed">
+    <joint name="tilted_two_joint_three" type="fixed">
         <parent link="right_rocker"/>
         <child link="tilted_two_link_three"/>
         <origin xyz="0 ${-rocker_length/2} 0" rpy="${pi/4} 0 0" />
-        
     </joint>
     <link name="tilted_two_link_three">
         <visual>
@@ -442,11 +405,7 @@
         </xacro:inertial_box>
     </link>
 
-
-    <!-- RIGHT WHEEL 3 -->
-
-    <!-- Not wired to ros2_control - mimics right_wheel_two_joint, same reasoning
-         as right_wheel_one_joint above. -->
+    <!-- RIGHT WHEEL 3 (Unactuated Rear) -->
     <joint name="right_wheel_three_joint" type="continuous">
         <parent link="tilted_two_link_three"/>
         <child link="right_wheel_three"/>
@@ -476,9 +435,7 @@
         <material>Gazebo/Blue</material>
     </gazebo>
 
-
-     <!-- RIGHT WHEEL 2 -->
-
+    <!-- RIGHT WHEEL 2 (Driven Middle - Notice the collision radius bump) -->
     <joint name="right_wheel_two_joint" type="continuous">
         <parent link="tilted_link_two"/>
         <child link="right_wheel_two"/>
@@ -495,7 +452,7 @@
         </visual>
         <collision>
             <geometry>
-                <sphere radius="${wheel_radius}"/>
+                <sphere radius="${wheel_radius + 0.002}"/>
             </geometry>
         </collision>
         <xacro:inertial_cylinder mass="${wheel_mass}" length="${wheel_thickness}" radius="${wheel_radius}">
@@ -507,12 +464,7 @@
         <material>Gazebo/Blue</material>
     </gazebo>
 
-    <!-- Gazebo Sim/ODE does not support <mimic> constraints (see the
-        "Attempting to create a mimic constraint" warning at spawn time), so
-        left/right_wheel_one and left/right_wheel_three are un-driven, free
-        joints sitting in full-friction ground contact in sim. That's enough
-        drag from 4 wheels to stop 2 driven wheels from pivoting the chassis.
-        Cut their friction drastically so they can scrub/slide during turns. -->
+    <!-- Gazebo Friction Overrides for the 4 outer unactuated wheels -->
     <gazebo reference="left_wheel_one">
         <mu1>0.01</mu1>
         <mu2>0.01</mu2>
