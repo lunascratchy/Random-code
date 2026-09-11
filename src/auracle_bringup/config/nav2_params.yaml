@@ -471,3 +471,57 @@ loopback_simulator:
     scan_angle_max: 3.1415
     scan_angle_increment: 0.02617
     scan_use_inf: true
+
+# Starter params for neo_localization2, sized for a small indoor differential-drive robot.
+# Merge this block into nav2_params.yaml, OR pass this file directly as
+# params_file:= to localization_neo_launch.py (either works, as long as the
+# top-level key below matches the node's `name=` in the launch file).
+#
+# Full parameter reference / defaults:
+# https://neobotix-docs.de/ros/packages/neo_localization.html#parameters
+# Real-world example from Neobotix:
+# https://github.com/neobotix/neo_mpo_700/blob/master/configs/navigation/neo_localization/neo_localization.yaml
+
+neo_localization_node:
+  ros__parameters:
+    use_sim_time: false
+
+    # --- frames / topics: match these to your robot ---
+    odom_frame: odom
+    base_frame: base_link
+    map_frame: map
+    scan_topic: scan
+    map_topic: map
+    broadcast_tf: true
+
+    # --- update rates ---
+    loc_update_rate: 10       # Hz, localization update rate
+    map_update_rate: 0.5      # Hz, how often the internal map tile refreshes
+    transform_timeout: 0.2    # seconds
+
+    # --- accuracy / smoothing ---
+    update_gain: 0.5          # low-pass gain on the pose update (0-1)
+    confidence_gain: 0.01
+    sample_rate: 10           # particles spread per update
+    solver_gain: 0.1          # lower = more stable, slower to converge
+    solver_damping: 1000.0
+    solver_iteration: 20      # Gauss-Newton iterations per particle per scan
+    min_points: 20            # min scan points required per update
+
+    # --- map handling ---
+    map_size: 1000            # map tile size, px
+    map_downscale: 0          # 0 = full resolution; raise if map is large/CPU-bound
+    num_smooth: 5              # gaussian smoothing passes on the map
+
+    # --- 2D / 1D / 0D degradation thresholds ---
+    # Raise min_score if it's dropping to 0D (pure odometry) too eagerly in
+    # open/featureless areas; lower it if it's too slow to give up on a bad fix.
+    min_score: 0.2
+    constrain_threshold: 0.5
+    constrain_threshold_yaw: 0.2
+
+    # --- particle spread bounds ---
+    odometry_std_xy: 0.01     # m/m, how fast spread grows in 1D/0D mode
+    odometry_std_yaw: 0.01    # rad/rad
+    min_sample_std_xy: 0.025  # m
+    min_sample_std_yaw: 0.5   # rad, also the initial spread
