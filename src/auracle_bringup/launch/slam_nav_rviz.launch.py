@@ -42,12 +42,14 @@ def generate_launch_description():
         }.items()
     )
 
+    nav_params = os.path.join(bringup_pkg, 'config', 'nav2_params.yaml')
     navigation = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             [os.path.join(bringup_pkg, 'launch', 'navigation_launch.py')]),
         launch_arguments={
             'use_sim_time': use_sim_time,
             'namespace': namespace,
+            'params_file': nav_params,  # <- ADD THIS LINE
         }.items()
     )
 

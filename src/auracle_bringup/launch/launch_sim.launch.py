@@ -163,9 +163,9 @@ def generate_launch_description():
     )
 
     delayed_diff_drive_spawner = RegisterEventHandler(
-        event_handler=OnProcessStart(
+        event_handler=OnProcessExit(
             target_action=spawn_entity,
-            on_start=[diff_drive_spawner],
+            on_exit=[diff_drive_spawner],
         )
     )
 

@@ -16,13 +16,14 @@
     <xacro:property name="wheel_radius" value="0.0239"/>
     <xacro:property name="wheel_thickness" value="0.026"/>
     <xacro:property name="wheel_mass" value="0.05"/>
-    <xacro:property name="wheel_offset_x" value="0.226"/>
-    <xacro:property name="wheel_offset_y" value="0.1485"/>
-    <xacro:property name="wheel_offset_z" value="0.01"/>
+    <xacro:property name="camera_size" value="0.02"/>
 
-    <material name="white">
-        <color rgba="1 1 1 1" />
+    <material name="red">
+        <color rgba="1 0 0 1"/>
     </material>
+
+    <joint name="camera_joint" type="fixed">
+
     <material name="orange">
         <color rgba="1 0.3 0.1 1"/>
     </material>
@@ -31,9 +32,6 @@
     </material>
     <material name="black">
         <color rgba="0 0 0 1"/>
-    </material>
-    <material name="red">
-        <color rgba="1 0 0 1"/>
     </material>
 
     <!-- BASE FOOTPRINT: ground-projected frame -->
@@ -157,13 +155,12 @@
         </xacro:inertial_box>
     </link>
 
-    <!-- LEFT WHEEL 1 (Unactuated Front) -->
+    <!-- LEFT WHEEL 1 (Unactuated Front - Mimic removed for Gazebo stability) -->
     <joint name="left_wheel_one_joint" type="continuous">
         <parent link="tilted_two_link"/>
         <child link="left_wheel_one"/>
         <origin xyz="0 0 ${-tilted_link}" rpy="0 ${pi/2} 0" />
         <axis xyz="0 0 1"/>
-        <mimic joint="left_wheel_two_joint" multiplier="1.0" offset="0.0"/>
     </joint>
 
     <link name="left_wheel_one">
@@ -213,13 +210,12 @@
         </xacro:inertial_box>
     </link>
 
-    <!-- LEFT WHEEL 3 (Unactuated Rear) -->
+    <!-- LEFT WHEEL 3 (Unactuated Rear - Mimic removed for Gazebo stability) -->
     <joint name="left_wheel_three_joint" type="continuous">
         <parent link="tilted_three_link"/>
         <child link="left_wheel_three"/>
         <origin xyz="0 0 ${-tilted_link}" rpy="0 ${pi/2} 0" />
         <axis xyz="0 0 1"/>
-        <mimic joint="left_wheel_two_joint" multiplier="1.0" offset="0.0"/>
     </joint>
 
     <link name="left_wheel_three">
@@ -243,7 +239,7 @@
         <material>Gazebo/Blue</material>
     </gazebo>
 
-    <!-- LEFT WHEEL 2 (Driven Middle - Notice the collision radius bump) -->
+    <!-- LEFT WHEEL 2 (Driven Middle) -->
     <joint name="left_wheel_two_joint" type="continuous">
         <parent link="tilted_link"/>
         <child link="left_wheel_two"/>
@@ -260,7 +256,7 @@
         </visual>
         <collision>
             <geometry>
-                <sphere radius="${wheel_radius + 0.002}"/>
+                <sphere radius="${wheel_radius}"/>
             </geometry>
         </collision>
         <xacro:inertial_cylinder mass="${wheel_mass}" length="${wheel_thickness}" radius="${wheel_radius}">
@@ -350,13 +346,12 @@
         </xacro:inertial_box>
     </link>
 
-    <!-- RIGHT WHEEL 1 (Unactuated Front) -->
+    <!-- RIGHT WHEEL 1 (Unactuated Front - Mimic removed) -->
     <joint name="right_wheel_one_joint" type="continuous">
         <parent link="tilted_two_link_two"/>
         <child link="right_wheel_one"/>
         <origin xyz="0 0 ${-tilted_link}" rpy="0 ${pi/2} 0" />
         <axis xyz="0 0 1"/>
-        <mimic joint="right_wheel_two_joint" multiplier="1.0" offset="0.0"/>
     </joint>
 
     <link name="right_wheel_one">
@@ -386,6 +381,7 @@
         <child link="tilted_two_link_three"/>
         <origin xyz="0 ${-rocker_length/2} 0" rpy="${pi/4} 0 0" />
     </joint>
+    
     <link name="tilted_two_link_three">
         <visual>
             <origin xyz="0 0 -${tilted_link/2}" rpy="0 ${pi/2} 0"/>
@@ -405,13 +401,12 @@
         </xacro:inertial_box>
     </link>
 
-    <!-- RIGHT WHEEL 3 (Unactuated Rear) -->
+    <!-- RIGHT WHEEL 3 (Unactuated Rear - Mimic removed) -->
     <joint name="right_wheel_three_joint" type="continuous">
         <parent link="tilted_two_link_three"/>
         <child link="right_wheel_three"/>
         <origin xyz="0 0 ${-tilted_link}" rpy="0 ${pi/2} 0" />
         <axis xyz="0 0 1"/>
-        <mimic joint="right_wheel_two_joint" multiplier="1.0" offset="0.0"/>
     </joint>
 
     <link name="right_wheel_three">
@@ -435,7 +430,7 @@
         <material>Gazebo/Blue</material>
     </gazebo>
 
-    <!-- RIGHT WHEEL 2 (Driven Middle - Notice the collision radius bump) -->
+    <!-- RIGHT WHEEL 2 (Driven Middle) -->
     <joint name="right_wheel_two_joint" type="continuous">
         <parent link="tilted_link_two"/>
         <child link="right_wheel_two"/>
@@ -452,7 +447,7 @@
         </visual>
         <collision>
             <geometry>
-                <sphere radius="${wheel_radius + 0.002}"/>
+                <sphere radius="${wheel_radius}"/>
             </geometry>
         </collision>
         <xacro:inertial_cylinder mass="${wheel_mass}" length="${wheel_thickness}" radius="${wheel_radius}">
@@ -464,7 +459,7 @@
         <material>Gazebo/Blue</material>
     </gazebo>
 
-    <!-- Gazebo Friction Overrides for the 4 outer unactuated wheels -->
+    <!-- Gazebo Friction Overrides: Allows the 4 outer wheels to scrub/slide laterally -->
     <gazebo reference="left_wheel_one">
         <mu1>0.01</mu1>
         <mu2>0.01</mu2>
