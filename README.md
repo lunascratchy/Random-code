@@ -6,7 +6,7 @@ colcon build --symlink-install && source install/setup.bash
 ```
 
 # Simulation 
-## Terminal 1 (Gazebo + robot)
+## Terminal 1 (Gazebo + robot)8
 This launches the robot in Gazebo with use_sim_time:=true baked in
 ```
 source install/setup.bash && ros2 launch auracle_bringup launch_sim.launch.py

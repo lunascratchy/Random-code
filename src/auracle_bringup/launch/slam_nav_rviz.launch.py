@@ -49,7 +49,7 @@ def generate_launch_description():
         launch_arguments={
             'use_sim_time': use_sim_time,
             'namespace': namespace,
-            'params_file': nav_params,  # <- ADD THIS LINE
+            'params_file': nav_params,  
         }.items()
     )
 
