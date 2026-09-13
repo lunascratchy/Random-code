@@ -5,7 +5,6 @@
     <link name="field_link">
       <pose>0 0 0 0 0 0</pose>
 
-      <!-- VISUAL: full-detail original mesh, unmodified. -->
       <visual name="visual">
         <geometry>
           <mesh>
@@ -20,13 +19,7 @@
         </material>
       </visual>
 
-      <!-- FLOOR COLLISION: one flat box, not a mesh. The drivable surface
-           is genuinely flat (18mm slab), so it gets an exact box primitive
-           instead of several approximate convex hulls stitched together.
-           This is what was causing the rough/uneven driving: the previous
-           version split the floor itself into 9 separate convex chunks
-           that met in seams directly under the wheels. A single box has
-           no seams to cross. -->
+      <!-- FLOOR: single flat box, exact dimensions. -->
       <collision name="floor_collision">
         <pose>0 0 0.009000 0 0 0</pose>
         <geometry>
@@ -44,17 +37,20 @@
         </surface>
       </collision>
 
-      <!-- WALL COLLISION: 28 convex hulls, decomposed (via CoACD) only from
-           the geometry ABOVE the floor's top surface (z >= 18mm). Because
-           the floor was excluded before decomposition, none of these hulls
-           needs to touch the driving surface -- they only need to overlap
-           the floor box itself (same rigid link, so overlap here is just a
-           bit of redundant volume, not a seam or a competing body). -->
+      <!-- RAMPS + WALLS: collision_ramp_0/1 are the two hill/ramp
+           features, built as EXACT extruded-trapezoid solids straight
+           from measured CAD coordinates (verified perfectly convex,
+           volume/hull ratio = 1.0000) -- no CoACD approximation, because
+           CoACD's internal voxel remesh (resolution=50 by default) was
+           overshooting real geometry by 15-30mm, which is fatal on a
+           feature with only 50mm of total rise. Everything else (wall_*)
+           is CoACD-decomposed as before -- that slop is negligible on
+           walls hundreds of mm tall. -->
 
-      <collision name="wall_collision_00">
+      <collision name="ramp_collision_00">
         <geometry>
           <mesh>
-            <uri>model://gamefield/meshes/collision/wall_00.stl</uri>
+            <uri>model://gamefield/meshes/collision/collision_ramp_0.stl</uri>
             <scale>0.001 0.001 0.001</scale>
           </mesh>
         </geometry>
@@ -67,10 +63,10 @@
           </contact>
         </surface>
       </collision>
-      <collision name="wall_collision_01">
+      <collision name="ramp_collision_01">
         <geometry>
           <mesh>
-            <uri>model://gamefield/meshes/collision/wall_01.stl</uri>
+            <uri>model://gamefield/meshes/collision/collision_ramp_1.stl</uri>
             <scale>0.001 0.001 0.001</scale>
           </mesh>
         </geometry>
@@ -86,7 +82,7 @@
       <collision name="wall_collision_02">
         <geometry>
           <mesh>
-            <uri>model://gamefield/meshes/collision/wall_02.stl</uri>
+            <uri>model://gamefield/meshes/collision/wall_00.stl</uri>
             <scale>0.001 0.001 0.001</scale>
           </mesh>
         </geometry>
@@ -102,7 +98,7 @@
       <collision name="wall_collision_03">
         <geometry>
           <mesh>
-            <uri>model://gamefield/meshes/collision/wall_03.stl</uri>
+            <uri>model://gamefield/meshes/collision/wall_01.stl</uri>
             <scale>0.001 0.001 0.001</scale>
           </mesh>
         </geometry>
@@ -118,7 +114,7 @@
       <collision name="wall_collision_04">
         <geometry>
           <mesh>
-            <uri>model://gamefield/meshes/collision/wall_04.stl</uri>
+            <uri>model://gamefield/meshes/collision/wall_02.stl</uri>
             <scale>0.001 0.001 0.001</scale>
           </mesh>
         </geometry>
@@ -134,7 +130,7 @@
       <collision name="wall_collision_05">
         <geometry>
           <mesh>
-            <uri>model://gamefield/meshes/collision/wall_05.stl</uri>
+            <uri>model://gamefield/meshes/collision/wall_03.stl</uri>
             <scale>0.001 0.001 0.001</scale>
           </mesh>
         </geometry>
@@ -150,7 +146,7 @@
       <collision name="wall_collision_06">
         <geometry>
           <mesh>
-            <uri>model://gamefield/meshes/collision/wall_06.stl</uri>
+            <uri>model://gamefield/meshes/collision/wall_04.stl</uri>
             <scale>0.001 0.001 0.001</scale>
           </mesh>
         </geometry>
@@ -166,7 +162,7 @@
       <collision name="wall_collision_07">
         <geometry>
           <mesh>
-            <uri>model://gamefield/meshes/collision/wall_07.stl</uri>
+            <uri>model://gamefield/meshes/collision/wall_05.stl</uri>
             <scale>0.001 0.001 0.001</scale>
           </mesh>
         </geometry>
@@ -182,7 +178,7 @@
       <collision name="wall_collision_08">
         <geometry>
           <mesh>
-            <uri>model://gamefield/meshes/collision/wall_08.stl</uri>
+            <uri>model://gamefield/meshes/collision/wall_06.stl</uri>
             <scale>0.001 0.001 0.001</scale>
           </mesh>
         </geometry>
@@ -198,7 +194,7 @@
       <collision name="wall_collision_09">
         <geometry>
           <mesh>
-            <uri>model://gamefield/meshes/collision/wall_09.stl</uri>
+            <uri>model://gamefield/meshes/collision/wall_07.stl</uri>
             <scale>0.001 0.001 0.001</scale>
           </mesh>
         </geometry>
@@ -214,7 +210,7 @@
       <collision name="wall_collision_10">
         <geometry>
           <mesh>
-            <uri>model://gamefield/meshes/collision/wall_10.stl</uri>
+            <uri>model://gamefield/meshes/collision/wall_08.stl</uri>
             <scale>0.001 0.001 0.001</scale>
           </mesh>
         </geometry>
@@ -230,7 +226,7 @@
       <collision name="wall_collision_11">
         <geometry>
           <mesh>
-            <uri>model://gamefield/meshes/collision/wall_11.stl</uri>
+            <uri>model://gamefield/meshes/collision/wall_09.stl</uri>
             <scale>0.001 0.001 0.001</scale>
           </mesh>
         </geometry>
@@ -246,7 +242,7 @@
       <collision name="wall_collision_12">
         <geometry>
           <mesh>
-            <uri>model://gamefield/meshes/collision/wall_12.stl</uri>
+            <uri>model://gamefield/meshes/collision/wall_10.stl</uri>
             <scale>0.001 0.001 0.001</scale>
           </mesh>
         </geometry>
@@ -262,7 +258,7 @@
       <collision name="wall_collision_13">
         <geometry>
           <mesh>
-            <uri>model://gamefield/meshes/collision/wall_13.stl</uri>
+            <uri>model://gamefield/meshes/collision/wall_11.stl</uri>
             <scale>0.001 0.001 0.001</scale>
           </mesh>
         </geometry>
@@ -278,7 +274,7 @@
       <collision name="wall_collision_14">
         <geometry>
           <mesh>
-            <uri>model://gamefield/meshes/collision/wall_14.stl</uri>
+            <uri>model://gamefield/meshes/collision/wall_12.stl</uri>
             <scale>0.001 0.001 0.001</scale>
           </mesh>
         </geometry>
@@ -294,7 +290,7 @@
       <collision name="wall_collision_15">
         <geometry>
           <mesh>
-            <uri>model://gamefield/meshes/collision/wall_15.stl</uri>
+            <uri>model://gamefield/meshes/collision/wall_13.stl</uri>
             <scale>0.001 0.001 0.001</scale>
           </mesh>
         </geometry>
@@ -310,7 +306,7 @@
       <collision name="wall_collision_16">
         <geometry>
           <mesh>
-            <uri>model://gamefield/meshes/collision/wall_16.stl</uri>
+            <uri>model://gamefield/meshes/collision/wall_14.stl</uri>
             <scale>0.001 0.001 0.001</scale>
           </mesh>
         </geometry>
@@ -326,7 +322,7 @@
       <collision name="wall_collision_17">
         <geometry>
           <mesh>
-            <uri>model://gamefield/meshes/collision/wall_17.stl</uri>
+            <uri>model://gamefield/meshes/collision/wall_15.stl</uri>
             <scale>0.001 0.001 0.001</scale>
           </mesh>
         </geometry>
@@ -342,7 +338,7 @@
       <collision name="wall_collision_18">
         <geometry>
           <mesh>
-            <uri>model://gamefield/meshes/collision/wall_18.stl</uri>
+            <uri>model://gamefield/meshes/collision/wall_16.stl</uri>
             <scale>0.001 0.001 0.001</scale>
           </mesh>
         </geometry>
@@ -358,7 +354,7 @@
       <collision name="wall_collision_19">
         <geometry>
           <mesh>
-            <uri>model://gamefield/meshes/collision/wall_19.stl</uri>
+            <uri>model://gamefield/meshes/collision/wall_17.stl</uri>
             <scale>0.001 0.001 0.001</scale>
           </mesh>
         </geometry>
@@ -374,7 +370,7 @@
       <collision name="wall_collision_20">
         <geometry>
           <mesh>
-            <uri>model://gamefield/meshes/collision/wall_20.stl</uri>
+            <uri>model://gamefield/meshes/collision/wall_18.stl</uri>
             <scale>0.001 0.001 0.001</scale>
           </mesh>
         </geometry>
@@ -390,7 +386,7 @@
       <collision name="wall_collision_21">
         <geometry>
           <mesh>
-            <uri>model://gamefield/meshes/collision/wall_21.stl</uri>
+            <uri>model://gamefield/meshes/collision/wall_19.stl</uri>
             <scale>0.001 0.001 0.001</scale>
           </mesh>
         </geometry>
@@ -406,7 +402,7 @@
       <collision name="wall_collision_22">
         <geometry>
           <mesh>
-            <uri>model://gamefield/meshes/collision/wall_22.stl</uri>
+            <uri>model://gamefield/meshes/collision/wall_20.stl</uri>
             <scale>0.001 0.001 0.001</scale>
           </mesh>
         </geometry>
@@ -422,7 +418,7 @@
       <collision name="wall_collision_23">
         <geometry>
           <mesh>
-            <uri>model://gamefield/meshes/collision/wall_23.stl</uri>
+            <uri>model://gamefield/meshes/collision/wall_21.stl</uri>
             <scale>0.001 0.001 0.001</scale>
           </mesh>
         </geometry>
@@ -438,7 +434,7 @@
       <collision name="wall_collision_24">
         <geometry>
           <mesh>
-            <uri>model://gamefield/meshes/collision/wall_24.stl</uri>
+            <uri>model://gamefield/meshes/collision/wall_22.stl</uri>
             <scale>0.001 0.001 0.001</scale>
           </mesh>
         </geometry>
@@ -454,7 +450,7 @@
       <collision name="wall_collision_25">
         <geometry>
           <mesh>
-            <uri>model://gamefield/meshes/collision/wall_25.stl</uri>
+            <uri>model://gamefield/meshes/collision/wall_23.stl</uri>
             <scale>0.001 0.001 0.001</scale>
           </mesh>
         </geometry>
@@ -470,7 +466,7 @@
       <collision name="wall_collision_26">
         <geometry>
           <mesh>
-            <uri>model://gamefield/meshes/collision/wall_26.stl</uri>
+            <uri>model://gamefield/meshes/collision/wall_24.stl</uri>
             <scale>0.001 0.001 0.001</scale>
           </mesh>
         </geometry>
@@ -486,7 +482,151 @@
       <collision name="wall_collision_27">
         <geometry>
           <mesh>
+            <uri>model://gamefield/meshes/collision/wall_25.stl</uri>
+            <scale>0.001 0.001 0.001</scale>
+          </mesh>
+        </geometry>
+        <surface>
+          <friction>
+            <ode><mu>0.8</mu><mu2>0.8</mu2></ode>
+          </friction>
+          <contact>
+            <ode><kp>1e8</kp><kd>1.0</kd></ode>
+          </contact>
+        </surface>
+      </collision>
+      <collision name="wall_collision_28">
+        <geometry>
+          <mesh>
+            <uri>model://gamefield/meshes/collision/wall_26.stl</uri>
+            <scale>0.001 0.001 0.001</scale>
+          </mesh>
+        </geometry>
+        <surface>
+          <friction>
+            <ode><mu>0.8</mu><mu2>0.8</mu2></ode>
+          </friction>
+          <contact>
+            <ode><kp>1e8</kp><kd>1.0</kd></ode>
+          </contact>
+        </surface>
+      </collision>
+      <collision name="wall_collision_29">
+        <geometry>
+          <mesh>
             <uri>model://gamefield/meshes/collision/wall_27.stl</uri>
+            <scale>0.001 0.001 0.001</scale>
+          </mesh>
+        </geometry>
+        <surface>
+          <friction>
+            <ode><mu>0.8</mu><mu2>0.8</mu2></ode>
+          </friction>
+          <contact>
+            <ode><kp>1e8</kp><kd>1.0</kd></ode>
+          </contact>
+        </surface>
+      </collision>
+      <collision name="wall_collision_30">
+        <geometry>
+          <mesh>
+            <uri>model://gamefield/meshes/collision/wall_28.stl</uri>
+            <scale>0.001 0.001 0.001</scale>
+          </mesh>
+        </geometry>
+        <surface>
+          <friction>
+            <ode><mu>0.8</mu><mu2>0.8</mu2></ode>
+          </friction>
+          <contact>
+            <ode><kp>1e8</kp><kd>1.0</kd></ode>
+          </contact>
+        </surface>
+      </collision>
+      <collision name="wall_collision_31">
+        <geometry>
+          <mesh>
+            <uri>model://gamefield/meshes/collision/wall_29.stl</uri>
+            <scale>0.001 0.001 0.001</scale>
+          </mesh>
+        </geometry>
+        <surface>
+          <friction>
+            <ode><mu>0.8</mu><mu2>0.8</mu2></ode>
+          </friction>
+          <contact>
+            <ode><kp>1e8</kp><kd>1.0</kd></ode>
+          </contact>
+        </surface>
+      </collision>
+      <collision name="wall_collision_32">
+        <geometry>
+          <mesh>
+            <uri>model://gamefield/meshes/collision/wall_30.stl</uri>
+            <scale>0.001 0.001 0.001</scale>
+          </mesh>
+        </geometry>
+        <surface>
+          <friction>
+            <ode><mu>0.8</mu><mu2>0.8</mu2></ode>
+          </friction>
+          <contact>
+            <ode><kp>1e8</kp><kd>1.0</kd></ode>
+          </contact>
+        </surface>
+      </collision>
+      <collision name="wall_collision_33">
+        <geometry>
+          <mesh>
+            <uri>model://gamefield/meshes/collision/wall_31.stl</uri>
+            <scale>0.001 0.001 0.001</scale>
+          </mesh>
+        </geometry>
+        <surface>
+          <friction>
+            <ode><mu>0.8</mu><mu2>0.8</mu2></ode>
+          </friction>
+          <contact>
+            <ode><kp>1e8</kp><kd>1.0</kd></ode>
+          </contact>
+        </surface>
+      </collision>
+      <collision name="wall_collision_34">
+        <geometry>
+          <mesh>
+            <uri>model://gamefield/meshes/collision/wall_32.stl</uri>
+            <scale>0.001 0.001 0.001</scale>
+          </mesh>
+        </geometry>
+        <surface>
+          <friction>
+            <ode><mu>0.8</mu><mu2>0.8</mu2></ode>
+          </friction>
+          <contact>
+            <ode><kp>1e8</kp><kd>1.0</kd></ode>
+          </contact>
+        </surface>
+      </collision>
+      <collision name="wall_collision_35">
+        <geometry>
+          <mesh>
+            <uri>model://gamefield/meshes/collision/wall_33.stl</uri>
+            <scale>0.001 0.001 0.001</scale>
+          </mesh>
+        </geometry>
+        <surface>
+          <friction>
+            <ode><mu>0.8</mu><mu2>0.8</mu2></ode>
+          </friction>
+          <contact>
+            <ode><kp>1e8</kp><kd>1.0</kd></ode>
+          </contact>
+        </surface>
+      </collision>
+      <collision name="wall_collision_36">
+        <geometry>
+          <mesh>
+            <uri>model://gamefield/meshes/collision/wall_34.stl</uri>
             <scale>0.001 0.001 0.001</scale>
           </mesh>
         </geometry>

@@ -435,21 +435,34 @@
         <material>Gazebo/Blue</material>
     </gazebo>
 
+    <!-- Was 0.01 (near-frictionless) on all four passive wheels. That's
+         fine on flat ground, but it means these wheels contribute zero
+         holding force the instant the rigid (non-suspended) chassis
+         pitches on a grade change and weight shifts onto them, which is
+         exactly what a fixed 3-wheels-per-side frame does at a ramp
+         transition. Raised to something closer to the driven wheels'
+         (default, ~1.0) friction so the passive wheels can at least help
+         hold position instead of letting the robot slide straight back
+         down. Tune down again if this makes turning too draggy. -->
     <gazebo reference="left_wheel_one">
-        <mu1>0.01</mu1>
-        <mu2>0.01</mu2>
+        <mu1>0.6</mu1>      <!-- along rolling direction: keep for climbing -->
+        <mu2>0.1</mu2>      <!-- perpendicular/lateral: lower so it can skid to turn -->
+        <fdir1>1 0 0</fdir1> <!-- vector defining the "mu1" direction -->
     </gazebo>
     <gazebo reference="left_wheel_three">
-        <mu1>0.01</mu1>
-        <mu2>0.01</mu2>
+        <mu1>0.6</mu1>
+        <mu2>0.1</mu2>
+        <fdir1>1 0 0</fdir1>
     </gazebo>
     <gazebo reference="right_wheel_one">
-        <mu1>0.01</mu1>
-        <mu2>0.01</mu2>
+        <mu1>0.6</mu1>
+        <mu2>0.1</mu2>
+        <fdir1>1 0 0</fdir1>
     </gazebo>
     <gazebo reference="right_wheel_three">
-        <mu1>0.01</mu1>
-        <mu2>0.01</mu2>
+        <mu1>0.6</mu1>
+        <mu2>0.1</mu2>
+        <fdir1>1 0 0</fdir1>
     </gazebo>
 
 </robot>
