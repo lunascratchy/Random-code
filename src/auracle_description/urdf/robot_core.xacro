@@ -67,10 +67,23 @@
         <material>Gazebo/Orange</material>
     </gazebo>
 
-    <joint name="left_wheel_rocker_joint" type="fixed">
+    <!-- Rocker-to-chassis pivot. This has to be a real joint, not fixed:
+         it's the main degree of freedom that lets the whole rocker arm
+         (and everything hanging off it) rock forward/back as the wheels
+         cross terrain, instead of forcing the chassis to satisfy an
+         over-constrained rigid geometry. Passive (no actuator, not in
+         ros2_control) - it's driven purely by ground contact forces, with
+         damping/friction added just for numerical settling. Axis "1 0 0"
+         here is expressed in this joint's own (already rotated by the
+         rpy below) frame, and corresponds to the robot's lateral/pitch
+         axis - the correct axis for a suspension arm to rock about. -->
+    <joint name="left_wheel_rocker_joint" type="revolute">
         <parent link="base_link"/>
         <child link="left_rocker"/>
         <origin xyz="${chassis_length/2} ${chassis_width/2+rocker_width/2} 0" rpy="0 0 ${pi/2}" />
+        <axis xyz="1 0 0"/>
+        <limit lower="-0.6" upper="0.6" effort="50" velocity="5"/>
+        <dynamics damping="2.0" friction="0.1"/>
     </joint>
 
     <link name="left_rocker">
@@ -117,10 +130,31 @@
         </xacro:inertial_box>
     </link>
 
-    <joint name="tilted_two_joint" type="fixed">
+    <!-- Bogie pivot: on a real rocker-bogie, the two rear wheels per side
+         don't bolt straight onto the rocker - they hang off a small bogie
+         arm that itself pivots on the rocker, so those two wheels
+         equalize load on their own instead of forcing the rocker (and the
+         chassis above it) to twist to reach them both. Passive, same
+         reasoning as the rocker-to-chassis joint above. -->
+    <joint name="left_bogie_joint" type="revolute">
         <parent link="left_rocker"/>
+        <child link="left_bogie"/>
+        <origin xyz="0 ${-rocker_length/2} 0" rpy="0 0 0" />
+        <axis xyz="1 0 0"/>
+        <limit lower="-0.4" upper="0.4" effort="50" velocity="5"/>
+        <dynamics damping="1.0" friction="0.1"/>
+    </joint>
+
+    <link name="left_bogie">
+        <xacro:inertial_box mass="0.05" x="0.02" y="0.02" z="0.02">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_box>
+    </link>
+
+    <joint name="tilted_two_joint" type="fixed">
+        <parent link="left_bogie"/>
         <child link="tilted_two_link"/>
-        <origin xyz="0 ${-rocker_length/2} 0" rpy="${-pi/4} 0 0" />
+        <origin xyz="0 0 0" rpy="${-pi/4} 0 0" />
     </joint>
 
     <link name="tilted_two_link">
@@ -171,9 +205,9 @@
     </gazebo>
 
     <joint name="tilted_three_joint" type="fixed">
-        <parent link="left_rocker"/>
+        <parent link="left_bogie"/>
         <child link="tilted_three_link"/>
-        <origin xyz="0 ${-rocker_length/2} 0" rpy="${pi/4} 0 0" />
+        <origin xyz="0 0 0" rpy="${pi/4} 0 0" />
     </joint>
 
     <link name="tilted_three_link">
@@ -251,10 +285,13 @@
         <material>Gazebo/Blue</material>
     </gazebo>
 
-    <joint name="right_wheel_rocker_joint" type="fixed">
+    <joint name="right_wheel_rocker_joint" type="revolute">
         <parent link="base_link"/>
         <child link="right_rocker"/>
         <origin xyz="${chassis_length/2} ${-chassis_width/2-rocker_width/2} 0" rpy="0 0 ${pi/2}" />
+        <axis xyz="1 0 0"/>
+        <limit lower="-0.6" upper="0.6" effort="50" velocity="5"/>
+        <dynamics damping="2.0" friction="0.1"/>
     </joint>
 
     <link name="right_rocker">
@@ -301,10 +338,25 @@
         </xacro:inertial_box>
     </link>
 
-    <joint name="tilted_two_joint_two" type="fixed">
+    <joint name="right_bogie_joint" type="revolute">
         <parent link="right_rocker"/>
+        <child link="right_bogie"/>
+        <origin xyz="0 ${-rocker_length/2} 0" rpy="0 0 0" />
+        <axis xyz="1 0 0"/>
+        <limit lower="-0.4" upper="0.4" effort="50" velocity="5"/>
+        <dynamics damping="1.0" friction="0.1"/>
+    </joint>
+
+    <link name="right_bogie">
+        <xacro:inertial_box mass="0.05" x="0.02" y="0.02" z="0.02">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_box>
+    </link>
+
+    <joint name="tilted_two_joint_two" type="fixed">
+        <parent link="right_bogie"/>
         <child link="tilted_two_link_two"/>
-        <origin xyz="0 ${-rocker_length/2} 0" rpy="${-pi/4} 0 0" />
+        <origin xyz="0 0 0" rpy="${-pi/4} 0 0" />
     </joint>
 
     <link name="tilted_two_link_two">
@@ -355,9 +407,9 @@
     </gazebo>
 
     <joint name="tilted_two_joint_three" type="fixed">
-        <parent link="right_rocker"/>
+        <parent link="right_bogie"/>
         <child link="tilted_two_link_three"/>
-        <origin xyz="0 ${-rocker_length/2} 0" rpy="${pi/4} 0 0" />
+        <origin xyz="0 0 0" rpy="${pi/4} 0 0" />
     </joint>
     
     <link name="tilted_two_link_three">
