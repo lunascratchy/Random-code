@@ -35,9 +35,19 @@
 
     <gravity>0 0 -9.8</gravity>
 
-    <!-- Ground plane sits below the field as a safety net; the field's own
-         floor (part of the STL) provides the actual driving surface. -->
+    <!-- Ground plane is a fallback safety net ONLY (catches anything that
+         somehow ends up outside the field bounds) -- it sits 1m below the
+         field on purpose so it can never overlap the field's own floor
+         collision. Earlier this was at z=0, only 1mm below the field's
+         floor pose offset, while the field's convex collision hulls could
+         locally overshoot the true floor by 15-30mm (normal for a convex
+         decomposition) -- meaning the field floor and this ground_plane
+         were actually interpenetrating, so the robot's wheels were
+         resolving contact against two overlapping floors at once. That is
+         a second, independent cause of the jittery/uneven driving you saw,
+         on top of the seam issue in the collision mesh itself. -->
     <model name="ground_plane">
+      <pose>0 0 -1.0 0 0 0</pose>
       <static>true</static>
       <link name="link">
         <collision name="collision">
@@ -77,7 +87,7 @@
     <include>
       <uri>model://gamefield</uri>
       <name>gamefield</name>
-      <pose>0 0 0.001 0 0 0</pose>
+      <pose>0 0 0 0 0 0</pose>
     </include>
 
   </world>
