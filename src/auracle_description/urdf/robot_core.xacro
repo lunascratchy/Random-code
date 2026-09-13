@@ -119,14 +119,19 @@
             </geometry>
             <material name="black"/>
         </visual>
+        <!-- Was a copy-paste of left_rocker's full 0.13x0.02x0.2 collision
+             box, sitting at an offset that doesn't match this link's own
+             (much smaller, 0.1x0.02x0.025) visual at all - a phantom
+             collision volume trailing off of this strut. Now matches the
+             visual exactly. -->
         <collision>
-            <origin xyz="${rocker_length/2} 0 ${rocker_height/2}"/>
+            <origin xyz="0 0 -${tilted_link/2}" rpy="0 ${pi/2} 0"/>
             <geometry>
-                <box size="${rocker_length} ${rocker_width} ${rocker_height}"/>
+                <box size="${tilted_link} ${rocker_width} 0.025"/>
             </geometry>
         </collision>
-        <xacro:inertial_box mass="${rocker_mass}" x="${rocker_length}" y="${rocker_width}" z="${rocker_height}">
-            <origin xyz="${rocker_length/2} 0 ${rocker_height/2}" rpy="0 0 0"/>
+        <xacro:inertial_box mass="${rocker_mass}" x="${tilted_link}" y="${rocker_width}" z="0.025">
+            <origin xyz="0 0 -${tilted_link/2}" rpy="0 ${pi/2} 0"/>
         </xacro:inertial_box>
     </link>
 
@@ -166,13 +171,13 @@
             <material name="black"/>
         </visual>
         <collision>
-            <origin xyz="${rocker_length/2} 0 ${rocker_height/2}"/>
+            <origin xyz="0 0 -${tilted_link/2}" rpy="0 ${pi/2} 0"/>
             <geometry>
-                <box size="${rocker_length} ${rocker_width} ${rocker_height}"/>
+                <box size="${tilted_link} ${rocker_width} 0.025"/>
             </geometry>
         </collision>
-        <xacro:inertial_box mass="${rocker_mass}" x="${rocker_length}" y="${rocker_width}" z="${rocker_height}">
-            <origin xyz="${rocker_length/2} 0 ${rocker_height/2}" rpy="0 0 0"/>
+        <xacro:inertial_box mass="${rocker_mass}" x="${tilted_link}" y="${rocker_width}" z="0.025">
+            <origin xyz="0 0 -${tilted_link/2}" rpy="0 ${pi/2} 0"/>
         </xacro:inertial_box>
     </link>
 
@@ -219,13 +224,13 @@
             <material name="black"/>
         </visual>
         <collision>
-            <origin xyz="${rocker_length/2} 0 ${rocker_height/2}"/>
+            <origin xyz="0 0 -${tilted_link/2}" rpy="0 ${pi/2} 0"/>
             <geometry>
-                <box size="${rocker_length} ${rocker_width} ${rocker_height}"/>
+                <box size="${tilted_link} ${rocker_width} 0.025"/>
             </geometry>
         </collision>
-        <xacro:inertial_box mass="${rocker_mass}" x="${rocker_length}" y="${rocker_width}" z="${rocker_height}">
-            <origin xyz="${rocker_length/2} 0 ${rocker_height/2}" rpy="0 0 0"/>
+        <xacro:inertial_box mass="${rocker_mass}" x="${tilted_link}" y="${rocker_width}" z="0.025">
+            <origin xyz="0 0 -${tilted_link/2}" rpy="0 ${pi/2} 0"/>
         </xacro:inertial_box>
     </link>
 
@@ -328,13 +333,13 @@
             <material name="black"/>
         </visual>
         <collision>
-            <origin xyz="${rocker_length/2} 0 ${rocker_height/2}"/>
+            <origin xyz="0 0 -${tilted_link/2}" rpy="0 ${pi/2} 0"/>
             <geometry>
-                <box size="${rocker_length} ${rocker_width} ${rocker_height}"/>
+                <box size="${tilted_link} ${rocker_width} 0.025"/>
             </geometry>
         </collision>
-        <xacro:inertial_box mass="${rocker_mass}" x="${rocker_length}" y="${rocker_width}" z="${rocker_height}">
-            <origin xyz="${rocker_length/2} 0 ${rocker_height/2}" rpy="0 0 0"/>
+        <xacro:inertial_box mass="${rocker_mass}" x="${tilted_link}" y="${rocker_width}" z="0.025">
+            <origin xyz="0 0 -${tilted_link/2}" rpy="0 ${pi/2} 0"/>
         </xacro:inertial_box>
     </link>
 
@@ -368,13 +373,13 @@
             <material name="black"/>
         </visual>
         <collision>
-            <origin xyz="${rocker_length/2} 0 ${rocker_height/2}"/>
+            <origin xyz="0 0 -${tilted_link/2}" rpy="0 ${pi/2} 0"/>
             <geometry>
-                <box size="${rocker_length} ${rocker_width} ${rocker_height}"/>
+                <box size="${tilted_link} ${rocker_width} 0.025"/>
             </geometry>
         </collision>
-        <xacro:inertial_box mass="${rocker_mass}" x="${rocker_length}" y="${rocker_width}" z="${rocker_height}">
-            <origin xyz="${rocker_length/2} 0 ${rocker_height/2}" rpy="0 0 0"/>
+        <xacro:inertial_box mass="${rocker_mass}" x="${tilted_link}" y="${rocker_width}" z="0.025">
+            <origin xyz="0 0 -${tilted_link/2}" rpy="0 ${pi/2} 0"/>
         </xacro:inertial_box>
     </link>
 
@@ -421,13 +426,13 @@
             <material name="black"/>
         </visual>
         <collision>
-            <origin xyz="${rocker_length/2} 0 ${rocker_height/2}"/>
+            <origin xyz="0 0 -${tilted_link/2}" rpy="0 ${pi/2} 0"/>
             <geometry>
-                <box size="${rocker_length} ${rocker_width} ${rocker_height}"/>
+                <box size="${tilted_link} ${rocker_width} 0.025"/>
             </geometry>
         </collision>
-        <xacro:inertial_box mass="${rocker_mass}" x="${rocker_length}" y="${rocker_width}" z="${rocker_height}">
-            <origin xyz="${rocker_length/2} 0 ${rocker_height/2}" rpy="0 0 0"/>
+        <xacro:inertial_box mass="${rocker_mass}" x="${tilted_link}" y="${rocker_width}" z="0.025">
+            <origin xyz="0 0 -${tilted_link/2}" rpy="0 ${pi/2} 0"/>
         </xacro:inertial_box>
     </link>
 

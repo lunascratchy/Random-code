@@ -40,14 +40,26 @@
       <!-- RAMPS + WALLS: collision_ramp_0/1 are the two hill/ramp
            features, built as EXACT extruded-trapezoid solids straight
            from measured CAD coordinates (verified perfectly convex,
-           volume/hull ratio = 1.0000) -- no CoACD approximation, because
+           volume/hull ratio = 1.0000) - no CoACD approximation, because
            CoACD's internal voxel remesh (resolution=50 by default) was
            overshooting real geometry by 15-30mm, which is fatal on a
            feature with only 50mm of total rise. Everything else (wall_*)
-           is CoACD-decomposed as before -- that slop is negligible on
+           is CoACD-decomposed as before - that slop is negligible on
            walls hundreds of mm tall. -->
 
+      <!-- POSE ADDED: this mesh's raw vertex coordinates sit ~6.44m away
+           (mostly in +Y, plus a small +X shift) from where the matching
+           geometry appears in gamefield_visual.stl - the two never
+           overlap at all. That's consistent with this ramp having been
+           exported from a CAD assembly without baking in its placement
+           transform first. The offset below was recovered by comparing
+           this mesh's bounding box against the ramp-height triangles
+           (z 18-68mm) found in the visual mesh, and lines the two up.
+           Recommend confirming with Gazebo's "visualize collisions" view
+           and nudging if it's not pixel-perfect - this was reconstructed
+           from geometry, not pulled from your original CAD transform. -->
       <collision name="ramp_collision_00">
+        <pose>0.138 6.444 0 0 0 0</pose>
         <geometry>
           <mesh>
             <uri>model://gamefield/meshes/collision/collision_ramp_0.stl</uri>
@@ -63,7 +75,11 @@
           </contact>
         </surface>
       </collision>
+      <!-- POSE ADDED: same coordinate-origin problem as ramp_collision_00,
+           same recovered offset (both ramps were off by the same vector,
+           which is what you'd expect from one shared export mistake). -->
       <collision name="ramp_collision_01">
+        <pose>0.138 6.444 0 0 0 0</pose>
         <geometry>
           <mesh>
             <uri>model://gamefield/meshes/collision/collision_ramp_1.stl</uri>
