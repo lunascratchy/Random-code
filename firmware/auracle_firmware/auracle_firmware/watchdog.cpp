@@ -24,8 +24,5 @@ void Watchdog::pet() {
 }
 
 bool Watchdog::isCommsAlive(unsigned long lastPacketTime, unsigned long timeout) {
-    if (millis() - lastPacketTime > timeout) {
-        return false; // Comms are dead!
-    }
-    return true;
+    return (millis() - lastPacketTime) <= timeout;
 }

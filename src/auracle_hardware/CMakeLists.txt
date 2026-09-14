@@ -11,9 +11,9 @@ find_package(rclcpp_lifecycle REQUIRED)
 find_package(hardware_interface REQUIRED)
 find_package(pluginlib REQUIRED)
 
-# LibSerial (crayzeewulf/libserial, installed via apt as libserial-dev) ships
-# only a pkg-config file, not a CMake package config - so it's located via
-# PkgConfig rather than find_package().
+# LibSerial (crayzeewulf/libserial, installed via apt as libserial-dev)
+# ships only a pkg-config file, not a CMake package config - so it's
+# located via PkgConfig rather than find_package().
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(SERIAL REQUIRED libserial)
 
@@ -38,8 +38,8 @@ ament_target_dependencies(${PROJECT_NAME}
 )
 
 # Registers auracle_hardware/AuracleHardwareInterface with pluginlib so
-# ros2_control.xacro's <plugin>auracle_hardware/AuracleHardwareInterface</plugin>
-# can actually find it at runtime.
+# your ros2_control xacro's <plugin>auracle_hardware/AuracleHardwareInterface</plugin>
+# can find it at runtime.
 pluginlib_export_plugin_description_file(hardware_interface auracle_hardware.xml)
 
 install(
