@@ -1,7 +1,7 @@
 #include "encoder_driver.h"
 
-EncoderDriver* EncoderDriver::instanceL = nullptr;
-EncoderDriver* EncoderDriver::instanceR = nullptr;
+// EncoderDriver* EncoderDriver::instanceL = nullptr;
+// EncoderDriver* EncoderDriver::instanceR = nullptr;
 
 EncoderDriver::EncoderDriver(int pinA, int pinB) : _pinA(pinA), _pinB(pinB) {
     pinMode(_pinA, INPUT_PULLUP);
