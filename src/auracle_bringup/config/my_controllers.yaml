@@ -15,9 +15,6 @@ diff_cont:
     base_frame_id: base_footprint
     odom_frame_id: odom
 
-    # MATCHED TO ROS2_CONTROL.XACRO - wheel_one/wheel_three are the
-    # motorized wheels; wheel_two has no command_interface anymore, so it
-    # can't appear here (that mismatch is what took diff_cont inactive).
     left_wheel_names: ['left_wheel_one_joint', 'left_wheel_three_joint']
     right_wheel_names: ['right_wheel_one_joint', 'right_wheel_three_joint']
 

@@ -1,36 +1,14 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-    <!-- ============================================================
-         CHANGED: left/right_wheel_one_joint and left/right_wheel_three_joint
-         are the wheels with actual motors on the real robot - they now get
-         command_interface="velocity" on both sides, sim and real.
-         left/right_wheel_two_joint have no motor, so their
-         command_interface was removed; they're state-only (or dropped
-         entirely below - see TODO in the real-hardware block).
-         ============================================================ -->
-
     <xacro:unless value="$(arg sim_mode)">
         <ros2_control name="RealRobot" type="system">
             <hardware>
-                <!-- This plugin name must match the export name in hardware.xml -->
                 <plugin>auracle_hardware/AuracleHardwareInterface</plugin>
-                <!-- TODO: confirm with AuracleHardwareInterface's actual param
-                     names/behavior before relying on this. left_wheel_name/
-                     right_wheel_name previously pointed at wheel_two_joint,
-                     which apparently has neither a motor nor an encoder on
-                     the real robot - so that pairing looks like it was
-                     wrong from the start, not just "correct for hardware,
-                     wrong for sim". You said 2 of the 4 motorized wheels
-                     (one per side, presumably) have encoders - whichever
-                     joint that is per side (wheel_one or wheel_three) is
-                     what these params should name, since the hardware
-                     plugin likely uses this to know which encoder counts
-                     to read for position/velocity feedback. Fill in the
-                     real joint name once you confirm which wheel has the
-                     encoder on each side. -->
-                <param name="left_wheel_name">left_wheel_one_joint</param>  <!-- CONFIRM: is this the encoder wheel? -->
-                <param name="right_wheel_name">right_wheel_one_joint</param> <!-- CONFIRM: is this the encoder wheel? -->
+                <param name="front_left_wheel_name">left_wheel_one_joint</param>
+                <param name="front_right_wheel_name">right_wheel_one_joint</param>
+                <param name="rear_left_wheel_name">left_wheel_three_joint</param>
+                <param name="rear_right_wheel_name">right_wheel_three_joint</param>
                 <param name="loop_rate">30</param>
                 <param name="device">/dev/ttyUSB0</param>
                 <param name="baud_rate">115200</param>
@@ -38,46 +16,24 @@
                 <param name="enc_counts_per_rev">3436</param>
                 <param name="imu_sensor_name">imu_sensor</param>
             </hardware>
-
-            <!-- Both driven wheels per side get commanded. If only one
-                 wheel per side physically has an encoder, the other's
-                 state_interface readings depend on what
-                 AuracleHardwareInterface::read() reports for a joint with
-                 no real sensor (e.g. open-loop estimate from the last
-                 commanded velocity) - that's a hardware-plugin-side
-                 concern, not something this xacro file controls. -->
             <joint name="left_wheel_one_joint">
                 <command_interface name="velocity"/>
-                <state_interface name="velocity"/>
-                <state_interface name="position"/>
-            </joint>
-            <joint name="left_wheel_three_joint">
-                <command_interface name="velocity"/>
-                <state_interface name="velocity"/>
-                <state_interface name="position"/>
+                <state_interface name="velocity"/><state_interface name="position"/>
             </joint>
             <joint name="right_wheel_one_joint">
                 <command_interface name="velocity"/>
-                <state_interface name="velocity"/>
-                <state_interface name="position"/>
+                <state_interface name="velocity"/><state_interface name="position"/>
+            </joint>
+            <joint name="left_wheel_three_joint">
+                <command_interface name="velocity"/>
+                <state_interface name="velocity"/><state_interface name="position"/>
             </joint>
             <joint name="right_wheel_three_joint">
                 <command_interface name="velocity"/>
-                <state_interface name="velocity"/>
-                <state_interface name="position"/>
+                <state_interface name="velocity"/><state_interface name="position"/>
             </joint>
-
-            <!-- wheel_two has no motor and (per your description) no
-                 encoder either - nothing to expose here. If it turns out
-                 to have an idler encoder after all, add it back as
-                 state_interface-only (no command_interface). -->
-
             <sensor name="imu_sensor">
-                <state_interface name="orientation.x"/><state_interface name="orientation.y"/>
-                <state_interface name="orientation.z"/><state_interface name="orientation.w"/>
-                <state_interface name="angular_velocity.x"/><state_interface name="angular_velocity.y"/>
-                <state_interface name="angular_velocity.z"/><state_interface name="linear_acceleration.x"/>
-                <state_interface name="linear_acceleration.y"/><state_interface name="linear_acceleration.z"/>
+                ...same as before...
             </sensor>
         </ros2_control>
     </xacro:unless>

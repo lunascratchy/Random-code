@@ -1,4 +1,4 @@
-<pluginlib namespace="auracle_hardware">
+<library path="auracle_hardware">
   <class name="auracle_hardware/AuracleHardwareInterface"
          type="auracle_hardware::AuracleHardwareInterface"
          base_class_type="hardware_interface::SystemInterface">
@@ -9,4 +9,4 @@
       IMU state.
     </description>
   </class>
-</pluginlib>
+</library>
