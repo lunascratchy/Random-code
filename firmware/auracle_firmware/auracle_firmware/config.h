@@ -23,11 +23,11 @@
 
 // --- Motor driver pins (one L298N per side) ---
 #define LEFT_PWM   5
-#define LEFT_IN1   7
-#define LEFT_IN2   8
+#define LEFT_IN1   9
+#define LEFT_IN2   10
 #define RIGHT_PWM  6
-#define RIGHT_IN1  9
-#define RIGHT_IN2  10
+#define RIGHT_IN1  7
+#define RIGHT_IN2  8
 
 // --- Encoder pins (rear motors only - the only ones with encoders) ---
 // Pins 2 and 3 MUST stay here - they're the only two pins on the
