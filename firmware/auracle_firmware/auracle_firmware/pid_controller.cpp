@@ -1,57 +1,61 @@
 #include "pid_controller.h"
-#include <math.h>
 
-PIDController::PIDController(double kp, double ki, double kd, double out_min, double out_max)
-    : _kp(kp), _ki(ki), _kd(kd), _out_min(out_min), _out_max(out_max) {}
+PIDController::PIDController(float kp, float ki, float kd, float sample_time_s, float out_min, float out_max)
+    : _out_min(out_min), _out_max(out_max), _sample_time_s(sample_time_s) {
+    setTunings(kp, ki, kd); // Pre-calculate tunings with sample time immediately
+}
 
-double PIDController::compute(double target, double actual, double dt) {
-    if (dt <= 0.0) {
-        return 0.0;
+float PIDController::compute(float target, float actual) {
+    float error = target - actual;
+    
+    // Deadzone logic: don't wipe the integral, just ignore the error
+    float absError = (error < 0.0f) ? -error : error;
+    if (absError < PID_DEADZONE_TICKS_S) {
+        error = 0.0f; // Treat error as zero, but let integral maintain holding force
     }
 
-    double error = target - actual;
+    // 1. Proportional term
+    float p_term = _kp * error;
 
-    // Deadzone: near a held/zero target, tiny encoder jitter produces a
-    // small nonzero error every cycle. Left alone, that gets amplified
-    // by motor_driver's deadband compensation into a real, audible PWM
-    // pulse - constant buzzing/chatter even when the robot should be
-    // sitting still. Threshold is in ticks/sec (this loop's real unit),
-    // not raw ticks-per-fixed-period, so it stays meaningful even if
-    // CONTROL_PERIOD_MS changes later. See PID_DEADZONE_TICKS_S in
-    // config.h to tune it against your own encoder noise floor.
-    if (fabs(error) < PID_DEADZONE_TICKS_S) {
-        _integral = 0;
-        _prev_error = error;
-        return 0.0;
-    }
+    // 2. Integral term (dt is already baked into _ki)
+    float tentative_integral = _integral + (_ki * error);
 
-    // Conditional integration (anti-windup): only commit the integral
-    // update if doing so doesn't push output past the clamp. Otherwise
-    // the integral term keeps growing while the motor is already
-    // saturated, causing overshoot once the error direction flips.
-    double tentative_integral = _integral + error * dt;
-    double derivative = (error - _prev_error) / dt;
-    double output = (_kp * error) + (_ki * tentative_integral) + (_kd * derivative);
+    // 3. Derivative term (dt is already baked into _kd)
+    float derivative = -(actual - _prev_actual); 
+    float d_term = _kd * derivative;
 
+    float output = p_term + tentative_integral + d_term;
+
+    // Integral anti-windup clamping logic
     if (output > _out_max) {
         output = _out_max;
     } else if (output < _out_min) {
         output = _out_min;
     } else {
-        _integral = tentative_integral;
+        // Only accumulate the integral error if the output isn't saturated
+        // and we aren't in the deadzone (to prevent integral creeping during deadzone)
+        if (error != 0.0f) {
+            _integral = tentative_integral;
+        }
     }
 
-    _prev_error = error;
+    // Update state for the next loop
+    _prev_actual = actual; 
+    
+    // Deadzone final catch: if error is 0 and integral is 0, guarantee 0 output
+    if (error == 0.0f && _integral == 0.0f) return 0.0f;
+    
     return output;
 }
 
 void PIDController::reset() {
-    _integral = 0;
-    _prev_error = 0;
+    _integral = 0.0f;
+    _prev_actual = 0.0f;
 }
 
-void PIDController::setTunings(double kp, double ki, double kd) {
+void PIDController::setTunings(float kp, float ki, float kd) {
+    // Pre-multiply/divide by dt so we don't have to do it in the fast loop!
     _kp = kp;
-    _ki = ki;
-    _kd = kd;
+    _ki = ki * _sample_time_s;
+    _kd = kd / _sample_time_s;
 }

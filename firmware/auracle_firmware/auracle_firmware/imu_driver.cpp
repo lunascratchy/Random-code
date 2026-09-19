@@ -3,10 +3,15 @@
 namespace {
 constexpr uint8_t REG_PWR_MGMT_1 = 0x6B;
 constexpr uint8_t REG_ACCEL_XOUT_H = 0x3B;
-constexpr float ACCEL_SCALE = 16384.0f;  // LSB per g, default +/-2g range
-constexpr float GYRO_SCALE = 131.0f;     // LSB per deg/s, default +/-250dps range
+
+// PRE-CALCULATE MULTIPLIERS AT COMPILE TIME
+constexpr float ACCEL_SCALE = 16384.0f;  
 constexpr float G_TO_MS2 = 9.80665f;
+constexpr float ACCEL_MULT = G_TO_MS2 / ACCEL_SCALE; // ~0.000598f
+
+constexpr float GYRO_SCALE = 131.0f;     
 constexpr float DEG_TO_RAD = 0.017453293f;
+constexpr float GYRO_MULT = DEG_TO_RAD / GYRO_SCALE; // ~0.000133f
 }  // namespace
 
 bool IMUDriver::writeRegister(uint8_t reg, uint8_t value) {
@@ -34,33 +39,32 @@ bool IMUDriver::readRegisters(uint8_t reg, uint8_t* buf, uint8_t len) {
 
 bool IMUDriver::begin() {
     Wire.begin();
-    // Wake the chip - it boots in sleep mode (bit 6 of PWR_MGMT_1).
-    // No WHO_AM_I check here on purpose: see imu_driver.h for why.
+    
+    //Speed up I2C to 400kHz to stop it from blocking the PID loop
+    Wire.setClock(400000);
+    Wire.setWireTimeout(3000, true); 
     return writeRegister(REG_PWR_MGMT_1, 0x00);
 }
 
 void IMUDriver::readData(float* acc, float* gyro) {
     uint8_t raw[14];
     if (!readRegisters(REG_ACCEL_XOUT_H, raw, 14)) {
-        // Leave acc/gyro as whatever the caller passed in on a dropped
-        // read, rather than writing garbage - the .ino zero-inits
-        // these each cycle, so a miss just looks like stale/no data.
         return;
     }
 
-    int16_t ax = (raw[0] << 8) | raw[1];
-    int16_t ay = (raw[2] << 8) | raw[3];
-    int16_t az = (raw[4] << 8) | raw[5];
-    // raw[6..7] = temperature, unused here
-    int16_t gx = (raw[8] << 8) | raw[9];
-    int16_t gy = (raw[10] << 8) | raw[11];
-    int16_t gz = (raw[12] << 8) | raw[13];
+    int16_t ax = (int16_t)((uint16_t)raw[0] << 8 | raw[1]);
+    int16_t ay = (int16_t)((uint16_t)raw[2] << 8 | raw[3]);
+    int16_t az = (int16_t)((uint16_t)raw[4] << 8 | raw[5]);
+    
+    int16_t gx = (int16_t)((uint16_t)raw[8] << 8 | raw[9]);
+    int16_t gy = (int16_t)((uint16_t)raw[10] << 8 | raw[11]);
+    int16_t gz = (int16_t)((uint16_t)raw[12] << 8 | raw[13]);
 
-    acc[0] = (ax / ACCEL_SCALE) * G_TO_MS2;
-    acc[1] = (ay / ACCEL_SCALE) * G_TO_MS2;
-    acc[2] = (az / ACCEL_SCALE) * G_TO_MS2;
+    acc[0] = ax * ACCEL_MULT;
+    acc[1] = ay * ACCEL_MULT;
+    acc[2] = az * ACCEL_MULT;
 
-    gyro[0] = (gx / GYRO_SCALE) * DEG_TO_RAD;
-    gyro[1] = (gy / GYRO_SCALE) * DEG_TO_RAD;
-    gyro[2] = (gz / GYRO_SCALE) * DEG_TO_RAD;
+    gyro[0] = gx * GYRO_MULT;
+    gyro[1] = gy * GYRO_MULT;
+    gyro[2] = gz * GYRO_MULT;
 }

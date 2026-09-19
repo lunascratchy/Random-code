@@ -11,27 +11,6 @@
 
 namespace auracle_hardware
 {
-
-// Wraps the LibSerial connection to the Arduino Nano and speaks the
-// exact wire protocol implemented in firmware/serial_protocol.cpp:
-//   ROS  -> Arduino : "v <left_rad_s> <right_rad_s>\n"
-//   Arduino -> ROS  : "e <l_ticks> <r_ticks> i <ax> <ay> <az> <gx> <gy> <gz>\n"
-//
-// IMPORTANT: readTelemetry() only ever reads bytes LibSerial already
-// reports as available (IsDataAvailable()), and accumulates them into a
-// buffer ACROSS repeated calls - the same non-blocking technique the
-// firmware itself uses in SerialProtocol::update(). It never waits for
-// a line that hasn't arrived yet.
-//
-// This matters: an earlier version of this class called
-// SerialPort::ReadLine(line, '\n', timeout_ms) directly, which - despite
-// a comment claiming it "must never block" - actually DOES block for up
-// to timeout_ms (historically defaulted to 1000ms) whenever a line
-// isn't fully buffered yet. On a real-time control loop that's a
-// meaningful stall. Because that failure mode is now designed out here,
-// no background I/O thread is needed just to keep read()/write() safe -
-// a request/response protocol would still need one; this push-telemetry
-// protocol does not.
 class ArduinoComms
 {
 public:
@@ -61,59 +40,40 @@ public:
     ss << "v " << left_rad_s << " " << right_rad_s << "\n";
     writeLine(ss.str());
   }
-
-  // For 'p'/'r'/'s'/'o' style commands - see firmware/serial_protocol.h
-  // for the full command list.
   void sendCommand(const std::string & line)
   {
     writeLine(line);
   }
-
-  // Drains whatever bytes are currently sitting in the OS receive
-  // buffer - never waits for more - and returns true only once a full
-  // "e ..." telemetry line has been accumulated. Safe to call every
-  // read() cycle even when nothing new has arrived yet.
   bool readTelemetry(long & l_enc, long & r_enc, float * acc, float * gyro)
   {
+    bool got_new_data = false;
     while (serial_conn_.IsDataAvailable()) {
       uint8_t byte;
       try {
-        // Data is already known to be available, so this returns
-        // immediately - the small timeout here is just a safety net,
-        // not something we rely on to avoid blocking.
         serial_conn_.ReadByte(byte, 1);
       } catch (const std::exception &) {
         break;
       }
       char c = static_cast<char>(byte);
 
-      if (c == '\r') {
-        continue;
-      }
+      if (c == '\r') continue;
 
       if (c == '\n') {
-        bool ok = parseLine(line_buf_, l_enc, r_enc, acc, gyro);
-        line_buf_.clear();
-        if (ok) {
-          return true;
+        if (parseLine(line_buf_, l_enc, r_enc, acc, gyro)) {
+          got_new_data = true; // Mark that we got data, but DO NOT RETURN YET
         }
+        line_buf_.clear();
         continue;
       }
 
       if (line_buf_.size() < 96) {
         line_buf_.push_back(c);
       } else {
-        // Garbage / overlong line with no terminator - drop it and
-        // resync on the next '\n' rather than growing forever.
         line_buf_.clear();
       }
     }
-    return false;
+    return got_new_data; // Returns true only after draining the entire buffer
   }
-
-  // Handshake: waits (bounded) for the firmware's "READY" line after
-  // reset. This runs ONCE, at startup in on_configure() - not on the
-  // RT read()/write() path - so a short blocking wait here is fine.
   bool waitForReady(int timeout_ms)
   {
     auto start = std::chrono::steady_clock::now();
@@ -186,6 +146,6 @@ private:
   std::string line_buf_;
 };
 
-}  // namespace auracle_hardware
+}  
 
-#endif  // AURACLE_HARDWARE_ARDUINO_COMMS_HPP
+#endif 

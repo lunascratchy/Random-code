@@ -6,15 +6,6 @@
 
 namespace auracle_hardware
 {
-
-// Holds the ROS-facing state for a single wheel JOINT and converts
-// between raw encoder ticks (what the Arduino sends) and radians (what
-// ros2_control state interfaces expect).
-//
-// There are 4 of these (front-left, front-right, rear-left, rear-right)
-// but only 2 physical encoders on the robot (rear only, see
-// robot_system.cpp) - the front joint on each side just mirrors
-// whatever its rear counterpart reports.
 class Wheel
 {
 public:
@@ -44,6 +35,6 @@ public:
   }
 };
 
-}  // namespace auracle_hardware
+}
 
-#endif  // AURACLE_HARDWARE_WHEEL_HPP
+#endif 

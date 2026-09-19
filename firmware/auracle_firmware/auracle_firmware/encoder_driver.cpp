@@ -1,48 +1,57 @@
 #include "encoder_driver.h"
 
-// EncoderDriver* EncoderDriver::instanceL = nullptr;
-// EncoderDriver* EncoderDriver::instanceR = nullptr;
+// Define the static instances
+EncoderDriver* EncoderDriver::instanceL = nullptr;
+EncoderDriver* EncoderDriver::instanceR = nullptr;
 
-EncoderDriver::EncoderDriver(int pinA, int pinB) : _pinA(pinA), _pinB(pinB) {
-    pinMode(_pinA, INPUT_PULLUP);
-    pinMode(_pinB, INPUT_PULLUP);
+EncoderDriver::EncoderDriver(uint8_t pinA, uint8_t pinB) {
+    pinMode(pinA, INPUT_PULLUP);
+    pinMode(pinB, INPUT_PULLUP);
+
+    // Pre-calculate and cache raw AVR register pointers and bitmasks
+    _portA = portInputRegister(digitalPinToPort(pinA));
+    _bitmaskA = digitalPinToBitMask(pinA);
+
+    _portB = portInputRegister(digitalPinToPort(pinB));
+    _bitmaskB = digitalPinToBitMask(pinB);
 }
 
-// Attach these with mode CHANGE (both edges of channel A), not RISING -
-// this doubles the effective resolution for the same physical encoder
-// disc compared to counting rising edges only.
-//
-// SIGN CONVENTION: both ISRs below use the same rule (A==B -> +1). This
-// is a starting assumption, not a guarantee for your wiring. VERIFY ON
-// THE BENCH before trusting it: spin each rear wheel FORWARD by hand
-// and confirm getCount() increases on both sides. If one side counts
-// backwards, it's almost always because that motor/encoder is
-// physically mirror-mounted relative to the other - fix it by flipping
-// that ISR's sign here, not by guessing or "fixing" it in software
-// somewhere else downstream.
 void EncoderDriver::isrL() {
-    if (!instanceL) return;
-    bool a = digitalRead(instanceL->_pinA);
-    bool b = digitalRead(instanceL->_pinB);
-    instanceL->_count += (a == b) ? 1 : -1;
+    // Quick compiler optimization shortcut: copy pointer to local register
+    EncoderDriver* inst = instanceL; 
+    if (!inst) return;
+
+    // Ultra-fast direct AVR register read (replaces digitalRead)
+    bool a = (*(inst->_portA) & inst->_bitmaskA);
+    bool b = (*(inst->_portB) & inst->_bitmaskB);
+
+    inst->_count += (a == b) ? 1 : -1;
 }
 
 void EncoderDriver::isrR() {
-    if (!instanceR) return;
-    bool a = digitalRead(instanceR->_pinA);
-    bool b = digitalRead(instanceR->_pinB);
-    instanceR->_count += (a == b) ? 1 : -1;
+    EncoderDriver* inst = instanceR;
+    if (!inst) return;
+
+    // Ultra-fast direct AVR register read (replaces digitalRead)
+    bool a = (*(inst->_portA) & inst->_bitmaskA);
+    bool b = (*(inst->_portB) & inst->_bitmaskB);
+
+    inst->_count += (a == b) ? 1 : -1;
 }
 
 long EncoderDriver::getCount() {
+    // ATmega328P reads 32-bit longs in four 8-bit chunks. 
+    // We must briefly pause interrupts to prevent data corruption.
+    uint8_t oldSREG = SREG;
     noInterrupts();
     long value = _count;
-    interrupts();
+    SREG = oldSREG; // Restores interrupt state slightly cleaner than interrupts()
     return value;
 }
 
 void EncoderDriver::reset() {
+    uint8_t oldSREG = SREG;
     noInterrupts();
     _count = 0;
-    interrupts();
+    SREG = oldSREG;
 }

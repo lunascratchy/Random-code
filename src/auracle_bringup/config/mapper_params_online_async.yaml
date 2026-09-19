@@ -13,11 +13,6 @@ slam_toolbox:
     odom_frame: odom
     map_frame: map
     base_frame: base_footprint
-    # Relative (not /scan): slam_toolbox has no namespace launch arg of its
-    # own, so online_async_launch.py applies namespace= directly on the
-    # Node. A relative topic name here is required for that to actually
-    # resolve to <namespace>/scan instead of always subscribing to the
-    # global /scan regardless of namespace.
     scan_topic: scan
     use_map_saver: true
     mode: mapping #localization
@@ -49,20 +44,12 @@ slam_toolbox:
     minimum_travel_distance: 0.20
     minimum_travel_heading: 0.20
     check_min_dist_and_heading_precisely: false
-    scan_buffer_size: 20
+    scan_buffer_size: 10
     scan_buffer_maximum_scan_distance: 10.0
     link_match_minimum_response_fine: 0.1  
     link_scan_maximum_distance: 0.5
-    # Tightened loop closure thresholds further after a second false closure
-    # ("the algorithm recorrected") still got through with the first pass of
-    # tightening. Shrinking the search radius means a candidate match has to
-    # be genuinely close in space to even be considered (less perceptual
-    # aliasing between similar-looking spots), and raising both response
-    # thresholds + the chain size means it needs a longer run of consistently
-    # good matches, not just one lucky-looking scan, before it's allowed to
-    # warp the graph. Trade-off: it'll occasionally miss closing a loop it
-    # really should close, which just means slightly more accumulated drift
-    # in very long runs - much cheaper than a bad snap.
+
+    #loop closure parameters
     loop_search_maximum_distance: 1.0
     do_loop_closing: true 
     loop_match_minimum_chain_size: 15           

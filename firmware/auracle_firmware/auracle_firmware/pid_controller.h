@@ -1,22 +1,23 @@
 #ifndef PID_CONTROLLER_H
 #define PID_CONTROLLER_H
+
 #include "config.h"
 
 class PIDController {
 public:
-    PIDController(double kp, double ki, double kd,
-                  double out_min = -255.0, double out_max = 255.0);
+    PIDController(float kp, float ki, float kd, float sample_time_s, float out_min = -255.0f, float out_max = 255.0f);
 
-    // target/actual in ticks/sec. dt in seconds (measured, not assumed -
-    // this stays correct even if the loop's actual timing jitters).
-    double compute(double target, double actual, double dt);
+    float compute(float target, float actual);
 
     void reset();
-    void setTunings(double kp, double ki, double kd);
+    void setTunings(float kp, float ki, float kd);
 
 private:
-    double _kp, _ki, _kd;
-    double _out_min, _out_max;
-    double _integral = 0, _prev_error = 0;
+    float _kp, _ki, _kd;
+    float _out_min, _out_max;
+    float _integral = 0.0f;
+    float _prev_actual = 0.0f; 
+    float _sample_time_s;
 };
+
 #endif
