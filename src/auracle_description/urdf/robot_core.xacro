@@ -288,6 +288,15 @@
 
     <gazebo reference="left_wheel_two">
         <material>Gazebo/Blue</material>
+        <!-- Was material-only, which meant this wheel fell back to
+             isotropic default friction while the other 4 wheels have
+             mu2: 0.1 for skidding. One high-lateral-friction wheel per
+             side fighting four low-friction ones produces nonlinear,
+             surface-dependent turning behavior that no EKF tuning can
+             compensate for. Match the driven wheels' anisotropic setup. -->
+        <mu1>0.6</mu1>
+        <mu2>0.1</mu2>
+        <fdir1>1 0 0</fdir1>
     </gazebo>
 
     <joint name="right_wheel_rocker_joint" type="revolute">
@@ -490,6 +499,9 @@
 
     <gazebo reference="right_wheel_two">
         <material>Gazebo/Blue</material>
+        <mu1>0.6</mu1>
+        <mu2>0.1</mu2>
+        <fdir1>1 0 0</fdir1>
     </gazebo>
 
     <!-- Was 0.01 (near-frictionless) on all four passive wheels. That's
