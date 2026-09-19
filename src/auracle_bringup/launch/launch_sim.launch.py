@@ -9,7 +9,7 @@ from launch.actions import (
 )
 from launch.event_handlers import OnProcessStart, OnProcessExit
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import LaunchConfiguration
+from launch.substitutions import LaunchConfiguration, PythonExpression
 
 from launch_ros.actions import Node, PushRosNamespace
 
@@ -23,6 +23,13 @@ def generate_launch_description():
     declare_namespace = DeclareLaunchArgument(
         'namespace', default_value='',
         description='Top-level namespace applied to every node/topic below'
+    )
+
+    headless = LaunchConfiguration('headless')
+    declare_headless = DeclareLaunchArgument(
+        'headless', default_value='false',
+        description='If true, run gzserver only (no gzclient GUI). '
+                    'Used by Optuna trials to avoid paying for rendering.'
     )
 
     world_path = os.path.join(description_pkg, 'worlds', 'gamefield.world')
@@ -73,10 +80,14 @@ def generate_launch_description():
         parameters=[ekf_params, {'use_sim_time': True}]
     )
 
+    gz_args = PythonExpression([
+        "'-r -s ' if '", headless, "' == 'true' else '-r '"
+    ])
+
     gazebo = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([os.path.join(
             get_package_share_directory('ros_gz_sim'), 'launch', 'gz_sim.launch.py')]),
-        launch_arguments={'gz_args': ['-r ', world_path]}.items()
+        launch_arguments={'gz_args': [gz_args, world_path]}.items()
     )
 
     # entity name/topic are namespaced explicitly (rather than via
@@ -108,6 +119,11 @@ def generate_launch_description():
             'scan@sensor_msgs/msg/LaserScan[gz.msgs.LaserScan',
             'camera/image@sensor_msgs/msg/Image[gz.msgs.Image',
             'camera/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo',
+            # Ground-truth pose for offline SLAM scoring only (see
+            # gt_odom.xacro). Verify the exact gz topic name with
+            # `gz topic -l | grep odom` after first launch - it may come
+            # out as /model/my_bot/odometry_gt depending on gz-sim version.
+            '/model/my_bot/odometry_gt@nav_msgs/msg/Odometry[gz.msgs.Odometry',
         ],
         namespace=namespace,
         output='screen'
@@ -210,6 +226,7 @@ def generate_launch_description():
 
     return LaunchDescription([
         declare_namespace,
+        declare_headless,
         set_gz_resource_path,
         rsp,
         joystick,

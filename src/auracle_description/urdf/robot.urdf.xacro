@@ -8,5 +8,6 @@
     <xacro:include filename="camera.xacro" />
     <xacro:include filename="face.xacro" />
     <xacro:include filename="imu.xacro" />
+    <xacro:include filename="gt_odom.xacro" />
     
 </robot>
