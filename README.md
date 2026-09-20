@@ -11,7 +11,7 @@ rm -rf build install log
 colcon build --symlink-install && source install/setup.bash
 ```
 
-# Simulation 
+# Virtual Teleop
 ## Terminal 1 (Gazebo + robot)
 This launches the robot in Gazebo with use_sim_time:=true baked in. Build and save a map
 ```
@@ -38,22 +38,31 @@ This writes map_1.yaml + map_1.pgm into config/
 source install/setup.bash
 ros2 run nav2_map_server map_saver_cli -f ~/Documents/auracle_ws/src/auracle_bringup/config/map_1
 ```
+Add map_server block to nav2_params.yaml
+```
+map_server:
+  ros__parameters:
+    yaml_filename: ""
+```
 
-## Localization + navigation
+# Localization + navigation
 localization_neo_launch.py expects a neo_localization_node: block in its params_file (default config/nav2_params.yaml)
+Include neobotix package
+```
+cd ~/Documents/auracle_ws/src
+git clone https://github.com/neobotix/neo_localization2.git   
+```
 
-## Terminal 1 (hardware interface + lidar, or Gazebo)
+## Terminal 1 (simulation)
 ```
 source install/setup.bash && ros2 launch auracle_bringup launch_sim.launch.py
 ```
 
-## Terminal 2 (Localization + Nav2 + RViz)
-Once RViz is up: click "2D Pose Estimate" and click-drag on the map at the robot's actual start location/heading.
+## Terminal 2 (AMCL + Nav2 + RViz, against your saved map)
 ```
-source install/setup.bash && ros2 launch auracle_bringup localization_nav_rviz.launch.py use_sim_time:=true   # or false for real robot
-# to load a different map:
-source install/setup.bash && ros2 launch auracle_bringup localization_nav_rviz.launch.py use_sim_time:=false map:=/path/to/other_map.yaml
+source install/setup.bash&& ros2 launch auracle_bringup localization_nav_rviz.launch.py use_sim_time:=true map:=$(pwd)/src/auracle_bringup/config/map_1.yaml
 ```
+Click "2D Pose Estimate", then click-drag on the map at the robot's actual position/heading in Gazebo. Don't send Nav2 goals and teleop at the same time (they'll fight over cmd_vel).
 
 
 # Real-time

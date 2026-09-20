@@ -58,7 +58,7 @@ bt_navigator:
 
 controller_server:
   ros__parameters:
-    controller_frequency: 15.0
+    controller_frequency: 20.0
     costmap_update_timeout: 0.30
     min_x_velocity_threshold: 0.001
     min_y_velocity_threshold: 0.5
@@ -501,3 +501,7 @@ neo_localization_node:
     odometry_std_yaw: 0.01    # rad/rad
     min_sample_std_xy: 0.025  # m
     min_sample_std_yaw: 0.5   # rad, also the initial spread
+
+map_server:
+  ros__parameters:
+    yaml_filename: ""

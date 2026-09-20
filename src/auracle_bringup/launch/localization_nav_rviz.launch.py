@@ -44,7 +44,7 @@ def generate_launch_description():
     localization_params = os.path.join(bringup_pkg, 'config', 'nav2_params.yaml')
     localization = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            [os.path.join(bringup_pkg, 'launch', 'localization_neo_launch.py')]),
+            [os.path.join(bringup_pkg, 'launch', 'localization.launch.py')]),
         launch_arguments={
             'use_sim_time': use_sim_time,
             'namespace': namespace,
