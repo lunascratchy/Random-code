@@ -21,6 +21,7 @@ Visualization Manager:
       Name: Map
       Topic:
         Value: /map
+        Durability Policy: Transient Local
       Enabled: true
     - Class: nav2_rviz_plugins/ParticleCloud
       Name: ParticleCloud
