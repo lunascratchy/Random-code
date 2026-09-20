@@ -62,6 +62,9 @@ source install/setup.bash && ros2 launch auracle_bringup launch_sim.launch.py
 ```
 source install/setup.bash&& ros2 launch auracle_bringup localization_nav_rviz.launch.py use_sim_time:=true map:=$(pwd)/src/auracle_bringup/config/map_1.yaml
 ```
+Click the + icon at the end of the toolbar (next to Nav2 Goal).
+In the tool picker, search for and add "2D Pose Estimate" (this is the standard rviz tool, distinct from Nav2 Goal).
+Click that new tool, then click-and-drag on the map at the robot's actual position and heading in Gazebo — click sets the position, the drag direction sets which way it's facing.
 Click "2D Pose Estimate", then click-drag on the map at the robot's actual position/heading in Gazebo. Don't send Nav2 goals and teleop at the same time (they'll fight over cmd_vel).
 
 
