@@ -1,11 +1,10 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
 
-    <!-- Adjust xyz to wherever the MPU6050 breakout actually sits on the chassis -->
     <joint name="imu_joint" type="fixed">
         <parent link="chassis"/>
         <child link="imu_link"/>
-        <origin xyz="0 0 0.05" rpy="0 0 0"/>
+        <origin xyz="0.15 0 0.05" rpy="0 0 0"/>
     </joint>
 
     <link name="imu_link">

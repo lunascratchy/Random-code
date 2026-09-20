@@ -7,10 +7,12 @@
         <color rgba="1 0 0 1"/>
     </material>
 
+    <!-- x = chassis_length (0.3), i.e. flush with the front face, so the
+         chassis body itself doesn't clip the bottom of the camera's FOV -->
     <joint name="camera_joint" type="fixed">
         <parent link="chassis"/>
         <child link="camera_link"/>
-        <origin xyz="0.24 0 0.06" rpy="0 0 0"/>
+        <origin xyz="0.3 0 0.06" rpy="0 0 0"/>
     </joint>
 
     <link name="camera_link">

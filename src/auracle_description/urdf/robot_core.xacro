@@ -67,23 +67,14 @@
         <material>Gazebo/Orange</material>
     </gazebo>
 
-    <!-- Rocker-to-chassis pivot. This has to be a real joint, not fixed:
-         it's the main degree of freedom that lets the whole rocker arm
-         (and everything hanging off it) rock forward/back as the wheels
-         cross terrain, instead of forcing the chassis to satisfy an
-         over-constrained rigid geometry. Passive (no actuator, not in
-         ros2_control) - it's driven purely by ground contact forces, with
-         damping/friction added just for numerical settling. Axis "1 0 0"
-         here is expressed in this joint's own (already rotated by the
-         rpy below) frame, and corresponds to the robot's lateral/pitch
-         axis - the correct axis for a suspension arm to rock about. -->
-    <joint name="left_wheel_rocker_joint" type="revolute">
+    <!-- Rocker-to-chassis pivot. TEMPORARILY fixed (rigid) while the
+         drooping-at-that-one-section issue is set aside - see the same
+         note on right_wheel_rocker_joint below for the revolute version
+         to restore once that's sorted. -->
+    <joint name="left_wheel_rocker_joint" type="fixed">
         <parent link="base_link"/>
         <child link="left_rocker"/>
         <origin xyz="${chassis_length/2} ${chassis_width/2+rocker_width/2} 0" rpy="0 0 ${pi/2}" />
-        <axis xyz="1 0 0"/>
-        <limit lower="-0.6" upper="0.6" effort="50" velocity="5"/>
-        <dynamics damping="2.0" friction="0.1"/>
     </joint>
 
     <link name="left_rocker">
@@ -135,19 +126,11 @@
         </xacro:inertial_box>
     </link>
 
-    <!-- Bogie pivot: on a real rocker-bogie, the two rear wheels per side
-         don't bolt straight onto the rocker - they hang off a small bogie
-         arm that itself pivots on the rocker, so those two wheels
-         equalize load on their own instead of forcing the rocker (and the
-         chassis above it) to twist to reach them both. Passive, same
-         reasoning as the rocker-to-chassis joint above. -->
-    <joint name="left_bogie_joint" type="revolute">
+    <!-- Bogie pivot: TEMPORARILY fixed, see left_wheel_rocker_joint above. -->
+    <joint name="left_bogie_joint" type="fixed">
         <parent link="left_rocker"/>
         <child link="left_bogie"/>
         <origin xyz="0 ${-rocker_length/2} 0" rpy="0 0 0" />
-        <axis xyz="1 0 0"/>
-        <limit lower="-0.4" upper="0.4" effort="50" velocity="5"/>
-        <dynamics damping="1.0" friction="0.1"/>
     </joint>
 
     <link name="left_bogie">
@@ -299,13 +282,23 @@
         <fdir1>1 0 0</fdir1>
     </gazebo>
 
-    <joint name="right_wheel_rocker_joint" type="revolute">
+    <!-- TEMPORARILY fixed - all 4 suspension joints (left/right rocker +
+         bogie) rigidified for now to rule out the suspension while
+         chasing the droop-at-one-section bug. To restore full
+         rocker-bogie articulation later, change type back to "revolute"
+         on all 4 and put back:
+           <axis xyz="1 0 0"/>
+           <limit lower="-0.6" upper="0.6" effort="50" velocity="5"/>   (rocker joints)
+           <limit lower="-0.4" upper="0.4" effort="50" velocity="5"/>   (bogie joints)
+           <dynamics damping="2.0" friction="0.1"/>                    (rocker joints)
+           <dynamics damping="1.0" friction="0.1"/>                    (bogie joints)
+         Rigidifying does mean the fixed 3-wheels-per-side frame will
+         fight ramp transitions again (see the wheel friction comment
+         below) - fine for flat-floor testing, revisit before ramps. -->
+    <joint name="right_wheel_rocker_joint" type="fixed">
         <parent link="base_link"/>
         <child link="right_rocker"/>
         <origin xyz="${chassis_length/2} ${-chassis_width/2-rocker_width/2} 0" rpy="0 0 ${pi/2}" />
-        <axis xyz="1 0 0"/>
-        <limit lower="-0.6" upper="0.6" effort="50" velocity="5"/>
-        <dynamics damping="2.0" friction="0.1"/>
     </joint>
 
     <link name="right_rocker">
@@ -352,13 +345,10 @@
         </xacro:inertial_box>
     </link>
 
-    <joint name="right_bogie_joint" type="revolute">
+    <joint name="right_bogie_joint" type="fixed">
         <parent link="right_rocker"/>
         <child link="right_bogie"/>
         <origin xyz="0 ${-rocker_length/2} 0" rpy="0 0 0" />
-        <axis xyz="1 0 0"/>
-        <limit lower="-0.4" upper="0.4" effort="50" velocity="5"/>
-        <dynamics damping="1.0" friction="0.1"/>
     </joint>
 
     <link name="right_bogie">
