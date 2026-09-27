@@ -1,3 +1,4 @@
+#  Intro
 There are four stages:
 1. SLAM (online_async_launch.py, via slam_toolbox) — you have no map yet. The robot builds one from laser scans + odometry while also tracking itself within the map-in-progress. Run this once (or whenever you need to re-map / extend the map).
 2. Save the map — once SLAM has built a good map, you save it to disk as a .yaml + .pgm pair. This is a one-off step, not something that runs continuously.
