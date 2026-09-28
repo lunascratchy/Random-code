@@ -13,7 +13,6 @@ public:
   double position = 0.0;         // rad
   double velocity = 0.0;         // rad/s
   double command = 0.0;          // rad/s, commanded velocity from the diff_drive_controller
-  long enc_ticks = 0;            // last raw encoder tick count applied (rear joints only)
   double ticks_per_rev = 0.0;
   double direction_sign = 1.0;   // set to -1.0 in the xacro if this side reads/drives backwards
 
@@ -26,15 +25,20 @@ public:
     direction_sign = sign;
   }
 
-  double ticksToRadians(long ticks) const
+  double ticksToRadians(double ticks) const
   {
     if (ticks_per_rev == 0.0) {
       return 0.0;
     }
-    return direction_sign * (static_cast<double>(ticks) / ticks_per_rev) * 2.0 * M_PI;
+    return direction_sign * (ticks / ticks_per_rev) * 2.0 * M_PI;
+  }
+
+  double radiansToTicks(double rad) const
+  {
+    return direction_sign * rad * ticks_per_rev / (2.0 * M_PI);
   }
 };
 
 }
 
-#endif 
+#endif

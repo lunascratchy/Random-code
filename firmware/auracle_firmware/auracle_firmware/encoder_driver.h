@@ -3,9 +3,13 @@
 
 #include <Arduino.h>
 
+// 1x quadrature decoding: RISING edge on the interrupt channel, the
+// other channel's level gives direction. Matches the bench tests, so
+// the tuned Kp and measured ticks/sec carry over unchanged.
 class EncoderDriver {
 public:
-    EncoderDriver(uint8_t pinA, uint8_t pinB);
+    EncoderDriver(uint8_t pinInt, uint8_t pinDir);
+    void begin();
     long getCount();
     void reset();
 
@@ -15,13 +19,14 @@ public:
     static void isrR();
 
 private:
+    uint8_t _pinInt;
+    uint8_t _pinDir;
     volatile long _count = 0;
 
-    // Fast AVR hardware register caching
-    volatile uint8_t* _portA;
-    volatile uint8_t* _portB;
-    uint8_t _bitmaskA;
-    uint8_t _bitmaskB;
+    // Cached AVR input register + mask for the direction pin, so the
+    // ISR is a single port read instead of digitalRead().
+    volatile uint8_t* _dirPort;
+    uint8_t _dirMask;
 };
 
 #endif

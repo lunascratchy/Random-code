@@ -2,15 +2,28 @@
 #define AURACLE_HARDWARE_ARDUINO_COMMS_HPP
 
 #include <libserial/SerialPort.h>
+
+#include <chrono>
+#include <cstdint>
 #include <cstdio>
-#include <sstream>
 #include <string>
 #include <thread>
-#include <chrono>
+
 #include <rclcpp/rclcpp.hpp>
 
 namespace auracle_hardware
 {
+
+// One "e ..." line from the Nano. See serial_protocol.h in the firmware.
+struct Telemetry
+{
+  uint32_t t_ms = 0;       // Nano millis() when the sample was taken
+  long l_enc = 0;          // rear-left ticks (1x decoding)
+  long r_enc = 0;          // rear-right ticks
+  bool has_imu = false;
+  int16_t imu[6] = {0, 0, 0, 0, 0, 0};  // ax ay az gx gy gz, raw MPU6050 counts
+};
+
 class ArduinoComms
 {
 public:
@@ -20,6 +33,11 @@ public:
   {
     serial_conn_.Open(serial_device);
     serial_conn_.SetBaudRate(convertBaudRate(baud_rate));
+    serial_conn_.SetCharacterSize(LibSerial::CharacterSize::CHAR_SIZE_8);
+    serial_conn_.SetParity(LibSerial::Parity::PARITY_NONE);
+    serial_conn_.SetStopBits(LibSerial::StopBits::STOP_BITS_1);
+    serial_conn_.SetFlowControl(LibSerial::FlowControl::FLOW_CONTROL_NONE);
+    serial_conn_.FlushIOBuffers();
   }
 
   void disconnect()
@@ -34,69 +52,63 @@ public:
     return serial_conn_.IsOpen();
   }
 
-  void sendVelocity(double left_rad_s, double right_rad_s)
+  // Rear-wheel targets in encoder ticks/sec.
+  void sendVelocity(double left_ticks_s, double right_ticks_s)
   {
-    std::ostringstream ss;
-    ss << "v " << left_rad_s << " " << right_rad_s << "\n";
-    writeLine(ss.str());
+    char buf[40];
+    std::snprintf(buf, sizeof(buf), "v %.1f %.1f\n", left_ticks_s, right_ticks_s);
+    writeLine(buf);
   }
-  void sendCommand(const std::string & line)
+
+  void sendStop()
   {
-    writeLine(line);
+    writeLine("s\n");
   }
-  bool readTelemetry(long & l_enc, long & r_enc, float * acc, float * gyro)
+
+  // Drains everything waiting on the port in one read() and keeps the
+  // newest complete telemetry line. Returns true if at least one was parsed.
+  // Sets saw_ready if the Nano printed READY (i.e. it rebooted).
+  bool readLatest(Telemetry & out, bool & saw_ready)
   {
-    bool got_new_data = false;
-    while (serial_conn_.IsDataAvailable()) {
-      uint8_t byte;
-      try {
-        serial_conn_.ReadByte(byte, 1);
-      } catch (const std::exception &) {
-        break;
-      }
-      char c = static_cast<char>(byte);
-
-      if (c == '\r') continue;
-
-      if (c == '\n') {
-        if (parseLine(line_buf_, l_enc, r_enc, acc, gyro)) {
-          got_new_data = true; // Mark that we got data, but DO NOT RETURN YET
-        }
-        line_buf_.clear();
-        continue;
-      }
-
-      if (line_buf_.size() < 96) {
-        line_buf_.push_back(c);
-      } else {
-        line_buf_.clear();
-      }
+    saw_ready = false;
+    if (!fillBuffer()) {
+      return false;
     }
-    return got_new_data; // Returns true only after draining the entire buffer
+
+    bool got = false;
+    size_t start = 0;
+    size_t nl;
+    while ((nl = rx_.find('\n', start)) != std::string::npos) {
+      size_t len = nl - start;
+      if (len > 0 && rx_[start + len - 1] == '\r') {
+        --len;
+      }
+      const char * line = rx_.c_str() + start;
+      if (len > 0 && line[0] == 'e') {
+        got |= parseTelemetry(std::string(line, len), out);
+      } else if (len >= 5 && std::string(line, 5) == "READY") {
+        saw_ready = true;
+      }
+      start = nl + 1;
+    }
+    rx_.erase(0, start);
+    if (rx_.size() > 256) {
+      rx_.clear();  // no newline in 256 bytes = garbage
+    }
+    return got;
   }
-  bool waitForReady(int timeout_ms)
+
+  bool waitForReady(int timeout_ms, bool & imu_ok)
   {
-    auto start = std::chrono::steady_clock::now();
-    while (std::chrono::duration_cast<std::chrono::milliseconds>(
-             std::chrono::steady_clock::now() - start)
-             .count() < timeout_ms)
-    {
-      while (serial_conn_.IsDataAvailable()) {
-        uint8_t byte;
-        try {
-          serial_conn_.ReadByte(byte, 1);
-        } catch (const std::exception &) {
-          break;
-        }
-        char c = static_cast<char>(byte);
-        if (c == '\n') {
-          bool is_ready = line_buf_.rfind("READY", 0) == 0;
-          line_buf_.clear();
-          if (is_ready) {
-            return true;
-          }
-        } else if (c != '\r') {
-          line_buf_.push_back(c);
+    imu_ok = false;
+    auto deadline = std::chrono::steady_clock::now() + std::chrono::milliseconds(timeout_ms);
+    while (std::chrono::steady_clock::now() < deadline) {
+      if (fillBuffer()) {
+        size_t pos = rx_.find("READY");
+        if (pos != std::string::npos && rx_.find('\n', pos) != std::string::npos) {
+          imu_ok = rx_.find("imu=1", pos) != std::string::npos;
+          rx_.erase(0, rx_.find('\n', pos) + 1);
+          return true;
         }
       }
       std::this_thread::sleep_for(std::chrono::milliseconds(20));
@@ -105,6 +117,23 @@ public:
   }
 
 private:
+  bool fillBuffer()
+  {
+    int n = 0;
+    try {
+      n = serial_conn_.GetNumberOfBytesAvailable();
+      if (n <= 0) {
+        return false;
+      }
+      std::string chunk;
+      serial_conn_.Read(chunk, static_cast<size_t>(n), 5);
+      rx_ += chunk;
+    } catch (const std::exception &) {
+      return false;
+    }
+    return true;
+  }
+
   void writeLine(const std::string & line)
   {
     try {
@@ -114,16 +143,21 @@ private:
     }
   }
 
-  static bool parseLine(
-    const std::string & line, long & l_enc, long & r_enc, float * acc, float * gyro)
+  static bool parseTelemetry(const std::string & line, Telemetry & out)
   {
-    if (line.empty() || line[0] != 'e') {
+    Telemetry t;
+    unsigned long t_ms = 0;
+    int matched = std::sscanf(
+      line.c_str(), "e %lu %ld %ld i %hd %hd %hd %hd %hd %hd",
+      &t_ms, &t.l_enc, &t.r_enc,
+      &t.imu[0], &t.imu[1], &t.imu[2], &t.imu[3], &t.imu[4], &t.imu[5]);
+    if (matched != 3 && matched != 9) {
       return false;
     }
-    int matched = std::sscanf(
-      line.c_str(), "e %ld %ld i %f %f %f %f %f %f",
-      &l_enc, &r_enc, &acc[0], &acc[1], &acc[2], &gyro[0], &gyro[1], &gyro[2]);
-    return matched == 8;
+    t.t_ms = static_cast<uint32_t>(t_ms);
+    t.has_imu = (matched == 9);
+    out = t;
+    return true;
   }
 
   static LibSerial::BaudRate convertBaudRate(int32_t baud_rate)
@@ -143,9 +177,9 @@ private:
   }
 
   LibSerial::SerialPort serial_conn_;
-  std::string line_buf_;
+  std::string rx_;
 };
 
-}  
+}  // namespace auracle_hardware
 
-#endif 
+#endif

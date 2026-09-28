@@ -1,0 +1,33 @@
+# Real-robot-only overrides, loaded by launch_robot.launch.py AFTER
+# my_controllers.yaml (later file wins). Sim never sees these.
+
+diff_cont:
+  ros__parameters:
+    # --- Geometry: start from the sim values, then calibrate on the floor ---
+    # drive_test --distance 1.0 prints the corrected wheel_radius.
+    wheel_radius: 0.0239
+    # Skid-steer turns scrub, so the *effective* separation is usually
+    # bigger than the tape-measured one. drive_test --angle 360 prints it.
+    wheel_separation: 0.2755
+
+    # --- Limits: the Nano clamps each rear wheel to 1400 ticks/s ---
+    # 1400 / 730 ticks/rev * 2*pi * 0.0239 m = ~0.29 m/s top speed per wheel.
+    # Staying under that leaves the PID headroom, and a clamped wheel would
+    # otherwise bend straight lines into arcs.
+    linear.x.has_velocity_limits: true
+    linear.x.max_velocity: 0.25
+    linear.x.min_velocity: -0.25
+    linear.x.has_acceleration_limits: true
+    linear.x.max_acceleration: 0.6
+    linear.x.min_acceleration: -0.6
+    angular.z.has_velocity_limits: true
+    angular.z.max_velocity: 1.5
+    angular.z.min_velocity: -1.5
+    angular.z.has_acceleration_limits: true
+    angular.z.max_acceleration: 3.0
+    angular.z.min_acceleration: -3.0
+
+    # Wheel-odom yaw on a skid-steer is poor; a bigger variance lets the
+    # IMU dominate yaw rate in the EKF (and is honest when use_imu:=false).
+    pose_covariance_diagonal: [0.001, 0.001, 1000000.0, 1000000.0, 1000000.0, 0.05]
+    twist_covariance_diagonal: [0.001, 0.001, 1000000.0, 1000000.0, 1000000.0, 0.05]

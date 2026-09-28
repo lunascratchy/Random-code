@@ -8,7 +8,8 @@ from launch.actions import (
     GroupAction, RegisterEventHandler,
 )
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import Command, LaunchConfiguration
+from launch.substitutions import Command, LaunchConfiguration, PythonExpression
+from launch.conditions import IfCondition
 from launch.event_handlers import OnProcessStart, OnProcessExit
 
 from launch_ros.actions import Node, PushRosNamespace
@@ -37,11 +38,28 @@ def generate_launch_description():
         description='Top-level namespace applied to every node/topic below'
     )
 
+    arduino_port = LaunchConfiguration('arduino_port')
+    declare_arduino_port = DeclareLaunchArgument(
+        'arduino_port',
+        default_value='/dev/arduino',
+        description=("Serial device for the Arduino Nano (FTDI 0403:6001). /dev/arduino "
+                     "comes from config/99-auracle.rules; otherwise use /dev/ttyUSB0.")
+    )
+
+    use_imu = LaunchConfiguration('use_imu')
+    declare_use_imu = DeclareLaunchArgument(
+        'use_imu',
+        default_value='true',
+        description=("Set false if no MPU6050 is fitted: drops the IMU interfaces and "
+                     "broadcaster, and the EKF takes yaw rate from wheel odometry instead.")
+    )
+
     rsp = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([os.path.join(
             bringup_pkg, 'launch', 'rsp.launch.py'
         )]),
-        launch_arguments={'use_sim_time': use_sim_time, 'namespace': namespace}.items()
+        launch_arguments={'use_sim_time': use_sim_time, 'namespace': namespace,
+                          'arduino_port': arduino_port, 'use_imu': use_imu}.items()
     )
 
     joystick = IncludeLaunchDescription(
@@ -97,11 +115,15 @@ def generate_launch_description():
     # description directly here has neither problem.
     xacro_file = os.path.join(description_pkg, 'urdf', 'robot.urdf.xacro')
     robot_description = ParameterValue(
-        Command(['xacro ', xacro_file, ' sim_mode:=', use_sim_time]),
+        Command(['xacro ', xacro_file, ' sim_mode:=', use_sim_time,
+                 ' arduino_port:=', arduino_port, ' use_imu:=', use_imu]),
         value_type=str
     )
 
     controller_params_file = os.path.join(bringup_pkg, 'config', 'my_controllers.yaml')
+    # Real-robot-only overrides (velocity/accel limits, calibrated geometry).
+    # Loaded after the shared file so sim keeps its own values untouched.
+    controller_real_params_file = os.path.join(bringup_pkg, 'config', 'my_controllers_real.yaml')
 
     # NOTE on namespace: controller_manager and the three spawners below are
     # all started indirectly (TimerAction / RegisterEventHandler), and
@@ -116,7 +138,7 @@ def generate_launch_description():
         executable="ros2_control_node",
         namespace=namespace,
         parameters=[{'robot_description': robot_description, 'use_sim_time': use_sim_time},
-                    controller_params_file],
+                    controller_params_file, controller_real_params_file],
     )
 
     # Real hardware: give ros2_control_node a bit longer than sim (5s vs 3s)
@@ -184,6 +206,7 @@ def generate_launch_description():
         namespace=namespace,
         arguments=["imu_broadcaster", "--controller-manager-timeout", SPAWNER_TIMEOUT,
          "--switch-timeout", SPAWNER_TIMEOUT],
+        condition=IfCondition(use_imu),
     )
 
     delayed_imu_broadcaster_spawner = RegisterEventHandler(
@@ -224,12 +247,17 @@ def generate_launch_description():
     # actually uses. diff_cont.enable_odom_tf is false in my_controllers.yaml
     # so this is the ONLY thing publishing that transform now.
     ekf_params_file = os.path.join(bringup_pkg, 'config', 'ekf.yaml')
+    # With use_imu:=false, layer ekf_no_imu.yaml on top: it disables imu0
+    # and fuses yaw rate from wheel odom instead.
+    ekf_no_imu_file = os.path.join(bringup_pkg, 'config', 'ekf_no_imu.yaml')
+    ekf_extra_params = PythonExpression(
+        ["'", ekf_params_file, "' if '", use_imu, "'.lower() == 'true' else '", ekf_no_imu_file, "'"])
     ekf_localization = Node(
         package="robot_localization",
         executable="ekf_node",
         name="ekf_filter_node",
         output="screen",
-        parameters=[ekf_params_file, {'use_sim_time': use_sim_time}],
+        parameters=[ekf_params_file, ekf_extra_params, {'use_sim_time': use_sim_time}],
     )
 
     # Everything except rsp (which handles its own namespacing/frame_prefix
@@ -252,6 +280,8 @@ def generate_launch_description():
         declare_use_sim_time,
         declare_namespace,
         declare_lidar_port,
+        declare_arduino_port,
+        declare_use_imu,
         rsp,
         joystick,
         rplidar,

@@ -7,7 +7,8 @@
 #include "serial_protocol.h"
 #include "watchdog.h"
 
-
+// Clear the watchdog flag as early as possible after a WDT reset, or
+// older bootloaders get stuck in a reset loop.
 uint8_t mcusr_mirror __attribute__((section(".noinit")));
 void get_mcusr(void) __attribute__((naked, used, section(".init3")));
 void get_mcusr(void) {
@@ -16,142 +17,152 @@ void get_mcusr(void) {
     wdt_disable();
 }
 
-enum ControlMode { MODE_PID, MODE_OPEN_LOOP };
+enum ControlMode { MODE_STOPPED, MODE_PID, MODE_OPEN_LOOP };
 
-MotorDriver leftMotor(LEFT_PWM, LEFT_IN1, LEFT_IN2);
-MotorDriver rightMotor(RIGHT_PWM, RIGHT_IN1, RIGHT_IN2);
-EncoderDriver leftEnc(LEFT_ENC_A, LEFT_ENC_B);
-EncoderDriver rightEnc(RIGHT_ENC_A, RIGHT_ENC_B);
-PIDController leftPID(PID_KP, PID_KI, PID_KD, SAMPLE_TIME_S);
-PIDController rightPID(PID_KP, PID_KI, PID_KD, SAMPLE_TIME_S);
+MotorDriver leftSide(PIN_L_FWD, PIN_L_REV, PIN_LB_EN, PIN_LF_EN, LB_MIN_PWM, LF_MIN_PWM, LF_OFFSET);
+MotorDriver rightSide(PIN_R_FWD, PIN_R_REV, PIN_RB_EN, PIN_RF_EN, RB_MIN_PWM, RF_MIN_PWM, RF_OFFSET);
+EncoderDriver leftEnc(PIN_LB_ENC_INT, PIN_LB_ENC_DIR);
+EncoderDriver rightEnc(PIN_RB_ENC_INT, PIN_RB_ENC_DIR);
+PIDController leftPID(PID_KP, PID_KI, PID_KD, PID_DEADZONE_TICKS_S);
+PIDController rightPID(PID_KP, PID_KI, PID_KD, PID_DEADZONE_TICKS_S);
 IMUDriver imu;
 SerialProtocol protocol;
 Watchdog watchdog;
 
-// Link ISRs
-EncoderDriver* EncoderDriver::instanceL = &leftEnc;
-EncoderDriver* EncoderDriver::instanceR = &rightEnc;
-
 bool imu_ok = false;
-ControlMode currentMode = MODE_PID;
-bool estopped = false;
+ControlMode mode = MODE_STOPPED;
 
-unsigned long lastCommandTime = 0;   // resets the comms watchdog
-unsigned long lastControlTime = 0;   // gates the PID/motor/telemetry block
+unsigned long lastCommandTime = 0;   // comms watchdog
+unsigned long lastControlTime = 0;   // control loop scheduler (ms)
+unsigned long lastSampleUs = 0;      // exact dt for speed measurement
+long lastCountL = 0, lastCountR = 0;
 
-double targetTicksL = 0, targetTicksR = 0;
-double openLoopL = 0, openLoopR = 0;
+float targetL = 0, targetR = 0;      // ticks/sec
+int openLoopL = 0, openLoopR = 0;    // signed PWM
+
+float clampTarget(float t) {
+    if (fabs(t) < MIN_TARGET_TICKS_S) return 0.0f;
+    return constrain(t, -MAX_TICKS_S, MAX_TICKS_S);
+}
+
+void stopAll() {
+    mode = MODE_STOPPED;
+    targetL = targetR = 0;
+    leftPID.reset();
+    rightPID.reset();
+    leftSide.stop();
+    rightSide.stop();
+}
+
+void handleCommand(const ParsedCommand &cmd) {
+    switch (cmd.type) {
+        case 'v':
+            lastCommandTime = millis();
+            targetL = clampTarget(cmd.a1);
+            targetR = clampTarget(cmd.a2);
+            if (mode != MODE_PID) {
+                leftPID.reset();
+                rightPID.reset();
+                mode = MODE_PID;
+            }
+            break;
+
+        case 'o':
+            lastCommandTime = millis();
+            openLoopL = constrain((int)cmd.a1, -MOTOR_MAX_PWM, MOTOR_MAX_PWM);
+            openLoopR = constrain((int)cmd.a2, -MOTOR_MAX_PWM, MOTOR_MAX_PWM);
+            mode = MODE_OPEN_LOOP;
+            break;
+
+        case 'p':
+            leftPID.setTunings(cmd.a1, cmd.a2, cmd.a3);
+            rightPID.setTunings(cmd.a1, cmd.a2, cmd.a3);
+            break;
+
+        case 'r':
+            leftEnc.reset();
+            rightEnc.reset();
+            lastCountL = lastCountR = 0;
+            break;
+
+        case 's':
+            stopAll();
+            break;
+
+        default:
+            break;
+    }
+}
 
 void setup() {
+    leftSide.begin();
+    rightSide.begin();
+    stopAll();
+
     protocol.begin(BAUDRATE);
-    watchdog.begin();
+
+    leftEnc.begin();
+    rightEnc.begin();
+    EncoderDriver::instanceL = &leftEnc;
+    EncoderDriver::instanceR = &rightEnc;
+    attachInterrupt(digitalPinToInterrupt(PIN_LB_ENC_INT), EncoderDriver::isrL, RISING);
+    attachInterrupt(digitalPinToInterrupt(PIN_RB_ENC_INT), EncoderDriver::isrR, RISING);
 
     imu_ok = imu.begin();
-    if (!imu_ok) {
-        Serial.println("WARN imu_init_failed");
+    if (imu_ok) {
+        imu.calibrateGyro(200);  // ~0.5 s, robot must be still
     }
 
-    attachInterrupt(digitalPinToInterrupt(LEFT_ENC_A), EncoderDriver::isrL, CHANGE);
-    attachInterrupt(digitalPinToInterrupt(RIGHT_ENC_A), EncoderDriver::isrR, CHANGE);
+    // Started after gyro calibration so that doesn't trip it.
+    watchdog.begin();
 
     lastCommandTime = millis();
     lastControlTime = millis();
-    protocol.sendReady();
+    lastSampleUs = micros();
+    protocol.sendReady(imu_ok);
 }
 
 void loop() {
     watchdog.pet();
+
     ParsedCommand cmd;
-    if (protocol.update(cmd)) {
-        switch (cmd.type) {
-            case 'v':  // PID velocity target, rad/s
-                lastCommandTime = millis();
-                estopped = false;
-                currentMode = MODE_PID;
-                targetTicksL = RAD_S_TO_TICKS_S_L(cmd.a1);
-                targetTicksR = RAD_S_TO_TICKS_S_R(cmd.a2);
-                break;
-
-            case 'o':  // raw open-loop PWM, bench testing only
-                lastCommandTime = millis();
-                estopped = false;
-                currentMode = MODE_OPEN_LOOP;
-                openLoopL = cmd.a1;
-                openLoopR = cmd.a2;
-                break;
-
-            case 'p':  // live PID tuning
-                leftPID.setTunings(cmd.a1, cmd.a2, cmd.a3);
-                rightPID.setTunings(cmd.a1, cmd.a2, cmd.a3);
-                break;
-
-            case 'r':  // zero the encoder counters
-                leftEnc.reset();
-                rightEnc.reset();
-                break;
-
-            case 's':  // emergency stop
-                estopped = true;
-                currentMode = MODE_PID;
-                targetTicksL = 0;
-                targetTicksR = 0;
-                leftPID.reset();
-                rightPID.reset();
-                break;
-
-            default:
-                break;
-        }
+    while (protocol.update(cmd)) {
+        handleCommand(cmd);
     }
 
-    if (!watchdog.isCommsAlive(lastCommandTime)) {
-        estopped = true;
-        targetTicksL = 0;
-        targetTicksR = 0;
+    if (mode != MODE_STOPPED && !watchdog.isCommsAlive(lastCommandTime)) {
+        stopAll();
     }
 
     unsigned long now = millis();
-    unsigned long elapsedMs = now - lastControlTime;
-    
-    if (elapsedMs >= CONTROL_PERIOD_MS) {
-        // FIX 1: Add the period to prevent schedule drift over time
-        lastControlTime += CONTROL_PERIOD_MS;
-
-        static long lastCountL = 0, lastCountR = 0;
-        long countL = leftEnc.getCount();
-        long countR = rightEnc.getCount();
-        
-        // FIX 2: Replace float division with a pre-calculated multiplier.
-        // Because elapsedMs will almost always perfectly equal CONTROL_PERIOD_MS,
-        // we multiply by the inverse (e.g., 1000/10 = 100).
-        float inv_dt = 1000.0f / (float)elapsedMs; 
-        float curTicksL = (float)(countL - lastCountL) * inv_dt;
-        float curTicksR = (float)(countR - lastCountR) * inv_dt;
-        
-        lastCountL = countL;
-        lastCountR = countR;
-
-        if (estopped) {
-            leftMotor.setSpeed(0);
-            rightMotor.setSpeed(0);
-            leftPID.reset();
-            rightPID.reset();
-        } else if (currentMode == MODE_OPEN_LOOP) {
-            // Cast double back to int for the motor driver
-            leftMotor.setSpeed((int)openLoopL);
-            rightMotor.setSpeed((int)openLoopR);
-        } else {
-            // FIX 3: Use the optimized PID compute (dt is handled internally now)
-            leftMotor.setSpeed(leftPID.compute(targetTicksL, curTicksL));
-            rightMotor.setSpeed(rightPID.compute(targetTicksR, curTicksR));
-        }
-
-        float acc[3] = {0, 0, 0};
-        float gyro[3] = {0, 0, 0};
-        if (imu_ok) {
-            imu.readData(acc, gyro);
-        }
-        
-        protocol.sendTelemetry(countL, countR, acc, gyro);
+    if (now - lastControlTime < CONTROL_PERIOD_MS) {
+        return;
     }
+    lastControlTime += CONTROL_PERIOD_MS;
+    if (now - lastControlTime > CONTROL_PERIOD_MS) {
+        lastControlTime = now;  // fell behind (e.g. I2C stall) - don't burst to catch up
+    }
+
+    unsigned long nowUs = micros();
+    float dt = (nowUs - lastSampleUs) * 1e-6f;
+    lastSampleUs = nowUs;
+
+    long countL = leftEnc.getCount();
+    long countR = rightEnc.getCount();
+    float speedL = (countL - lastCountL) / dt;
+    float speedR = (countR - lastCountR) / dt;
+    lastCountL = countL;
+    lastCountR = countR;
+
+    if (mode == MODE_PID) {
+        leftSide.setEffort(leftPID.compute(targetL, speedL, dt));
+        rightSide.setEffort(rightPID.compute(targetR, speedR, dt));
+    } else if (mode == MODE_OPEN_LOOP) {
+        leftSide.setEffort(openLoopL);
+        rightSide.setEffort(openLoopR);
+    }
+
+    int16_t imuRaw[6];
+    bool haveImu = imu_ok && imu.readRaw(imuRaw);
+    protocol.sendTelemetry(now, countL, countR, haveImu ? imuRaw : nullptr);
 }

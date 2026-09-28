@@ -31,6 +31,10 @@
 <exec_depend>ros_gz_bridge</exec_depend>
 <exec_depend>gz_ros2_control</exec_depend>
 <exec_depend>rplidar_ros</exec_depend>
+<exec_depend>rclpy</exec_depend>
+<exec_depend>geometry_msgs</exec_depend>
+<exec_depend>nav_msgs</exec_depend>
+<exec_depend>teleop_twist_keyboard</exec_depend>
 <test_depend>ament_lint_auto</test_depend>
 <test_depend>ament_lint_common</test_depend>
 <export>

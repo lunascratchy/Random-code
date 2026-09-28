@@ -15,6 +15,18 @@ constexpr size_t FR = 1;
 constexpr size_t RL = 2;
 constexpr size_t RR = 3;
 
+// MPU6050 at the ranges the firmware configures (+/-2g, +/-250 deg/s).
+constexpr double ACCEL_SCALE = 9.80665 / 16384.0;          // raw -> m/s^2
+constexpr double GYRO_SCALE = (M_PI / 180.0) / 131.0;      // raw -> rad/s
+
+// Firmware sends telemetry every 50 ms; warn if nothing for this long.
+constexpr auto STALE_TIMEOUT = std::chrono::milliseconds(500);
+
+rclcpp::Logger logger()
+{
+  return rclcpp::get_logger("AuracleHardwareInterface");
+}
+
 std::string getParam(
   const std::unordered_map<std::string, std::string> & params,
   const std::string & key, const std::string & default_value)
@@ -34,25 +46,26 @@ hardware_interface::CallbackReturn AuracleHardwareInterface::on_init(
     return hardware_interface::CallbackReturn::ERROR;
   }
 
-  device_ = getParam(info_.hardware_parameters, "device", device_);
-  baud_rate_ = std::stoi(getParam(info_.hardware_parameters, "baud_rate", "115200"));
-  left_enc_counts_per_rev_ = std::stod(getParam(info_.hardware_parameters, "left_enc_counts_per_rev", "730.0"));
-  right_enc_counts_per_rev_ = std::stod(getParam(info_.hardware_parameters, "right_enc_counts_per_rev", "655.0"));
-  imu_sensor_name_ = getParam(info_.hardware_parameters, "imu_sensor_name", "imu_sensor");
-  imu_enabled_ = getParam(info_.hardware_parameters, "imu_enabled", "true") == "true";
+  const auto & p = info_.hardware_parameters;
+  device_ = getParam(p, "device", device_);
+  baud_rate_ = std::stoi(getParam(p, "baud_rate", "115200"));
+  handshake_timeout_ms_ = std::stoi(getParam(p, "handshake_timeout_ms", "5000"));
+  left_enc_counts_per_rev_ = std::stod(getParam(p, "left_enc_counts_per_rev", "730.0"));
+  right_enc_counts_per_rev_ = std::stod(getParam(p, "right_enc_counts_per_rev", "655.0"));
+  imu_sensor_name_ = getParam(p, "imu_sensor_name", "imu_sensor");
+  imu_enabled_ = getParam(p, "imu_enabled", "true") == "true";
 
-  double left_sign = std::stod(getParam(info_.hardware_parameters, "left_direction_sign", "1.0"));
-  double right_sign = std::stod(getParam(info_.hardware_parameters, "right_direction_sign", "1.0"));
+  double left_sign = std::stod(getParam(p, "left_direction_sign", "1.0"));
+  double right_sign = std::stod(getParam(p, "right_direction_sign", "1.0"));
 
-  std::string fl_name = getParam(info_.hardware_parameters, "front_left_wheel_name", "front_left_wheel_joint");
-  std::string fr_name = getParam(info_.hardware_parameters, "front_right_wheel_name", "front_right_wheel_joint");
-  std::string rl_name = getParam(info_.hardware_parameters, "rear_left_wheel_name", "rear_left_wheel_joint");
-  std::string rr_name = getParam(info_.hardware_parameters, "rear_right_wheel_name", "rear_right_wheel_joint");
-
-  wheels_[FL].setup(fl_name, left_enc_counts_per_rev_, left_sign);
-  wheels_[FR].setup(fr_name, right_enc_counts_per_rev_, right_sign);
-  wheels_[RL].setup(rl_name, left_enc_counts_per_rev_, left_sign);
-  wheels_[RR].setup(rr_name, right_enc_counts_per_rev_, right_sign);
+  wheels_[FL].setup(getParam(p, "front_left_wheel_name", "front_left_wheel_joint"),
+    left_enc_counts_per_rev_, left_sign);
+  wheels_[FR].setup(getParam(p, "front_right_wheel_name", "front_right_wheel_joint"),
+    right_enc_counts_per_rev_, right_sign);
+  wheels_[RL].setup(getParam(p, "rear_left_wheel_name", "rear_left_wheel_joint"),
+    left_enc_counts_per_rev_, left_sign);
+  wheels_[RR].setup(getParam(p, "rear_right_wheel_name", "rear_right_wheel_joint"),
+    right_enc_counts_per_rev_, right_sign);
 
   for (const auto & joint : info_.joints) {
     bool matched = false;
@@ -64,7 +77,7 @@ hardware_interface::CallbackReturn AuracleHardwareInterface::on_init(
     }
     if (!matched) {
       RCLCPP_WARN(
-        rclcpp::get_logger("AuracleHardwareInterface"),
+        logger(),
         "Joint '%s' declared in the xacro is not one of the 4 configured wheel names - "
         "it will not be driven.",
         joint.name.c_str());
@@ -72,10 +85,10 @@ hardware_interface::CallbackReturn AuracleHardwareInterface::on_init(
   }
 
   RCLCPP_INFO(
-    rclcpp::get_logger("AuracleHardwareInterface"),
+    logger(),
     "Configured for device=%s baud=%d left_enc=%.1f right_enc=%.1f imu_enabled=%s "
     "wheels=[%s, %s, %s, %s]",
-    device_.c_str(), baud_rate_, left_enc_counts_per_rev_, right_enc_counts_per_rev_, 
+    device_.c_str(), baud_rate_, left_enc_counts_per_rev_, right_enc_counts_per_rev_,
     imu_enabled_ ? "true" : "false",
     wheels_[FL].name.c_str(), wheels_[FR].name.c_str(),
     wheels_[RL].name.c_str(), wheels_[RR].name.c_str());
@@ -86,23 +99,36 @@ hardware_interface::CallbackReturn AuracleHardwareInterface::on_init(
 hardware_interface::CallbackReturn AuracleHardwareInterface::on_configure(
   const rclcpp_lifecycle::State & /*previous_state*/)
 {
-  RCLCPP_INFO(rclcpp::get_logger("AuracleHardwareInterface"), "Opening serial port %s ...", device_.c_str());
+  RCLCPP_INFO(logger(), "Opening serial port %s ...", device_.c_str());
   try {
     comms_.connect(device_, baud_rate_);
   } catch (const std::exception & e) {
     RCLCPP_FATAL(
-      rclcpp::get_logger("AuracleHardwareInterface"), "Failed to open serial port %s: %s",
-      device_.c_str(), e.what());
+      logger(), "Failed to open serial port %s: %s", device_.c_str(), e.what());
     return hardware_interface::CallbackReturn::ERROR;
   }
 
-  if (!comms_.waitForReady(3000)) {
+  // Opening the port toggles DTR, which resets the Nano: bootloader +
+  // IMU gyro calibration (~0.5 s, robot must be still) before READY.
+  bool imu_ok = false;
+  if (comms_.waitForReady(handshake_timeout_ms_, imu_ok)) {
+    RCLCPP_INFO(logger(), "Arduino READY (imu=%s).", imu_ok ? "ok" : "absent");
+    if (imu_enabled_ && !imu_ok) {
+      RCLCPP_ERROR(
+        logger(),
+        "imu_enabled is true but the Nano found no MPU6050. The EKF will get a "
+        "zero yaw rate and odom won't rotate - check SDA/SCL (A4/A5) or relaunch "
+        "with use_imu:=false.");
+    }
+  } else {
     RCLCPP_WARN(
-      rclcpp::get_logger("AuracleHardwareInterface"),
-      "Did not see a READY handshake from the Arduino within 3s - continuing anyway, "
-      "but check wiring/firmware if reads keep failing.");
+      logger(),
+      "No READY from the Arduino within %d ms - continuing anyway, but check "
+      "the port, baud rate and firmware if reads keep failing.",
+      handshake_timeout_ms_);
   }
 
+  have_prev_ = false;
   return hardware_interface::CallbackReturn::SUCCESS;
 }
 
@@ -110,6 +136,7 @@ hardware_interface::CallbackReturn AuracleHardwareInterface::on_cleanup(
   const rclcpp_lifecycle::State & /*previous_state*/)
 {
   if (comms_.connected()) {
+    comms_.sendStop();
     comms_.disconnect();
   }
   return hardware_interface::CallbackReturn::SUCCESS;
@@ -119,19 +146,20 @@ hardware_interface::CallbackReturn AuracleHardwareInterface::on_activate(
   const rclcpp_lifecycle::State & /*previous_state*/)
 {
   for (auto & w : wheels_) {
-    w.command = 0;
+    w.command = 0.0;
   }
   comms_.sendVelocity(0.0, 0.0);
-  RCLCPP_INFO(rclcpp::get_logger("AuracleHardwareInterface"), "Activated.");
+  last_rx_ = std::chrono::steady_clock::now();
+  stale_warned_ = false;
+  RCLCPP_INFO(logger(), "Activated.");
   return hardware_interface::CallbackReturn::SUCCESS;
 }
 
 hardware_interface::CallbackReturn AuracleHardwareInterface::on_deactivate(
   const rclcpp_lifecycle::State & /*previous_state*/)
 {
- 
-  comms_.sendVelocity(0.0, 0.0);
-  RCLCPP_INFO(rclcpp::get_logger("AuracleHardwareInterface"), "Deactivated - motors stopped.");
+  comms_.sendStop();
+  RCLCPP_INFO(logger(), "Deactivated - motors stopped.");
   return hardware_interface::CallbackReturn::SUCCESS;
 }
 
@@ -149,6 +177,7 @@ std::vector<hardware_interface::StateInterface> AuracleHardwareInterface::export
       "orientation.x", "orientation.y", "orientation.z", "orientation.w",
       "angular_velocity.x", "angular_velocity.y", "angular_velocity.z",
       "linear_acceleration.x", "linear_acceleration.y", "linear_acceleration.z"};
+    imu_states_[3] = 1.0;  // identity orientation - the MPU6050 gives none
     for (size_t i = 0; i < imu_states_.size(); ++i) {
       state_interfaces.emplace_back(imu_sensor_name_, imu_interfaces[i], &imu_states_[i]);
     }
@@ -167,54 +196,59 @@ std::vector<hardware_interface::CommandInterface> AuracleHardwareInterface::expo
 }
 
 hardware_interface::return_type AuracleHardwareInterface::read(
-  const rclcpp::Time & /*time*/, const rclcpp::Duration & period)
+  const rclcpp::Time & /*time*/, const rclcpp::Duration & /*period*/)
 {
-  long l_enc = wheels_[RL].enc_ticks;
-  long r_enc = wheels_[RR].enc_ticks;
-  float acc[3] = {0, 0, 0};
-  float gyro[3] = {0, 0, 0};
+  Telemetry tel;
+  bool saw_ready = false;
+  bool got = comms_.readLatest(tel, saw_ready);
+  auto now = std::chrono::steady_clock::now();
 
-  // 1. Accumulate time regardless of whether we get data this loop
-  dt_accumulator_ += period.seconds();
+  if (saw_ready) {
+    // Nano rebooted (brownout or watchdog) - its counters restarted at 0.
+    RCLCPP_WARN(logger(), "Arduino sent READY mid-run - it reset. Re-syncing encoders.");
+    have_prev_ = false;
+  }
 
-  if (!comms_.readTelemetry(l_enc, r_enc, acc, gyro)) {
+  if (!got) {
+    if (!stale_warned_ && now - last_rx_ > STALE_TIMEOUT) {
+      RCLCPP_WARN(logger(), "No telemetry from the Arduino for >500 ms.");
+      stale_warned_ = true;
+    }
     return hardware_interface::return_type::OK;
   }
-  comms_up_ = true;
+  last_rx_ = now;
+  stale_warned_ = false;
 
-  double new_position_l = wheels_[RL].ticksToRadians(l_enc);
-  double new_position_r = wheels_[RR].ticksToRadians(r_enc);
-
-  // 2. Use the accumulated time to calculate true average velocity
-  if (dt_accumulator_ > 0.0) {
-    wheels_[RL].velocity = (new_position_l - wheels_[RL].position) / dt_accumulator_;
-    wheels_[RR].velocity = (new_position_r - wheels_[RR].position) / dt_accumulator_;
+  // Positions are integrated from tick deltas rather than taken absolute,
+  // so a Nano reset doesn't make odometry jump back to zero.
+  if (have_prev_ && tel.t_ms > prev_.t_ms) {
+    double dt = (tel.t_ms - prev_.t_ms) / 1000.0;
+    double dl = wheels_[RL].ticksToRadians(static_cast<double>(tel.l_enc - prev_.l_enc));
+    double dr = wheels_[RR].ticksToRadians(static_cast<double>(tel.r_enc - prev_.r_enc));
+    wheels_[RL].position += dl;
+    wheels_[RR].position += dr;
+    wheels_[RL].velocity = dl / dt;
+    wheels_[RR].velocity = dr / dt;
+  } else {
+    wheels_[RL].velocity = 0.0;
+    wheels_[RR].velocity = 0.0;
   }
-  
-  // 3. Reset the timer for the next batch of data
-  dt_accumulator_ = 0.0; 
+  prev_ = tel;
+  have_prev_ = true;
 
-  wheels_[RL].position = new_position_l;
-  wheels_[RR].position = new_position_r;
-  wheels_[RL].enc_ticks = l_enc;
-  wheels_[RR].enc_ticks = r_enc;
-
+  // Front wheels have no encoders: report the same-side rear wheel.
   wheels_[FL].position = wheels_[RL].position;
   wheels_[FL].velocity = wheels_[RL].velocity;
   wheels_[FR].position = wheels_[RR].position;
   wheels_[FR].velocity = wheels_[RR].velocity;
 
-  if (imu_enabled_) {
-    imu_states_[0] = 0.0;
-    imu_states_[1] = 0.0;
-    imu_states_[2] = 0.0;
-    imu_states_[3] = 1.0;
-    imu_states_[4] = gyro[0];
-    imu_states_[5] = gyro[1];
-    imu_states_[6] = gyro[2];
-    imu_states_[7] = acc[0];
-    imu_states_[8] = acc[1];
-    imu_states_[9] = acc[2];
+  if (imu_enabled_ && tel.has_imu) {
+    imu_states_[4] = tel.imu[3] * GYRO_SCALE;
+    imu_states_[5] = tel.imu[4] * GYRO_SCALE;
+    imu_states_[6] = tel.imu[5] * GYRO_SCALE;
+    imu_states_[7] = tel.imu[0] * ACCEL_SCALE;
+    imu_states_[8] = tel.imu[1] * ACCEL_SCALE;
+    imu_states_[9] = tel.imu[2] * ACCEL_SCALE;
   }
 
   return hardware_interface::return_type::OK;
@@ -223,10 +257,16 @@ hardware_interface::return_type AuracleHardwareInterface::read(
 hardware_interface::return_type AuracleHardwareInterface::write(
   const rclcpp::Time & /*time*/, const rclcpp::Duration & /*period*/)
 {
-  double left_cmd = (wheels_[FL].command + wheels_[RL].command) / 2.0;
-  double right_cmd = (wheels_[FR].command + wheels_[RR].command) / 2.0;
+  // diff_drive_controller commands both wheels on a side identically; the
+  // Nano only has one closed loop per side (rear encoder), front follows.
+  double left_rad_s = (wheels_[FL].command + wheels_[RL].command) / 2.0;
+  double right_rad_s = (wheels_[FR].command + wheels_[RR].command) / 2.0;
 
-  comms_.sendVelocity(left_cmd, right_cmd);
+  // Sent every cycle even when unchanged - it doubles as the heartbeat
+  // for the Nano's 500 ms comms watchdog.
+  comms_.sendVelocity(
+    wheels_[RL].radiansToTicks(left_rad_s),
+    wheels_[RR].radiansToTicks(right_rad_s));
   return hardware_interface::return_type::OK;
 }
 

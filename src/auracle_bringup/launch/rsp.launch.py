@@ -11,6 +11,8 @@ def generate_launch_description():
 
     use_sim_time = LaunchConfiguration('use_sim_time')
     namespace = LaunchConfiguration('namespace')
+    arduino_port = LaunchConfiguration('arduino_port')
+    use_imu = LaunchConfiguration('use_imu')
 
     pkg_path = os.path.join(get_package_share_directory('auracle_description'))
     xacro_file = os.path.join(pkg_path, 'urdf', 'robot.urdf.xacro')
@@ -18,7 +20,9 @@ def generate_launch_description():
     robot_description_config = ParameterValue(
         Command([
             'xacro ', xacro_file,
-            ' sim_mode:=', use_sim_time
+            ' sim_mode:=', use_sim_time,
+            ' arduino_port:=', arduino_port,
+            ' use_imu:=', use_imu,
         ]),
         value_type=str
     )
@@ -50,6 +54,16 @@ def generate_launch_description():
             'namespace',
             default_value='',
             description='Top-level namespace, e.g. robot1. Leave empty for a single robot.'),
+        # Real robot only. In Jazzy the controller_manager takes its URDF from
+        # this node's robot_description topic, so these must match launch_robot.
+        DeclareLaunchArgument(
+            'arduino_port',
+            default_value='/dev/arduino',
+            description='Serial device of the Arduino Nano (real robot only)'),
+        DeclareLaunchArgument(
+            'use_imu',
+            default_value='true',
+            description='Whether the MPU6050 is fitted (real robot only)'),
 
         GroupAction([
             PushRosNamespace(namespace),

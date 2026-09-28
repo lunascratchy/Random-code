@@ -1,51 +1,38 @@
 #include "encoder_driver.h"
 
-// Define the static instances
 EncoderDriver* EncoderDriver::instanceL = nullptr;
 EncoderDriver* EncoderDriver::instanceR = nullptr;
 
-EncoderDriver::EncoderDriver(uint8_t pinA, uint8_t pinB) {
-    pinMode(pinA, INPUT_PULLUP);
-    pinMode(pinB, INPUT_PULLUP);
+EncoderDriver::EncoderDriver(uint8_t pinInt, uint8_t pinDir)
+    : _pinInt(pinInt), _pinDir(pinDir) {}
 
-    // Pre-calculate and cache raw AVR register pointers and bitmasks
-    _portA = portInputRegister(digitalPinToPort(pinA));
-    _bitmaskA = digitalPinToBitMask(pinA);
-
-    _portB = portInputRegister(digitalPinToPort(pinB));
-    _bitmaskB = digitalPinToBitMask(pinB);
+void EncoderDriver::begin() {
+    pinMode(_pinInt, INPUT_PULLUP);
+    pinMode(_pinDir, INPUT_PULLUP);
+    _dirPort = portInputRegister(digitalPinToPort(_pinDir));
+    _dirMask = digitalPinToBitMask(_pinDir);
 }
 
+// Direction pin HIGH on the rising edge = forward = count up
+// (same convention as readLeftEncoder/readRightEncoder in the bench tests).
 void EncoderDriver::isrL() {
-    // Quick compiler optimization shortcut: copy pointer to local register
-    EncoderDriver* inst = instanceL; 
-    if (!inst) return;
-
-    // Ultra-fast direct AVR register read (replaces digitalRead)
-    bool a = (*(inst->_portA) & inst->_bitmaskA);
-    bool b = (*(inst->_portB) & inst->_bitmaskB);
-
-    inst->_count += (a == b) ? 1 : -1;
+    EncoderDriver* inst = instanceL;
+    if (*(inst->_dirPort) & inst->_dirMask) inst->_count++;
+    else inst->_count--;
 }
 
 void EncoderDriver::isrR() {
     EncoderDriver* inst = instanceR;
-    if (!inst) return;
-
-    // Ultra-fast direct AVR register read (replaces digitalRead)
-    bool a = (*(inst->_portA) & inst->_bitmaskA);
-    bool b = (*(inst->_portB) & inst->_bitmaskB);
-
-    inst->_count += (a == b) ? 1 : -1;
+    if (*(inst->_dirPort) & inst->_dirMask) inst->_count++;
+    else inst->_count--;
 }
 
 long EncoderDriver::getCount() {
-    // ATmega328P reads 32-bit longs in four 8-bit chunks. 
-    // We must briefly pause interrupts to prevent data corruption.
+    // 32-bit read is 4 bytes on AVR - pause interrupts so it can't tear.
     uint8_t oldSREG = SREG;
     noInterrupts();
     long value = _count;
-    SREG = oldSREG; // Restores interrupt state slightly cleaner than interrupts()
+    SREG = oldSREG;
     return value;
 }
 
