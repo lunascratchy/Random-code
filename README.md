@@ -1,10 +1,3 @@
-#  Intro
-There are four stages:
-1. SLAM (online_async_launch.py, via slam_toolbox) — you have no map yet. The robot builds one from laser scans + odometry while also tracking itself within the map-in-progress. Run this once (or whenever you need to re-map / extend the map).
-2. Save the map — once SLAM has built a good map, you save it to disk as a .yaml + .pgm pair. This is a one-off step, not something that runs continuously.
-3. Localization (localization_neo_launch.py, via neo_localization2) — you already have a saved map. This node's only job is figuring out where the robot currently is inside that fixed map, using the laser scan. Nothing is being built or changed.
-4. Navigation (navigation_launch.py, via Nav2) — path planning and execution (controller_server, planner_server, bt_navigator, etc). It doesn't care whether the pose it's given came from SLAM or from localization — it just needs some accurate map → odom tf and consumes that the same way either time. This is also the layer autonomy (waypoint following, exploration, task queues, etc.) gets built on top of.
-
 # Building - either
 ```
 cd ~/Documents/auracle_ws
