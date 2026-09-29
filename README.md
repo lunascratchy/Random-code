@@ -1,8 +1,7 @@
 # Building - either
 ```
 cd ~/Documents/auracle_ws
-rm -rf build install log
-colcon build --symlink-install && source install/setup.bash
+rm -rf build install log && colcon build --symlink-install && source install/setup.bash
 ```
 
 # Virtual Teleop
@@ -89,12 +88,29 @@ MAKEFLAGS=-j2 colcon build --symlink-install --parallel-workers 2   --cmake-args
 ```
 Run RViz on your laptop (same `ROS_DOMAIN_ID`, same network) rather than on the Pi.
 
+## Adding udev rules
+```
+#check if rules file exists
+ls /etc/udev/rules.d/99-auracle.rules
+#if missing, copy from workspace
+sudo cp src/auracle_bringup/config/99-auracle.rules /etc/udev/rules.d/
+#Reload and trigger the udev rules to generate the symlinks
+sudo udevadm control --reload-rules
+sudo udevadm trigger
+#Verify the symlinks now exist and point to the correct ttyUSB ports
+ls -l /dev/arduino /dev/rplidar
+#ensure your user account is in the dialout group to allow serial access:
+sudo usermod -aG dialout $USER
+#log out and log back into your Ubuntu session for the group changes to take effect.
+sudo reboot
+```
+
 ## Teleop on the real robot (copy-paste)
 Every terminal below is on the Pi. Keep the robot still while Terminal 1 starts: opening the port resets the Nano, and it spends about 0.5 s calibrating the gyro.
 
 **Terminal 1: robot (hardware interface, controllers, lidar, EKF)**
 ```bash
-source install/setup.bash && ros2 launch auracle_bringup launch_robot.launch.py
+"source install/setup.bash && ros2 launch auracle_bringup launch_robot.launch.py"
 ```
 If there are no udev rules, add `arduino_port:=/dev/ttyUSB0 lidar_port:=/dev/ttyUSB1`.
 

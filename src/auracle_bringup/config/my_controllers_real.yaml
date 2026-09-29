@@ -9,6 +9,7 @@
     # Skid-steer turns scrub, so the *effective* separation is usually
     # bigger than the tape-measured one. drive_test --angle 360 prints it.
     wheel_separation: 0.2755
+    cmd_vel_timeout: 0.5
 
     # --- Limits: the Nano clamps each rear wheel to 1400 ticks/s ---
     # 1400 / 730 ticks/rev * 2*pi * 0.0239 m = ~0.29 m/s top speed per wheel.
