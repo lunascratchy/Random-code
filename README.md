@@ -39,14 +39,6 @@ map_server:
     yaml_filename: ""
 ```
 
-# Localization + navigation
-localization_neo_launch.py expects a neo_localization_node: block in its params_file (default config/nav2_params.yaml)
-Include neobotix package
-```
-cd ~/Documents/auracle_ws/src
-git clone https://github.com/neobotix/neo_localization2.git   
-```
-
 ## Terminal 1 (simulation)
 ```
 source install/setup.bash && ros2 launch auracle_bringup launch_sim.launch.py
@@ -64,39 +56,6 @@ ight over cmd_vel).
 
 
 # Real robot (Pi 5 + Arduino Nano)
-
-## Hardware
-Front and rear motors on each side share their direction pins (bridged), but each wheel has its own PWM. Only the rear motors have encoders, so the Nano runs one PID loop per side on the rear wheel. The front wheel follows it open-loop at `rear PWM * offset`.
-
-| Signal | Nano pin | Notes |
-|---|---|---|
-| RF speed (R-ENA) | D5 | PWM |
-| RB speed (R-ENB) | D6 | PWM |
-| Right fwd (IN1+IN3) | D7 | |
-| Right rev (IN2+IN4) | D8 | |
-| LB speed (L-ENA) | D9 | PWM (don't use the Servo library, it disables PWM here) |
-| LF speed (L-ENB) | D10 | PWM |
-| Left fwd (IN1+IN3) | A0 | |
-| Left rev (IN2+IN4) | A1 | |
-| LB encoder A / B | D2 (INT0) / D4 | |
-| RB encoder A / B | D12 / D3 (INT1) | |
-| MPU6050 SDA / SCL | A4 / A5 | optional, see `use_imu` |
-
-Bench-test numbers baked into `firmware/.../config.h`:
-- Min PWM: LB 45, RB 60, LF 90, RF 90
-- PID: Kp 0.08, Ki 0, Kd 0, 50 ms loop, incremental form
-- At PWM 150, LB runs about 30% faster than RB (about 1553 vs 1190 ticks/s). The PID corrects for this.
-- Front offsets: `LF_OFFSET` / `RF_OFFSET` = 1.0 until you run the front-offset test
-
-The encoders use 1x decoding (RISING edge on one channel, like the bench sketches), so ticks/s and Kp mean the same thing as in your tests.
-
-## Data flow
-```
-teleop -> cmd_vel_joy -> twist_mux -> twist_stamper -> diff_cont
-diff_cont -> auracle_hardware (Pi) --"v <L ticks/s> <R ticks/s>"--> Nano (PID -> 4x PWM)
-Nano --"e <ms> <L ticks> <R ticks> i <ax ay az gx gy gz>" @20 Hz--> joint_states + IMU -> EKF -> odom
-```
-If the Pi goes quiet for 500 ms, the Nano stops the motors. If loop() hangs for 2 s, the hardware watchdog resets the Nano.
 
 ## Flashing the Nano from WSL
 PowerShell as admin, once per device:
@@ -116,7 +75,7 @@ pio run -t upload --upload-port /dev/ttyUSB0
 ```
 To flash from the Pi instead, use the same command with `--upload-port /dev/arduino`. Close ROS first, because only one program can hold the port.
 
-## One-time Pi setup
+## Installations
 ```
 sudo apt install ros-jazzy-ros2-control ros-jazzy-ros2-controllers ros-jazzy-robot-localization   ros-jazzy-twist-mux ros-jazzy-twist-stamper ros-jazzy-rplidar-ros ros-jazzy-slam-toolbox   ros-jazzy-teleop-twist-keyboard ros-jazzy-joint-state-publisher libserial-dev
 sudo usermod -aG dialout $USER             # then log out/in
@@ -130,25 +89,44 @@ MAKEFLAGS=-j2 colcon build --symlink-install --parallel-workers 2   --cmake-args
 ```
 Run RViz on your laptop (same `ROS_DOMAIN_ID`, same network) rather than on the Pi.
 
-## Terminal 1 (hardware interface + lidar), on the Pi
-Keep the robot still while this starts. Opening the port resets the Nano, and it calibrates the gyro for about 0.5 s.
-```
+## Teleop on the real robot (copy-paste)
+Every terminal below is on the Pi. Keep the robot still while Terminal 1 starts: opening the port resets the Nano, and it spends about 0.5 s calibrating the gyro.
+
+**Terminal 1: robot (hardware interface, controllers, lidar, EKF)**
+```bash
 source install/setup.bash && ros2 launch auracle_bringup launch_robot.launch.py
-# overrides:  arduino_port:=/dev/ttyUSB0  lidar_port:=/dev/ttyUSB1  use_imu:=false
 ```
-`use_imu:=false` (no MPU6050 fitted) removes the IMU interfaces and broadcaster, and the EKF takes yaw rate from wheel odometry instead.
+If there are no udev rules, add `arduino_port:=/dev/ttyUSB0 lidar_port:=/dev/ttyUSB1`.
 
-## Terminal 2 (SLAM + Nav2 + RViz)
+No lidar plugged in yet? Teleop still works; just skip it:
+```bash
+source install/setup.bash && ros2 launch auracle_bringup launch_robot.launch.py use_lidar:=false
 ```
-source install/setup.bash && ros2 launch auracle_bringup slam_nav_rviz.launch.py use_sim_time:=false
-```
-Nav2's `vx_max: 0.5` in `nav2_params.yaml` is higher than the real robot's limit of about 0.25 m/s. Lower it before navigating on hardware.
 
-## Terminal 3 (teleop)
+**Terminal 2: check that the controllers are up** (`diff_cont`, `joint_broad`, `imu_broadcaster` should all be `active`)
+```bash
+source install/setup.bash && ros2 control list_controllers
 ```
+
+**Terminal 3: keyboard teleop**
+```bash
 source install/setup.bash && ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r cmd_vel:=cmd_vel_joy
 ```
 The real robot is limited to 0.25 m/s and 1.5 rad/s (`config/my_controllers_real.yaml`). Teleop starts at 0.5 m/s, and the controller clamps it.
+
+**With a namespace** (for example `robot1`), pass the same name to both commands:
+```bash
+source install/setup.bash && ros2 launch auracle_bringup launch_robot.launch.py namespace:=robot1
+```
+```bash
+source install/setup.bash && ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r cmd_vel:=cmd_vel_joy -r __ns:=/robot1
+```
+
+**Optional: SLAM + Nav2 + RViz** (better run on the laptop, same `ROS_DOMAIN_ID`)
+```bash
+source install/setup.bash && ros2 launch auracle_bringup slam_nav_rviz.launch.py use_sim_time:=false
+```
+Nav2's `vx_max: 0.5` in `nav2_params.yaml` is higher than the real robot's limit of about 0.25 m/s. Lower it before navigating on hardware.
 
 ## Calibration (in this order)
 1. **Wheel direction.** Prop the robot up and teleop forward. `ros2 topic echo /joint_states_hw` should show both rear wheel positions increasing. If one side decreases, set that side's `*_direction_sign` to `-1.0` in `ros2_control.xacro`.
