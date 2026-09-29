@@ -12,8 +12,6 @@
                 <param name="rear_left_wheel_name">left_wheel_three_joint</param>
                 <param name="rear_right_wheel_name">right_wheel_three_joint</param>
                 <param name="device">$(arg arduino_port)</param>
-                <param name="baud_rate">115200</param>
-                <param name="handshake_timeout_ms">5000</param>
                 <!-- 1x decoding (RISING on one channel). Measure by hand: see README
                      "Calibrate ticks per rev". -->
                 <param name="left_enc_counts_per_rev">730.0</param>
@@ -21,7 +19,6 @@
                 <!-- Flip to -1.0 if a side's odom runs backwards when driving forward. -->
                 <param name="left_direction_sign">1.0</param>
                 <param name="right_direction_sign">1.0</param>
-                <param name="imu_enabled">$(arg use_imu)</param>
                 <param name="imu_sensor_name">imu_sensor</param>
             </hardware>
             <joint name="left_wheel_one_joint">
@@ -40,15 +37,13 @@
                 <command_interface name="velocity"/>
                 <state_interface name="velocity"/><state_interface name="position"/>
             </joint>
-            <xacro:if value="$(arg use_imu)">
-                <sensor name="imu_sensor">
-                    <state_interface name="orientation.x"/><state_interface name="orientation.y"/>
-                    <state_interface name="orientation.z"/><state_interface name="orientation.w"/>
-                    <state_interface name="angular_velocity.x"/><state_interface name="angular_velocity.y"/>
-                    <state_interface name="angular_velocity.z"/><state_interface name="linear_acceleration.x"/>
-                    <state_interface name="linear_acceleration.y"/><state_interface name="linear_acceleration.z"/>
-                </sensor>
-            </xacro:if>
+            <sensor name="imu_sensor">
+                <state_interface name="orientation.x"/><state_interface name="orientation.y"/>
+                <state_interface name="orientation.z"/><state_interface name="orientation.w"/>
+                <state_interface name="angular_velocity.x"/><state_interface name="angular_velocity.y"/>
+                <state_interface name="angular_velocity.z"/><state_interface name="linear_acceleration.x"/>
+                <state_interface name="linear_acceleration.y"/><state_interface name="linear_acceleration.z"/>
+            </sensor>
         </ros2_control>
     </xacro:unless>
 

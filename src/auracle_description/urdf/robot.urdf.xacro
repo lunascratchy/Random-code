@@ -3,7 +3,6 @@
     <xacro:arg name="sim_mode" default="true"/>
     <!-- Real robot only (ignored in sim) -->
     <xacro:arg name="arduino_port" default="/dev/arduino"/>
-    <xacro:arg name="use_imu" default="true"/>
 
     <xacro:include filename="robot_core.xacro" />
     <xacro:include filename="ros2_control.xacro" />

@@ -8,7 +8,7 @@ from launch.actions import (
     GroupAction, RegisterEventHandler,
 )
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import Command, LaunchConfiguration, PythonExpression
+from launch.substitutions import Command, LaunchConfiguration
 from launch.conditions import IfCondition
 from launch.event_handlers import OnProcessStart, OnProcessExit
 
@@ -46,20 +46,12 @@ def generate_launch_description():
                      "comes from config/99-auracle.rules; otherwise use /dev/ttyUSB0.")
     )
 
-    use_imu = LaunchConfiguration('use_imu')
-    declare_use_imu = DeclareLaunchArgument(
-        'use_imu',
-        default_value='true',
-        description=("Set false if no MPU6050 is fitted: drops the IMU interfaces and "
-                     "broadcaster, and the EKF takes yaw rate from wheel odometry instead.")
-    )
-
     rsp = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([os.path.join(
             bringup_pkg, 'launch', 'rsp.launch.py'
         )]),
         launch_arguments={'use_sim_time': use_sim_time, 'namespace': namespace,
-                          'arduino_port': arduino_port, 'use_imu': use_imu}.items()
+                          'arduino_port': arduino_port}.items()
     )
 
     joystick = IncludeLaunchDescription(
@@ -81,11 +73,16 @@ def generate_launch_description():
                      "(e.g. create /dev/rplidar via udev rule) over /dev/ttyUSBx, "
                      "which can renumber across reboots/replugs.")
     )
+    use_lidar = LaunchConfiguration('use_lidar')
+    declare_use_lidar = DeclareLaunchArgument(
+        'use_lidar', default_value='true',
+        description='false = skip the RPLidar (teleop only, no SLAM/Nav2)')
     rplidar = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([os.path.join(
             bringup_pkg, 'launch', 'rplidar.launch.py'
         )]),
-        launch_arguments={'namespace': namespace, 'serial_port': lidar_port}.items()
+        launch_arguments={'namespace': namespace, 'serial_port': lidar_port}.items(),
+        condition=IfCondition(use_lidar),
     )
 
     twist_mux_params = os.path.join(bringup_pkg, 'config', 'twist_mux.yaml')
@@ -116,7 +113,7 @@ def generate_launch_description():
     xacro_file = os.path.join(description_pkg, 'urdf', 'robot.urdf.xacro')
     robot_description = ParameterValue(
         Command(['xacro ', xacro_file, ' sim_mode:=', use_sim_time,
-                 ' arduino_port:=', arduino_port, ' use_imu:=', use_imu]),
+                 ' arduino_port:=', arduino_port]),
         value_type=str
     )
 
@@ -206,7 +203,6 @@ def generate_launch_description():
         namespace=namespace,
         arguments=["imu_broadcaster", "--controller-manager-timeout", SPAWNER_TIMEOUT,
          "--switch-timeout", SPAWNER_TIMEOUT],
-        condition=IfCondition(use_imu),
     )
 
     delayed_imu_broadcaster_spawner = RegisterEventHandler(
@@ -247,21 +243,16 @@ def generate_launch_description():
     # actually uses. diff_cont.enable_odom_tf is false in my_controllers.yaml
     # so this is the ONLY thing publishing that transform now.
     ekf_params_file = os.path.join(bringup_pkg, 'config', 'ekf.yaml')
-    # With use_imu:=false, layer ekf_no_imu.yaml on top: it disables imu0
-    # and fuses yaw rate from wheel odom instead.
-    ekf_no_imu_file = os.path.join(bringup_pkg, 'config', 'ekf_no_imu.yaml')
-    ekf_extra_params = PythonExpression(
-        ["'", ekf_params_file, "' if '", use_imu, "'.lower() == 'true' else '", ekf_no_imu_file, "'"])
     ekf_localization = Node(
         package="robot_localization",
         executable="ekf_node",
         name="ekf_filter_node",
         output="screen",
-        parameters=[ekf_params_file, ekf_extra_params, {'use_sim_time': use_sim_time}],
+        parameters=[ekf_params_file, {'use_sim_time': use_sim_time}],
+        remappings=[('/tf', 'tf'), ('/tf_static', 'tf_static')],
     )
 
-    # Everything except rsp (which handles its own namespacing/frame_prefix
-    # internally) is namespaced here so relative topic names above resolve
+    # Everything except rsp (which handles its own namespacing) is namespaced here so relative topic names above resolve
     # under <namespace>/... . With namespace:='' (default) this is a no-op
     # and every topic name is identical to before.
     namespaced_nodes = GroupAction([
@@ -280,8 +271,8 @@ def generate_launch_description():
         declare_use_sim_time,
         declare_namespace,
         declare_lidar_port,
+        declare_use_lidar,
         declare_arduino_port,
-        declare_use_imu,
         rsp,
         joystick,
         rplidar,

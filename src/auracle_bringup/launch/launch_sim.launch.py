@@ -77,7 +77,8 @@ def generate_launch_description():
         executable='ekf_node',
         name='ekf_filter_node',
         output='screen',
-        parameters=[ekf_params, {'use_sim_time': True}]
+        parameters=[ekf_params, {'use_sim_time': True}],
+        remappings=[('/tf', 'tf'), ('/tf_static', 'tf_static')],
     )
 
     gz_args = PythonExpression([

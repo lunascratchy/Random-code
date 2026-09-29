@@ -1,4 +1,4 @@
-controller_manager:
+/**/controller_manager:
   ros__parameters:
     update_rate: 30 
 
@@ -9,7 +9,7 @@ controller_manager:
     imu_broadcaster:
       type: imu_sensor_broadcaster/IMUSensorBroadcaster
 
-diff_cont:
+/**/diff_cont:
   ros__parameters:
     publish_rate: 30.0
     base_frame_id: base_footprint
@@ -22,7 +22,7 @@ diff_cont:
     wheel_radius: 0.0239
     enable_odom_tf: false
 
-imu_broadcaster:
+/**/imu_broadcaster:
   ros__parameters:
     sensor_name: imu_sensor
     frame_id: imu_link

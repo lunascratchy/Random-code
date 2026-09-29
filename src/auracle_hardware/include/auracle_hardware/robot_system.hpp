@@ -2,8 +2,6 @@
 #define AURACLE_HARDWARE_ROBOT_SYSTEM_HPP
 
 #include <array>
-#include <chrono>
-#include <memory>
 #include <string>
 #include <vector>
 
@@ -19,6 +17,7 @@
 
 namespace auracle_hardware
 {
+
 class AuracleHardwareInterface : public hardware_interface::SystemInterface
 {
 public:
@@ -38,25 +37,15 @@ public:
 
 private:
   ArduinoComms comms_;
-  std::array<Wheel, 4> wheels_;
-  std::array<double, 10> imu_states_{};
-  std::string imu_sensor_name_ = "imu_sensor";
-  bool imu_enabled_ = true;
-
   std::string device_ = "/dev/arduino";
-  int32_t baud_rate_ = 115200;
-  int handshake_timeout_ms_ = 5000;
-  double left_enc_counts_per_rev_ = 730.0;
-  double right_enc_counts_per_rev_ = 655.0;
+  std::array<Wheel, 4> wheels_;           // FL, FR, RL, RR
+  std::array<double, 10> imu_states_{};   // orientation xyzw, gyro xyz, accel xyz
+  std::string imu_name_ = "imu_sensor";
 
-  // Previous telemetry sample, for velocity from the Nano's own timestamps
-  // (immune to ros2_control loop jitter and to dropped lines).
   bool have_prev_ = false;
   Telemetry prev_;
-  std::chrono::steady_clock::time_point last_rx_;
-  bool stale_warned_ = false;
 };
 
-}
+}  // namespace auracle_hardware
 
-#endif
+#endif  // AURACLE_HARDWARE_ROBOT_SYSTEM_HPP

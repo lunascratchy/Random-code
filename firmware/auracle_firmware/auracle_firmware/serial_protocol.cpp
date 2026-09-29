@@ -1,63 +1,46 @@
 #include "serial_protocol.h"
 #include <stdlib.h>
+#include "config.h"
 
-void SerialProtocol::begin(long baud) {
-    Serial.begin(baud);
+void SerialProtocol::begin() {
+    Serial.begin(BAUDRATE);
 }
 
-void SerialProtocol::sendReady(bool imu_ok) {
-    Serial.print(F("READY imu="));
-    Serial.println(imu_ok ? 1 : 0);
+void SerialProtocol::sendReady() {
+    Serial.println(F("READY"));
 }
 
-bool SerialProtocol::update(ParsedCommand &cmd) {
+bool SerialProtocol::poll(Command& cmd) {
     while (Serial.available() > 0) {
         char c = (char)Serial.read();
-
-        if (c == '\r') {
+        if (c == '\r') continue;
+        if (c != '\n') {
+            if (len_ < BUF_SIZE - 1) buf_[len_++] = c;
+            else len_ = 0;  // overlong garbage - drop it
             continue;
         }
+        if (len_ == 0) continue;
+        buf_[len_] = '\0';
+        len_ = 0;
 
-        if (c == '\n') {
-            if (buf_len_ == 0) {
-                continue;
-            }
-            buf_[buf_len_] = '\0';
-            buf_len_ = 0;
-
-            char *p = buf_;
-            cmd.type = *p++;
-            char *end;
-            cmd.a1 = strtod(p, &end); p = end;
-            cmd.a2 = strtod(p, &end); p = end;
-            cmd.a3 = strtod(p, &end);
-            return true;
-        }
-
-        if (buf_len_ < BUF_SIZE - 1) {
-            buf_[buf_len_++] = c;
-        } else {
-            buf_len_ = 0;  // overlong garbage - drop it
-        }
+        char* end;
+        cmd.type = buf_[0];
+        cmd.a = strtod(buf_ + 1, &end);
+        cmd.b = strtod(end, &end);
+        return true;
     }
     return false;
 }
 
-void SerialProtocol::sendTelemetry(unsigned long t_ms, long l_enc, long r_enc, const int16_t* imu) {
-    // Integers only - AVR float printing is slow.
+void SerialProtocol::sendTelemetry(unsigned long ms, long l, long r, const int16_t* imu) {
+    // Integers only - float printing is slow on AVR.
     Serial.print('e');
-    Serial.print(' ');
-    Serial.print(t_ms);
-    Serial.print(' ');
-    Serial.print(l_enc);
-    Serial.print(' ');
-    Serial.print(r_enc);
-    if (imu) {
-        Serial.print(F(" i"));
-        for (uint8_t i = 0; i < 6; i++) {
-            Serial.print(' ');
-            Serial.print(imu[i]);
-        }
+    Serial.print(' '); Serial.print(ms);
+    Serial.print(' '); Serial.print(l);
+    Serial.print(' '); Serial.print(r);
+    for (uint8_t i = 0; i < 6; i++) {
+        Serial.print(' ');
+        Serial.print(imu[i]);
     }
     Serial.print('\n');
 }

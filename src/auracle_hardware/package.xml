@@ -19,8 +19,8 @@
   <depend>rclcpp_lifecycle</depend>
   <depend>hardware_interface</depend>
   <depend>pluginlib</depend>
-  <!-- apt package: libserial-dev -->
-  <depend>libserial</depend>
+  <!-- rosdep key is libserial-dev (there is no "libserial" key) -->
+  <depend>libserial-dev</depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>

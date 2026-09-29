@@ -39,6 +39,6 @@ public:
   }
 };
 
-}
+}  // namespace auracle_hardware
 
-#endif
+#endif  // AURACLE_HARDWARE_WHEEL_HPP

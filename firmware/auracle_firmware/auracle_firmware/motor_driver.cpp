@@ -1,27 +1,24 @@
 #include "motor_driver.h"
+#include "config.h"
 
-MotorDriver::MotorDriver(uint8_t pinFwd, uint8_t pinRev,
-                         uint8_t pinRearEn, uint8_t pinFrontEn,
-                         uint8_t rearMinPwm, uint8_t frontMinPwm, float frontOffset)
-    : _pinFwd(pinFwd), _pinRev(pinRev),
-      _pinRearEn(pinRearEn), _pinFrontEn(pinFrontEn),
-      _rearMin(rearMinPwm), _frontMin(frontMinPwm), _frontOffset(frontOffset) {}
+MotorDriver::MotorDriver(uint8_t pinFwd, uint8_t pinRev, uint8_t pinRearEn, uint8_t pinFrontEn,
+                         uint8_t rearMin, uint8_t frontMin, float frontOffset)
+    : pinFwd_(pinFwd), pinRev_(pinRev), pinRearEn_(pinRearEn), pinFrontEn_(pinFrontEn),
+      rearMin_(rearMin), frontMin_(frontMin), frontOffset_(frontOffset) {}
 
 void MotorDriver::begin() {
-    pinMode(_pinFwd, OUTPUT);
-    pinMode(_pinRev, OUTPUT);
-    pinMode(_pinRearEn, OUTPUT);
-    pinMode(_pinFrontEn, OUTPUT);
+    pinMode(pinFwd_, OUTPUT);
+    pinMode(pinRev_, OUTPUT);
+    pinMode(pinRearEn_, OUTPUT);
+    pinMode(pinFrontEn_, OUTPUT);
     stop();
 }
 
 void MotorDriver::stop() {
-    analogWrite(_pinRearEn, 0);
-    analogWrite(_pinFrontEn, 0);
-    digitalWrite(_pinFwd, LOW);
-    digitalWrite(_pinRev, LOW);
-    _rearPwm = 0;
-    _frontPwm = 0;
+    analogWrite(pinRearEn_, 0);
+    analogWrite(pinFrontEn_, 0);
+    digitalWrite(pinFwd_, LOW);
+    digitalWrite(pinRev_, LOW);
 }
 
 void MotorDriver::setEffort(int effort) {
@@ -29,22 +26,13 @@ void MotorDriver::setEffort(int effort) {
         stop();
         return;
     }
-
     bool forward = effort > 0;
-    int mag = forward ? effort : -effort;
-    if (mag > MOTOR_MAX_PWM) mag = MOTOR_MAX_PWM;
     // Below the stall PWM the motor just hums - bump to the floor.
-    if (mag < _rearMin) mag = _rearMin;
+    int rear = constrain(abs(effort), rearMin_, MAX_PWM);
+    int front = constrain((int)(rear * frontOffset_), frontMin_, MAX_PWM);
 
-    int front = (int)(mag * _frontOffset);
-    if (front < _frontMin) front = _frontMin;
-    if (front > MOTOR_MAX_PWM) front = MOTOR_MAX_PWM;
-
-    digitalWrite(_pinFwd, forward ? HIGH : LOW);
-    digitalWrite(_pinRev, forward ? LOW : HIGH);
-    analogWrite(_pinRearEn, mag);
-    analogWrite(_pinFrontEn, front);
-
-    _rearPwm = (uint8_t)mag;
-    _frontPwm = (uint8_t)front;
+    digitalWrite(pinFwd_, forward ? HIGH : LOW);
+    digitalWrite(pinRev_, forward ? LOW : HIGH);
+    analogWrite(pinRearEn_, rear);
+    analogWrite(pinFrontEn_, front);
 }

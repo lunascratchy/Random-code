@@ -1,32 +1,36 @@
-#ifndef ENCODER_DRIVER_H
-#define ENCODER_DRIVER_H
-
+#pragma once
 #include <Arduino.h>
 
-// 1x quadrature decoding: RISING edge on the interrupt channel, the
-// other channel's level gives direction. Matches the bench tests, so
-// the tuned Kp and measured ticks/sec carry over unchanged.
+// 1x decoding: call tick() from a RISING interrupt on the other channel.
 class EncoderDriver {
 public:
-    EncoderDriver(uint8_t pinInt, uint8_t pinDir);
-    void begin();
-    long getCount();
-    void reset();
+    EncoderDriver(uint8_t pinInt, uint8_t pinDir) : pinInt_(pinInt), pinDir_(pinDir) {}
 
-    static EncoderDriver* instanceL;
-    static EncoderDriver* instanceR;
-    static void isrL();
-    static void isrR();
+    void begin() {
+        pinMode(pinInt_, INPUT_PULLUP);
+        pinMode(pinDir_, INPUT_PULLUP);
+        dirPort_ = portInputRegister(digitalPinToPort(pinDir_));
+        dirMask_ = digitalPinToBitMask(pinDir_);
+    }
+
+    // ISR: one port read instead of digitalRead().
+    void tick() {
+        if (*dirPort_ & dirMask_) count_++;
+        else count_--;
+    }
+
+    long count() {
+        noInterrupts();  // 32-bit read isn't atomic on AVR
+        long c = count_;
+        interrupts();
+        return c;
+    }
+
+    uint8_t interruptPin() const { return pinInt_; }
 
 private:
-    uint8_t _pinInt;
-    uint8_t _pinDir;
-    volatile long _count = 0;
-
-    // Cached AVR input register + mask for the direction pin, so the
-    // ISR is a single port read instead of digitalRead().
-    volatile uint8_t* _dirPort;
-    uint8_t _dirMask;
+    uint8_t pinInt_, pinDir_;
+    volatile uint8_t* dirPort_ = nullptr;
+    uint8_t dirMask_ = 0;
+    volatile long count_ = 0;
 };
-
-#endif

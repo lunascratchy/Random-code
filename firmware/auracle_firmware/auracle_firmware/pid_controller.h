@@ -1,29 +1,33 @@
-#ifndef PID_CONTROLLER_H
-#define PID_CONTROLLER_H
-
+#pragma once
+#include <Arduino.h>
 #include "config.h"
 
-// Incremental (velocity-form) PID, identical maths to the tuned teleop
-// sketch: the output effort is *accumulated* each period, so pure Kp
-// already drives steady-state error to zero. Effort is signed, which is
-// what lets a side reverse for in-place turns.
+// Incremental PID: effort accumulates each period, so pure Kp already
+// removes steady-state error. Signed output lets a side reverse.
 class PIDController {
 public:
-    PIDController(float kp, float ki, float kd, float deadzone);
+    // target/measured in ticks/s, dt in s. Returns effort -255..255.
+    int compute(float target, float measured, float dt) {
+        if (target == 0.0f) {
+            reset();
+            return 0;
+        }
+        float error = target - measured;
+        if (fabs(error) < DEADZONE_TICKS_S) error = 0.0f;
 
-    // target/measured in ticks/sec, dt in seconds. Returns signed effort
-    // (-255..255). A target of 0 resets state and returns 0.
-    int compute(float target, float measured, float dt);
+        integral_ += error * dt;
+        float derivative = (error - lastError_) / dt;
+        lastError_ = error;
 
-    void reset();
-    void setTunings(float kp, float ki, float kd);
+        effort_ += PID_KP * error + PID_KI * integral_ + PID_KD * derivative;
+        effort_ = constrain(effort_, -(float)MAX_PWM, (float)MAX_PWM);
+        return (int)lroundf(effort_);
+    }
+
+    void reset() { integral_ = lastError_ = effort_ = 0.0f; }
 
 private:
-    float _kp, _ki, _kd;
-    float _deadzone;
-    float _integral = 0.0f;
-    float _lastError = 0.0f;
-    float _effort = 0.0f;   // kept as float so sub-1 PWM increments aren't truncated away
+    float integral_ = 0.0f;
+    float lastError_ = 0.0f;
+    float effort_ = 0.0f;
 };
-
-#endif

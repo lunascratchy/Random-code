@@ -57,6 +57,7 @@ def generate_launch_description():
         executable='async_slam_toolbox_node',
         name='slam_toolbox',
         namespace=namespace,
+        remappings=[('/tf', 'tf'), ('/tf_static', 'tf_static')],
         output='screen')
 
     start_lifecycle_manager = Node(
