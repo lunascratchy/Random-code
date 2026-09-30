@@ -94,37 +94,37 @@ Run RViz on your laptop (same `ROS_DOMAIN_ID`, same network) rather than on the 
 ls /etc/udev/rules.d/99-auracle.rules
 #if missing, copy from workspace
 sudo cp src/auracle_bringup/config/99-auracle.rules /etc/udev/rules.d/
-#Reload and trigger the udev rules to generate the symlinks
+Reload and trigger the udev rules to generate the symlinks
 sudo udevadm control --reload-rules
 sudo udevadm trigger
 #Verify the symlinks now exist and point to the correct ttyUSB ports
 ls -l /dev/arduino /dev/rplidar
 #ensure your user account is in the dialout group to allow serial access:
-sudo usermod -aG dialout $USER
+udo usermod -aG dialout $USER
 #log out and log back into your Ubuntu session for the group changes to take effect.
 sudo reboot
 ```
 
-## Teleop on the real robot (copy-paste)
+# Teleop on the real robot (copy-paste)
 Every terminal below is on the Pi. Keep the robot still while Terminal 1 starts: opening the port resets the Nano, and it spends about 0.5 s calibrating the gyro.
 
 **Terminal 1: robot (hardware interface, controllers, lidar, EKF)**
 ```bash
-"source install/setup.bash && ros2 launch auracle_bringup launch_robot.launch.py"
+source install/setup.bash && ros2 launch auracle_bringup launch_robot.launch.py
 ```
 If there are no udev rules, add `arduino_port:=/dev/ttyUSB0 lidar_port:=/dev/ttyUSB1`.
 
 No lidar plugged in yet? Teleop still works; just skip it:
 ```bash
-source install/setup.bash && ros2 launch auracle_bringup launch_robot.launch.py use_lidar:=false
+ource install/setup.bash && ros2 launch auracle_bringup launch_robot.launch.py use_lidar:=false
 ```
 
-**Terminal 2: check that the controllers are up** (`diff_cont`, `joint_broad`, `imu_broadcaster` should all be `active`)
+*Terminal 2: check that the controllers are up** (`diff_cont`, `joint_broad`, `imu_broadcaster` should all be `active`)
 ```bash
 source install/setup.bash && ros2 control list_controllers
 ```
 
-**Terminal 3: keyboard teleop**
+*Terminal 3: keyboard teleop**
 ```bash
 source install/setup.bash && ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r cmd_vel:=cmd_vel_joy
 ```
