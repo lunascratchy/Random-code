@@ -259,10 +259,6 @@ def generate_launch_description():
         PushRosNamespace(namespace),
         twist_mux,
         twist_stamper,
-        delayed_controller_manager,
-        delayed_diff_drive_spawner,
-        delayed_joint_broad_spawner,
-        delayed_imu_broadcaster_spawner,
         joint_state_publisher,
         ekf_localization,
     ])
@@ -277,4 +273,8 @@ def generate_launch_description():
         joystick,
         rplidar,
         namespaced_nodes,
+        delayed_controller_manager,
+        delayed_diff_drive_spawner,
+        delayed_joint_broad_spawner,
+        delayed_imu_broadcaster_spawner,
     ])
