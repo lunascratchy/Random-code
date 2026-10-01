@@ -72,5 +72,5 @@ def generate_launch_description():
         declare_use_rviz,
         slam,
         navigation,
-        GroupAction([PushRosNamespace(namespace), rviz_node]),
+        rviz_node,
     ])

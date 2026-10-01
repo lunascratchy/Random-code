@@ -72,6 +72,7 @@ def generate_launch_description():
         namespace=namespace,
         arguments=['-d', rviz_config],
         parameters=[{'use_sim_time': use_sim_time}],
+        remappings=[('/tf', 'tf'), ('/tf_static', 'tf_static')],
         output='screen',
         condition=IfCondition(use_rviz),
     )
@@ -83,5 +84,5 @@ def generate_launch_description():
         declare_map,
         localization,
         navigation,
-        GroupAction([PushRosNamespace(namespace), rviz_node]),
+        rviz_node,
     ])
