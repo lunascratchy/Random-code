@@ -25,11 +25,11 @@ constexpr long BAUDRATE = 115200;  // must match ros2_control.xacro
 constexpr int MAX_PWM = 255;
 constexpr uint8_t LB_MIN_PWM = 45;
 constexpr uint8_t RB_MIN_PWM = 60;
-constexpr uint8_t LF_MIN_PWM = 90;
+constexpr uint8_t LF_MIN_PWM = 45;
 constexpr uint8_t RF_MIN_PWM = 90;
 // Front (no encoder) PWM = rear PWM * offset. See README front-offset test.
-constexpr float LF_OFFSET = 1.0f;
-constexpr float RF_OFFSET = 1.0f;
+constexpr float LF_OFFSET = 1.15f;
+constexpr float RF_OFFSET = 1.5f;
 
 // --- PID (incremental form, ticks/s). Kp was tuned at 50 ms. ---
 constexpr float PID_KP = 0.08f;
