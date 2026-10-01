@@ -15,8 +15,8 @@ public:
 
     // ISR: one port read instead of digitalRead().
     void tick() {
-        if (*dirPort_ & dirMask_) count_++;
-        else count_--;
+        if (*dirPort_ & dirMask_) count_--;
+        else count_++;
     }
 
     long count() {
