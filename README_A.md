@@ -501,7 +501,7 @@ Check ros2 run tf2_ros tf2_echo base_footprint imu_link works, and that turning 
 
 Try predict_to_current_time: true if your build supports it, to reduce transform lag.
 
-he A1 emits the same samples regardless of range, so a limit doesn’t reduce what the driver sends. Your consumers already crop it: slam_toolbox max_laser_range: 6.0, AMCL laser_max_range: 6.0, costmaps 2.5–3.0 m. A scan message is a small array, so the extra serialization is negligible. A laser-filter node would cost more than it saves. Some rplidar_ros builds expose a range parameter, so check ros2 param list on the node.
+**scan_filtered:** `launch_robot.launch.py` runs a `laser_filters` box filter (`config/scan_filter.yaml`) that publishes `scan_filtered` with everything inside the robot's outline (x ±0.22 m, y ±0.18 m around base_footprint) removed. slam_toolbox, AMCL and both Nav2 costmaps read `scan_filtered`; RViz can still show the raw `scan`. Needs `sudo apt install ros-jazzy-laser-filters` on the Pi. To check it: `ros2 topic hz /auracle/scan_filtered`.
 
 Wifi power save: The radio sleeps between access-point beacons (about 100 ms), and the AP holds your packets until it wakes. That saves a few hundred milliwatts and adds latency and jitter, which matches your measured 55 ms average with 380 ms spikes. It doesn’t reduce CPU or RAM, so it does nothing for a resource-constrained Pi. Turn it off: `sudo iw dev wlan0 set power_save off`
 
@@ -544,14 +544,14 @@ Keeping SLAM next to the sensors means only the finished map crosses Wi-Fi, a sm
 Install the core Nav2 packages and bringup utilities 
 ```
 sudo apt update
-sudo apt install -y ros-jazzy-navigation2 ros-jazzy-nav2-bringup
+sudo apt install -y ros-jazzy-navigation2 ros-jazzy-nav2-bringup ros-jazzy-laser-filters
 ```
 
 ## NAV2
-goal in RViz → bt_navigator → global path from planner_server → controller_server follows it using the local costmap from /scan → cmd_vel_nav → twist_mux → twist_stamper → diff_cont → hardware
+goal in RViz → bt_navigator → global path from planner_server → controller_server follows it using the local costmap from scan_filtered → cmd_vel_nav → twist_mux → twist_stamper → diff_cont → hardware. Recoveries (spin, back up) from behavior_server also go to cmd_vel_nav.
 
 1. localization_nav_rviz.launch.py: Entry point. Starts localization and Nav2, optional rviz use_nav:=false runs RViz only (for the laptop).
-2. navigation_launch.py: Starts Nav2’s planner_server, controller_server, behavior_server, bt_navigator and waypoint_follower. Remaps its output to cmd_vel_nav.
+2. navigation_launch.py: Starts Nav2’s planner_server, controller_server, behavior_server, bt_navigator and waypoint_follower. controller_server and behavior_server both publish to cmd_vel_nav (before 2026-10-26 behavior_server used cmd_vel, so recoveries never moved the robot).
 3. nav2_params.yaml: All Nav2 settings. Uses NavFn for global paths and Regulated Pure Pursuit for following them. Also has AMCL tuning and the local and global costmaps.
 4. auracle.rviz: RViz layout with the goal tool.
 
@@ -567,7 +567,11 @@ rm -rf build install log && colcon build --symlink-install
 ## Simulation
 
 ## Real robot
-Launch robot
+Sync time and network first, every session (PC, WSL). Sets the Zenoh/ROS variables, points the Pi's clock at this PC and turns off Pi Wi-Fi power save. Every other PC terminal needs the same two `source` lines.
+```PC terminal
+cd ~/auracle_ws/Random-code && source install/setup.bash && source pc/auracle_up.sh
+```
+Launch robot. `waitsync` holds the launch until the Pi's clock is synced (gives up after ~90 s, and then the launch doesn't start)
 ```Pi terminal
 chronyc waitsync 9 0.1 && source install/setup.bash && ros2 launch auracle_bringup launch_robot.launch.py namespace:=auracle use_joy_node:=false
 ```
@@ -612,8 +616,26 @@ source install/setup.bash && ros2 launch auracle_bringup localization_nav_rviz.l
 Click 2D Pose Estimate and set the robot’s real position and heading. Check the particle cloud tightens around the robot and there are no TF errors. Click 2D Goal Pose on a free spot and drag to set the heading.
 To confirm a goal went through, run source install/setup.bash && ros2 topic echo /auracle/cmd_vel_nav --once.
 
+Load a different map into a running Nav2 without restarting it
+```Pi
+source install/setup.bash && ros2 service call /auracle/map_server/load_map nav2_msgs/srv/LoadMap "{map_url: $HOME/maps/trial_2_clean.yaml}"
+```
+
+### Cleaning a map
+`trial_2_clean` is `trial_2` with two short inner walls erased: an L right in front of and beside the start point, inside the 1.2 x 0.7 m start chamber (map_1 has no walls there). With them, Nav2 saw the start pose inside a wall and every plan failed ("Failed to create plan with tolerance of: 0.5"). The chamber walls themselves were kept. Made with:
+```
+ros2 run auracle_bringup map_edit.py ~/maps/trial_2.yaml --out ~/maps/trial_2_clean --erase 0.14 0.22 -0.30 0.22 --erase -0.20 0.13 0.14 0.22
+```
+Workflow for any map (coordinates are metres in the map frame, as RViz and the planner log show them; the original map is never changed):
+1. Look: `ros2 run auracle_bringup map_edit.py ~/maps/<map>.yaml --show <x> <y> --radius 0.6` (`#` wall, `.` free, `+` the point).
+2. Erase each fake wall with `--erase XMIN XMAX YMIN YMAX --out ~/maps/<map>_clean`. Keep boxes tight so real walls survive.
+3. Check: `ros2 run auracle_bringup map_edit.py ~/maps/<map>_clean.yaml --path <start x> <start y> <goal x> <goal y>` must say "path exists".
+
+By hand also works: open the .pgm in GIMP, paint fake walls white (254), export as .pgm (raw). Black = wall, white = free, grey = unknown.
+Even if a real wall gets erased, Nav2 still sees it live through the lidar and won't drive into it, but it will plan through it.
+
 **Notes**
-Navigation didn't really turn my robot, and it id absolutely not accurate yet
+Trial 2 (2026-10-26) moved after the fixes above (recoveries to cmd_vel_nav, scan_filtered, trial_2_clean, relaxed params in nav2_params.yaml). Left front motor still weak, so left turns are the weak spot.
 
 =============================
 # To-do
