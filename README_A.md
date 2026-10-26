@@ -584,6 +584,7 @@ Teleop (modified keyboard)
 source install/setup.bash && ros2 run auracle_bringup key_drive.py --ros-args -r cmd_vel:=cmd_vel_joy -r __ns:=/auracle
 ```
 SLAM (live mapping)
+**PC**
 ```PC terminal
 #confirm live topics
 source install/setup.bash && ros2 topic list
@@ -595,13 +596,16 @@ SLAM (headless mapping)
 source install/setup.bash && ros2 launch auracle_bringup slam_mapping.launch.py namespace:=auracle use_rviz:=false
 ```
 Save map after completion
+**PI**
 ```Pi
 source install/setup.bash && ros2 run nav2_map_server map_saver_cli -f ~/maps/trial_1 --ros-args -r map:=/auracle/map
 ```
 Navigation - stop teleop and SLAM, and close rviz on the laptop. Teleop has priority 100 in twist_mux, so a running key_drive can override Nav2.
+**Pi**
 ```Pi
 source install/setup.bash && ros2 launch auracle_bringup localization_nav_rviz.launch.py namespace:=auracle use_rviz:=false map:=$HOME/maps/trial_1.yaml
 ```
+**PC**
 ```PC
 source install/setup.bash && ros2 launch auracle_bringup localization_nav_rviz.launch.py namespace:=auracle use_nav:=false
 ```
