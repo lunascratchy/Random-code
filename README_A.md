@@ -569,7 +569,7 @@ rm -rf build install log && colcon build --symlink-install
 ## Real robot
 Launch robot
 ```Pi terminal
-source install/setup.bash && ros2 launch auracle_bringup launch_robot.launch.py namespace:=auracle use_joy_node:=false
+chronyc waitsync 9 0.1 && source install/setup.bash && ros2 launch auracle_bringup launch_robot.launch.py namespace:=auracle use_joy_node:=false
 ```
 Check if controllers active
 ```Pi terminal
@@ -603,7 +603,7 @@ source install/setup.bash && ros2 run nav2_map_server map_saver_cli -f ~/maps/tr
 Navigation - stop teleop and SLAM, and close rviz on the laptop. Teleop has priority 100 in twist_mux, so a running key_drive can override Nav2.
 **Pi**
 ```Pi
-source install/setup.bash && ros2 launch auracle_bringup localization_nav_rviz.launch.py namespace:=auracle use_rviz:=false map:=$HOME/maps/trial_1.yaml
+source install/setup.bash && ros2 launch auracle_bringup localization_nav_rviz.launch.py namespace:=auracle use_rviz:=false map:=$HOME/maps/trial_2_clean.yaml
 ```
 **PC**
 ```PC
