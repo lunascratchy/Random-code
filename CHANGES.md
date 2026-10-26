@@ -268,6 +268,13 @@ Also: 75 mm spiked wheels: URDF `wheel_radius` 0.0375 (was 0.0239), base_footpri
 - Nav2: AMCL alpha1/2 0.25, goal xy 0.12, RPP 0.15 m/s, rotate 0.8 rad/s, velocity smoother 0.18 m/s, accel 0.5 / 1.5. slam_toolbox angle_variance_penalty 0.3.
 - Script bug fixed: drive_test/spin_test integrated gy (pitch) instead of gz; the first straight-run heading results were invalid.
 
+## 4.15 Nav2 trial 2 (hallway, 2026-10-26) and fixes
+- Recoveries never moved: `behavior_server` published `cmd_vel`, which nothing reads. Now remapped to `cmd_vel_nav` (`navigation_launch.py`).
+- No path ("tolerance 0.5"): in `~/maps/trial_2` the robot's start pose is inside a closed ~0.4 x 0.5 m box, most likely the lidar seeing the robot's own (new 75 mm) wheels/frame. Costmaps accepted returns from 0 m.
+- New `scan_filter.yaml` + `laser_filters` node in `launch_robot.launch.py`: `scan` -> `scan_filtered` with the robot box (x +-0.22, y +-0.18) removed. AMCL, both costmaps and slam_toolbox read `scan_filtered`. Needs `sudo apt install ros-jazzy-laser-filters`.
+- Relaxed for uneven ground: inflation 0.25 / scaling 8, goal xy 0.20, AMCL sigma_hit 0.15, z_hit 0.7, z_rand 0.3, alpha3 0.4; recovery spins 0.5-1.0 rad/s, transform_tolerance 0.3.
+- trial_2 must be remapped with the filter running.
+
 ## 5. Pending / open issues
 
 | Issue | Status / next step |

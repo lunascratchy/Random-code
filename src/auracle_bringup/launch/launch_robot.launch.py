@@ -95,6 +95,17 @@ def generate_launch_description():
         condition=IfCondition(use_lidar),
     )
 
+    # scan -> scan_filtered with the robot's own outline removed (config/scan_filter.yaml).
+    # SLAM, AMCL and the Nav2 costmaps all read scan_filtered.
+    scan_filter = Node(
+        package='laser_filters',
+        executable='scan_to_scan_filter_chain',
+        output='screen',
+        parameters=[os.path.join(bringup_pkg, 'config', 'scan_filter.yaml')],
+        remappings=[('/tf', 'tf'), ('/tf_static', 'tf_static')],
+        condition=IfCondition(use_lidar),
+    )
+
     twist_mux_params = os.path.join(bringup_pkg, 'config', 'twist_mux.yaml')
     twist_mux = Node(
         package="twist_mux",
@@ -271,6 +282,7 @@ def generate_launch_description():
         twist_stamper,
         joint_state_publisher,
         ekf_localization,
+        scan_filter,
     ])
 
     return LaunchDescription([

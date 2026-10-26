@@ -11,7 +11,7 @@ amcl:
       yaw: 0.0
     alpha1: 0.25  # rotation noise from rotation. Was 0.6 with no IMU; EKF yaw is gyro-based now
     alpha2: 0.25  # rotation noise from translation (LF drags/pushes going straight)
-    alpha3: 0.3   # translation noise from translation
+    alpha3: 0.4   # translation noise: wheels slip on uneven ground
     alpha4: 0.4   # translation noise from rotation
     alpha5: 0.2
     base_frame_id: "base_footprint"
@@ -36,16 +36,16 @@ amcl:
     resample_interval: 1
     robot_model_type: "nav2_amcl::DifferentialMotionModel"
     save_pose_rate: 0.5
-    sigma_hit: 0.1   # was 0.2: map is 3 cm, lidar noise ~1-2 cm
+    sigma_hit: 0.15   # uneven ground tilts the lidar; was 0.1
     tf_broadcast: true
     transform_tolerance: 1.0
     update_min_a: 0.05   # update every ~3 deg / 5 cm: laser corrects bad wheel odometry early
     update_min_d: 0.05
-    z_hit: 0.8   # was 0.5: trust returns that match the map
+    z_hit: 0.7
     z_max: 0.05
-    z_rand: 0.2   # was 0.5
+    z_rand: 0.3   # more tolerance for returns off ramps / the floor
     z_short: 0.05
-    scan_topic: scan
+    scan_topic: scan_filtered   # robot's own outline removed (scan_filter.yaml)
 
 
 bt_navigator:
@@ -88,7 +88,7 @@ controller_server:
     general_goal_checker:
       stateful: True
       plugin: "nav2_controller::SimpleGoalChecker"
-      xy_goal_tolerance: 0.12   # 6 x 3 m field: AMCL holds ~5 cm
+      xy_goal_tolerance: 0.20   # relaxed for uneven ground (was 0.12)
       yaw_goal_tolerance: 3.14   # ignore final heading: in 0.43 m corridors there is no room for a final spin
     FollowPath:
       # ---- Regulated Pure Pursuit: far cheaper than MPPI, and it can be given a MINIMUM speed.
@@ -145,14 +145,14 @@ local_costmap:
       plugins: ["obstacle_layer", "inflation_layer"]
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
-        cost_scaling_factor: 6.0
-        inflation_radius: 0.30   # corridors in the map are only ~0.43 m wide
+        cost_scaling_factor: 8.0     # steeper fall-off: more usable width in 0.43 m corridors
+        inflation_radius: 0.25   # was 0.30 (trial 2 found no path)
       obstacle_layer:
         plugin: "nav2_costmap_2d::ObstacleLayer"
         enabled: True
         observation_sources: scan
         scan:
-          topic: scan  
+          topic: scan_filtered
           max_obstacle_height: 2.0
           clearing: True
           marking: True
@@ -183,7 +183,7 @@ global_costmap:
         enabled: True
         observation_sources: scan
         scan:
-          topic: scan  # relative: must resolve under the costmap node's namespace
+          topic: scan_filtered  # relative: must resolve under the costmap node's namespace
           max_obstacle_height: 2.0
           clearing: True
           marking: True
@@ -197,8 +197,8 @@ global_costmap:
         map_subscribe_transient_local: True
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
-        cost_scaling_factor: 6.0
-        inflation_radius: 0.30   # corridors in the map are only ~0.43 m wide
+        cost_scaling_factor: 8.0     # steeper fall-off: more usable width in 0.43 m corridors
+        inflation_radius: 0.25   # was 0.30 (trial 2 found no path)
       always_send_full_costmap: True
 
 # The yaml_filename does not need to be specified since it going to be set by defaults in launch.
@@ -256,10 +256,10 @@ behavior_server:
     local_frame: odom
     global_frame: map
     robot_base_frame: base_footprint
-    transform_tolerance: 0.1
+    transform_tolerance: 0.3
     simulate_ahead_time: 2.0
-    max_rotational_vel: 1.5
-    min_rotational_vel: 1.0   # the Nano treats anything below ~1.0 rad/s in-place as a stop
+    max_rotational_vel: 1.0
+    min_rotational_vel: 0.5   # track 0.59 m: 0.5 rad/s = 0.15 m/s per wheel, above the Nano minimum
     rotational_acc_lim: 3.0
 
 waypoint_follower:
@@ -427,7 +427,7 @@ neo_localization_node:
     odom_frame: odom
     base_frame: base_link
     map_frame: map
-    scan_topic: scan
+    scan_topic: scan_filtered   # robot's own outline removed (scan_filter.yaml)
     map_topic: map
     broadcast_tf: true
 

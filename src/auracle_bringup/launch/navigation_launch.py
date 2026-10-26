@@ -118,7 +118,8 @@ def generate_launch_description():
             namespace=namespace,
             output='screen',
             parameters=[configured_params, {'use_sim_time': use_sim_time}],
-            remappings=remappings),
+            # Spin / BackUp / DriveOnHeading must reach twist_mux too, or recoveries never move the robot
+            remappings=remappings + [('cmd_vel', 'cmd_vel_nav')]),
 
         Node(
             package='nav2_bt_navigator',
