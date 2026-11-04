@@ -597,7 +597,10 @@ source install/setup.bash && chronyc waitsync 30 0.1 && ros2 launch auracle_brin
 ```
 SLAM (headless mapping)
 ```
+#pi
 source install/setup.bash && ros2 launch auracle_bringup slam_mapping.launch.py namespace:=auracle use_rviz:=false
+#pc
+source install/setup.bash && ros2 launch auracle_bringup slam_mapping.launch.py namespace:=auracle use_slam:=false
 ```
 Save map after completion
 **PI**
