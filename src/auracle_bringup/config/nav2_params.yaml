@@ -113,7 +113,7 @@ controller_server:
       use_collision_detection: true
       max_allowed_time_to_collision_up_to_carrot: 1.0
       use_rotate_to_heading: true    # turn on the spot ONCE when heading error > rotate_to_heading_min_angle, then drive. RPP needs allow_reversing false for this
-      rotate_to_heading_angular_vel: 0.8            # diff_cont track 0.59 -> ~0.24 m/s per wheel
+      rotate_to_heading_angular_vel: 0.8            # diff_cont track 0.47 -> ~0.19 m/s per wheel
       rotate_to_heading_min_angle: 0.5   # ~30 deg. Smaller errors are steered out with arcs (firmware arcs up to ~0.17 rad/s)
       max_angular_accel: 3.0                        # = diff_cont angular accel limit
       allow_reversing: false   # must be false with use_rotate_to_heading
@@ -259,7 +259,7 @@ behavior_server:
     transform_tolerance: 0.3
     simulate_ahead_time: 2.0
     max_rotational_vel: 1.0
-    min_rotational_vel: 0.5   # track 0.59 m: 0.5 rad/s = 0.15 m/s per wheel, above the Nano minimum
+    min_rotational_vel: 0.5   # track 0.47 m: ~0.12 m/s per wheel, above the Nano's 450 ticks/s minimum
     rotational_acc_lim: 3.0
 
 waypoint_follower:

@@ -98,15 +98,15 @@ constexpr float RB_FF_REV_BASE = 14.9f, RB_FF_REV_K = 0.1565f;
 // fixed extra PWM, not a percentage):  front = rear + OFFSET (+ turn boost), never below MIN while
 // driving, and at least KICK for FRONT_KICK_MS after starting from rest.
 // Measured 2026-10-25, wheels in the air, 976 Hz (front_offset_test.py), start / stop PWM:
-//   LF fwd 96/54  rev 214/132   (damaged: high internal friction, far worse in reverse)
+//   LF fwd 96/54  rev 214/132   (old damaged motor, replaced 2026-11-04)
 //   RF fwd 56/32  rev 58/28     LB fwd 56/30  rev 60/34     RB fwd 56/26  rev 48/30
 // OFFSET = front stop - rear stop. KICK = front start x ~1.1. MIN = front stop x ~1.1.
 // Straight-line test (floor): drifts toward the LEFT -> raise LF_OFFSET_FWD; toward the right -> lower it.
-constexpr int16_t LF_OFFSET_FWD = 24,  LF_OFFSET_REV = 98;
-constexpr int16_t RF_OFFSET_FWD = 6,   RF_OFFSET_REV = 0;
-constexpr uint8_t LF_KICK_FRONT_FWD = 255, LF_KICK_FRONT_REV = 255;   // LF damaged: floor needs ~230+ (2026-10-26)
+constexpr int16_t LF_OFFSET_FWD = 0,   LF_OFFSET_REV = 8;    // LF motor replaced 2026-11-04. Rev: struggled in left spins at 0, RF bursts at +15
+constexpr int16_t RF_OFFSET_FWD = 6,   RF_OFFSET_REV = 40;   // rev was 0, then 20: RF kept pausing in right spins (2026-11-04)
+constexpr uint8_t LF_KICK_FRONT_FWD = 80,  LF_KICK_FRONT_REV = 80;   // provisional, new LF. Was 255/255 for the damaged motor
 constexpr uint8_t RF_KICK_FRONT_FWD = 64,  RF_KICK_FRONT_REV = 67;
-constexpr uint8_t LF_MIN_FWD = 230, LF_MIN_REV = 255;   // floor sweep 2026-10-26: LF first turns at 230; reverse stalled even at 215-255 in spins
+constexpr uint8_t LF_MIN_FWD = 36, LF_MIN_REV = 32;   // provisional, new LF (RF's values). Was 230/255 for the damaged motor
 constexpr uint8_t RF_MIN_FWD = 36, RF_MIN_REV = 32;
 constexpr unsigned long FRONT_KICK_MS = 400;   // front kick from rest (not slowed by the soft start)
 
@@ -151,11 +151,11 @@ constexpr unsigned long REVERSE_WAIT_MS  = 500;   // max wait for standstill bef
 constexpr float         STILL_TICKS_S    = 30.0f;
 
 // Extra front-wheel PWM while turning (fronts have no encoder, so they can't sense the scrub load).
-constexpr uint8_t FRONT_TURN_BOOST_PWM      = 80;      // was 40; spins still stalled the right side
+constexpr uint8_t FRONT_TURN_BOOST_PWM      = 30;      // was 80 for the failed motors; with healthy ones, fronts ran ~3x target and bursted (2026-11-04)
 // Same idea for the closed-loop REAR wheels: extra feedforward PWM while turning. A skid-steer
 // spin on the floor needed more than the PI could add in its 1 s before NO_MOTION fired: all 54
 // faults in the first teleop run were the right side stalling (speed 0) during a spin.
-constexpr uint8_t REAR_TURN_BOOST_PWM       = 60;
+constexpr uint8_t REAR_TURN_BOOST_PWM       = 20;      // was 60
 constexpr float   BOOST_FULL_DIFF_TICKS_S   = 600.0f;  // |right - left| target where the full boost applies
 // --- Safety ---
 constexpr unsigned long COMMS_TIMEOUT_MS = 500;   // stop if the Pi goes quiet

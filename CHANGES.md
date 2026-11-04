@@ -275,6 +275,16 @@ Also: 75 mm spiked wheels: URDF `wheel_radius` 0.0375 (was 0.0239), base_footpri
 - Relaxed for uneven ground: inflation 0.25 / scaling 8, goal xy 0.20, AMCL sigma_hit 0.15, z_hit 0.7, z_rand 0.3, alpha3 0.4; recovery spins 0.5-1.0 rad/s, transform_tolerance 0.3.
 - trial_2 must be remapped with the filter running.
 
+## 4.16 Left front motor replaced (2026-11-04)
+- The old LF settings (min 230/255, kick 255) overpowered the new motor: 0.5 m forward veered -12 deg, 0.5 m back +47 deg (a run the robot was also moved during, by hand).
+- LF now offset 0/0, kick 80/80, min 36/32. Kick and min are provisional (no encoder on LF; not measured). RF unchanged.
+- Floor test `~/auracle_tools/lf_tune.py` (`runs/lf_tune_1104_*`), rears PWM 100: offset 0 gives yaw -0.5 fwd / +0.8 rev deg/s; +40 gives -1.5 / +1.5.
+- Firmware result: 0.5 m forward -1.5 deg, back +2.2 deg. Spins +363.0 / -361.1 deg for 360.
+- Spins were bursty, with the forward-going front too fast: fronts got ~224 PWM for a 418 ticks/s target (estimated), and the overspeed coast rule probably cut the whole side. `FRONT_TURN_BOOST_PWM` 80 -> 30, `REAR_TURN_BOOST_PWM` 60 -> 20.
+- Spins after that: +359.4 / -359.3 deg, but the right spin needed 28% more wheel travel and RF was seen stopping. `RF_OFFSET_REV` 0 -> 20.
+- With RF rev +20: RF still paused in right spins and LF struggled in left spins (effective track 0.558 / 0.569). RF rev +40 + LF rev +15: right spin perfect, RF bursts in left spins; 0.5 m forward -2.2 deg, back +1.5 deg.
+- Final: `RF_OFFSET_REV` +40, `LF_OFFSET_REV` +8. Spins +359.9 / -360.4 deg, effective track 0.500 left / 0.431 right. Right spin clean; left spin has a very slight RF burst, accepted. All wheels turning. Straight driving not re-measured at LF +8. `wheel_separation` 0.47, also in `joystick.yaml`.
+
 ## 5. Pending / open issues
 
 | Issue | Status / next step |
