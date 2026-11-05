@@ -285,6 +285,17 @@ Also: 75 mm spiked wheels: URDF `wheel_radius` 0.0375 (was 0.0239), base_footpri
 - With RF rev +20: RF still paused in right spins and LF struggled in left spins (effective track 0.558 / 0.569). RF rev +40 + LF rev +15: right spin perfect, RF bursts in left spins; 0.5 m forward -2.2 deg, back +1.5 deg.
 - Final: `RF_OFFSET_REV` +40, `LF_OFFSET_REV` +8. Spins +359.9 / -360.4 deg, effective track 0.500 left / 0.431 right. Right spin clean; left spin has a very slight RF burst, accepted. All wheels turning. Straight driving not re-measured at LF +8. `wheel_separation` 0.47, also in `joystick.yaml`.
 
+## 4.17 Trial 3 mapping failed: right encoder A wire (2026-11-04)
+- 22 NO_MOTION reports on the right wheel (speed ~0, target 450-1200 ticks/s), most lined up with SLAM jumps of 15-46 cm; the map has ghost walls. Robot drifted left and RF surged. Likely chain: A wire drops out while driving -> RB reads ~0 -> PI raises RB, and RF with it -> right side overspeeds; odometry is wrong -> SLAM jumps.
+- `RB_COUNT_ON_B` back to true (had been set false 2026-10-25 after a hand-turn test, which does not shake the wiring). The A wire itself is not fixed.
+- PC clock was also 263 ms off during the run. `trial_3` is not usable.
+
+## 4.18 Firmware and Nav2 after trial_3b (2026-11-05)
+- Firmware: `OVERSPEED_COAST_RATIO` 1.6, `RF_OFFSET_FWD/REV` -10/+40, `LF_OFFSET_REV` +15. Linear limit +-0.25 m/s.
+- Nav2 would not start turning: the first controller step (0.15 rad/s) was under the Nano's 150 ticks/s deadband. `max_angular_accel` 3.0 -> 8.0. First trial_3b run: 15 goals reported success over 17.7 m, 0 stalls, 2 wall hits.
+- After that run (not yet driven): footprint 34 x 31 cm (measured), inflation 0.40 / scaling 4, goal tolerance 0.12, rotate_to_heading_min_angle 0.3, cost-regulated speed on, desired_linear_vel 0.20.
+- The monitor's tilt is computed from single accelerometer samples and overstates: it read 116 deg on a robot that did not flip. Treat it as a jolt signal.
+
 ## 5. Pending / open issues
 
 | Issue | Status / next step |

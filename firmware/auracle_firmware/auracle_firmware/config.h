@@ -60,7 +60,7 @@ constexpr float OPEN_STOP_TICKS_S = 150.0f;   // ramped right target below this 
 // Right rear encoder: channel A (D2) drops pulses, channel B (D4) is clean (probe, 2026-10-23).
 // true = count the right wheel on B edges only (pin-change interrupt), direction from the drive
 // command. Set false once the A wire is fixed to go back to normal quadrature decoding.
-constexpr bool RB_COUNT_ON_B = false;   // back to A+B quadrature: B-only counted 992/rev by hand vs 942 (A+B), i.e. +5% from B edge chatter (2026-10-25)
+constexpr bool RB_COUNT_ON_B = true;   // A wire still drops out while driving: trial 3 had 22 NO_MOTION reports, RB ~0, lined up with SLAM jumps (2026-11-04). B-only 992/rev vs A+B 990
 // false: telemetry sends 1x-equivalent counts (nothing changes on the Pi).
 // true : telemetry sends raw 2x counts (then double the encoder counts-per-rev in ros2_control.xacro).
 constexpr bool TELEMETRY_RAW_2X = false;
@@ -102,8 +102,8 @@ constexpr float RB_FF_REV_BASE = 14.9f, RB_FF_REV_K = 0.1565f;
 //   RF fwd 56/32  rev 58/28     LB fwd 56/30  rev 60/34     RB fwd 56/26  rev 48/30
 // OFFSET = front stop - rear stop. KICK = front start x ~1.1. MIN = front stop x ~1.1.
 // Straight-line test (floor): drifts toward the LEFT -> raise LF_OFFSET_FWD; toward the right -> lower it.
-constexpr int16_t LF_OFFSET_FWD = 0,   LF_OFFSET_REV = 8;    // LF motor replaced 2026-11-04. Rev: struggled in left spins at 0, RF bursts at +15
-constexpr int16_t RF_OFFSET_FWD = 6,   RF_OFFSET_REV = 40;   // rev was 0, then 20: RF kept pausing in right spins (2026-11-04)
+constexpr int16_t LF_OFFSET_FWD = 0,   LF_OFFSET_REV = 15;   // LF motor replaced 2026-11-04. Rev: stalled in slow left spins at +8
+constexpr int16_t RF_OFFSET_FWD = -10, RF_OFFSET_REV = 40;   // rev: stalls in right spins below +40. fwd: too fast in left spins at +6 (2026-11-04)
 constexpr uint8_t LF_KICK_FRONT_FWD = 80,  LF_KICK_FRONT_REV = 80;   // provisional, new LF. Was 255/255 for the damaged motor
 constexpr uint8_t RF_KICK_FRONT_FWD = 64,  RF_KICK_FRONT_REV = 67;
 constexpr uint8_t LF_MIN_FWD = 36, LF_MIN_REV = 32;   // provisional, new LF (RF's values). Was 230/255 for the damaged motor
@@ -137,7 +137,7 @@ constexpr float MAX_PWM_STEP          = 12.0f;    // max PWM change per control 
 // spike that browns out the Pi when it runs off the same LiPo. Decreases are not limited.
 constexpr uint8_t PWM_RISE_PER_CALL   = 18;   // was 35 per 50 ms; same ~700 PWM/s at 25 ms
 constexpr float TARGET_RAMP_TICKS_S2  = 4000.0f;  // setpoint ramp (ticks/s per second). Was 2000 (~0.42 m/s^2), slower than diff_cont
-constexpr float OVERSPEED_COAST_RATIO = 1.25f;    // above this x target: cut PWM to 0
+constexpr float OVERSPEED_COAST_RATIO = 1.6f;    // above this x target: cut PWM to 0. Was 1.25: fronts and rough ground drag the rears past it, and the cut caused bursts (2026-11-04)
 constexpr unsigned long KICK_MS       = 350;    // was 450; the soft-start ramp is 2x faster at 25 ms
 constexpr float KICK_EXIT_TICKS_S     = 150.0f;   // kick ends early once the wheel is this fast
 

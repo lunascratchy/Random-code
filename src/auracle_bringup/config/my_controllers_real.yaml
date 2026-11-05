@@ -22,8 +22,8 @@
     # otherwise bend straight lines into arcs.
     linear.x.has_velocity_limits: true
     # Right rear is weak forward (firmware caps it at 650 ticks/s = 0.69 rev/s = ~0.14 m/s).
-    linear.x.max_velocity: 0.20   # right rear healthy again (2026-10-25); kept low for the 0.43 m maze corridors
-    linear.x.min_velocity: -0.20
+    linear.x.max_velocity: 0.25   # teleop; Nav2 asks for 0.15
+    linear.x.min_velocity: -0.25
     linear.x.has_acceleration_limits: true
     linear.x.max_acceleration: 0.5
     linear.x.min_acceleration: -0.5
