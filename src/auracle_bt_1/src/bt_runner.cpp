@@ -1,4 +1,4 @@
-// auracle_bt mission runner.
+// auracle_bt_1 mission runner.
 //
 // Sits above Nav2: it sends goals to the NavigateThroughPoses action, it does not drive.
 // Default tree (behavior_trees/goal_tree.xml): wait for Nav2 -> wait for the 2D Pose Estimate you
@@ -386,7 +386,7 @@ int main(int argc, char ** argv) {
 
   std::string tree_file = node->get_parameter("tree_file").as_string();
   std::string route_file = node->get_parameter("route_file").as_string();
-  const std::string share = share_dir("auracle_bt");
+  const std::string share = share_dir("auracle_bt_1");
   if (tree_file.empty()) tree_file = "goal_tree.xml";
   if (tree_file.find('/') == std::string::npos) tree_file = share + "/behavior_trees/" + tree_file;
   if (route_file.empty()) route_file = share + "/config/route.yaml";

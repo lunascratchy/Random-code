@@ -13,11 +13,11 @@ from launch_ros.parameter_descriptions import ParameterValue
 def generate_launch_description():
     """Mission on the Pi, AFTER launch_robot.launch.py:
 
-        ros2 launch auracle_bt mission.launch.py map:=<map.yaml>
+        ros2 launch auracle_bt_1 mission.launch.py map:=<map.yaml>
 
     Starts Nav2 + AMCL on the map (start_nav:=true) and the mission runner. The runner waits for
     Nav2, asks for a 2D Pose Estimate, then drives to every 2D Goal Pose you click. No RViz here:
-    on the laptop run  ros2 launch auracle_bt mission_rviz.launch.py
+    on the laptop run  ros2 launch auracle_bt_1 mission_rviz.launch.py
 
     Old route mode (coordinates in route.yaml): tree_file:=region_tree.xml route:=2"""
     bringup = get_package_share_directory('auracle_bringup')
@@ -36,7 +36,7 @@ def generate_launch_description():
     )
 
     runner = Node(
-        package='auracle_bt',
+        package='auracle_bt_1',
         executable='bt_runner',
         name='bt_runner',
         namespace=ns,
@@ -58,7 +58,7 @@ def generate_launch_description():
         DeclareLaunchArgument('namespace', default_value='auracle'),
         DeclareLaunchArgument('use_sim_time', default_value='false'),
         DeclareLaunchArgument('route_file', default_value='',
-                              description='region_tree.xml only. empty = share/auracle_bt/config/route.yaml'),
+                              description='region_tree.xml only. empty = share/auracle_bt_1/config/route.yaml'),
         DeclareLaunchArgument('tree_file', default_value='',
                               description='empty = goal_tree.xml (pose estimate + 2D Goal Pose). Name or full path'),
         nav,

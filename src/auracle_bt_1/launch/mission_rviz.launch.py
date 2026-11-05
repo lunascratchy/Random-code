@@ -11,7 +11,7 @@ from launch_ros.actions import Node
 def _rviz(context, *args, **kwargs):
     ns = context.perform_substitution(LaunchConfiguration('namespace')).strip('/')
     sim = context.perform_substitution(LaunchConfiguration('use_sim_time')).lower() == 'true'
-    pkg = get_package_share_directory('auracle_bt')
+    pkg = get_package_share_directory('auracle_bt_1')
     with open(os.path.join(pkg, 'rviz', 'mission.rviz')) as f:
         text = f.read().replace('__NS__', f'/{ns}' if ns else '')
     cfg = os.path.join(tempfile.gettempdir(), f'auracle_mission_{ns or "root"}.rviz')
@@ -28,7 +28,7 @@ def _rviz(context, *args, **kwargs):
 def generate_launch_description():
     """RViz only (laptop) for the behaviour-tree mission:
 
-        ros2 launch auracle_bt mission_rviz.launch.py
+        ros2 launch auracle_bt_1 mission_rviz.launch.py
 
     Same layout as auracle_bringup's auracle.rviz, but 2D Goal Pose publishes to
     /<namespace>/mission_goal, which bt_runner listens to. Use 2D Pose Estimate first, then 2D Goal Pose."""
