@@ -1,4 +1,4 @@
-// auracle_bt mission runner.
+// auracle_bt_1 mission runner.
 //
 // Sits above Nav2: it sends goals to the NavigateThroughPoses action, it does not drive.
 // Default tree (behavior_trees/region_tree.xml): wait for Nav2 + AMCL -> give AMCL the parked start
@@ -248,10 +248,11 @@ int main(int argc, char ** argv) {
   auto node = std::make_shared<rclcpp::Node>("bt_runner");   // use_sim_time comes from the launch file
   node->declare_parameter<std::string>("tree_file", "");
   node->declare_parameter<std::string>("route_file", "");
+  node->declare_parameter<int>("route", 1);   // 1, 2, 3: which route in route.yaml (route_1, ...)
 
   std::string tree_file = node->get_parameter("tree_file").as_string();
   std::string route_file = node->get_parameter("route_file").as_string();
-  const std::string share = share_dir("auracle_bt");
+  const std::string share = share_dir("auracle_bt_1");
   if (tree_file.empty()) tree_file = share + "/behavior_trees/region_tree.xml";
   if (route_file.empty()) route_file = share + "/config/route.yaml";
 
@@ -273,7 +274,9 @@ int main(int argc, char ** argv) {
 
   auto tree = factory.createTreeFromFile(tree_file);
   tree.rootBlackboard()->set("route_file", route_file);   // the trees read it as {route_file}
-  RCLCPP_INFO(node->get_logger(), "tree: %s | route: %s", tree_file.c_str(), route_file.c_str());
+  const std::string route_key = "route_" + std::to_string(node->get_parameter("route").as_int());
+  tree.rootBlackboard()->set("route_key", route_key);       // {route_key} in region_tree.xml
+  RCLCPP_INFO(node->get_logger(), "tree: %s | file: %s | %s", tree_file.c_str(), route_file.c_str(), route_key.c_str());
 
   rclcpp::Rate rate(10);
   BT::NodeStatus status = BT::NodeStatus::RUNNING;

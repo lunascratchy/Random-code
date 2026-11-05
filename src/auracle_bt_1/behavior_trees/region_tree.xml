@@ -6,7 +6,7 @@
     <Sequence name="Mission">
       <WaitForNav2/>
       <SetInitialPose file="{route_file}"/>
-      <LoadWaypoints file="{route_file}" path_name="route" goals="{goals}"/>
+      <LoadWaypoints file="{route_file}" path_name="{route_key}" goals="{goals}"/>
       <FollowWaypoints goals="{goals}"/>
     </Sequence>
   </BehaviorTree>
