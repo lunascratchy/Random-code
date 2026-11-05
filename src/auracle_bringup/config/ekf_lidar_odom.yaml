@@ -1,0 +1,27 @@
+# Overlay on ekf.yaml, loaded AFTER it when use_lidar_odom:=true (launch_robot.launch.py).
+# Later file wins, so only the differences are listed.
+#
+# Why: on the grass the wheels reported 0.90 m for ~0.45 m of real travel (50-85 % slip,
+# slip_grass_1105_1245.json). Wheel distance is the one input that is wrong, and it fed the EKF
+# (and so slam_toolbox) as vx. Here forward speed comes from the lidar scan matcher (rf2o)
+# instead, yaw rate stays on the IMU gyro, and the wheel odometry is not fused at all.
+/**/ekf_filter_node:
+    ros__parameters:
+        # wheels: not fused (they still publish diff_cont/odom, useful for RViz and debugging)
+        odom0_config: [false, false, false,
+                       false, false, false,
+                       false, false, false,
+                       false, false, false,
+                       false, false, false]
+
+        # lidar odometry (rf2o via odom_cov_relay.py): forward speed only.
+        # Yaw rate is left to the gyro, which does not slip.
+        odom1: odom_rf2o
+        odom1_config: [false, false, false,
+                       false, false, false,
+                       true,  false, false,
+                       false, false, false,
+                       false, false, false]
+        odom1_differential: false
+        odom1_relative: false
+        odom1_queue_size: 10

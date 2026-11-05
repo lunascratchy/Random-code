@@ -34,7 +34,7 @@ slam_toolbox:
     restamp_tf: false
     min_laser_range: 0.2   # was 0.4, which dropped 6.7% of returns (the nearest walls). No self-hits seen
     max_laser_range: 6.0   # arena returns are all < 3.4 m; far points are the noisiest
-    minimum_time_interval: 0.13   # was 0.2: use every scan (7.5 Hz), so wheel slip builds up less between matches
+    minimum_time_interval: 0.2   # back to the trial_3b value (2026-11-05): 0.13 did not help, see CHANGES 4.20
     transform_timeout: 0.5   # TF crosses Pi -> laptop over Zenoh
     tf_buffer_duration: 30.0
     stack_size_to_use: 40000000 #// program needs a larger stack size to serialize large maps
@@ -43,7 +43,7 @@ slam_toolbox:
     # General Parameters
     use_scan_matching: true
     use_scan_barycenter: true
-    minimum_travel_distance: 0.05   # was 0.10: match twice as often where wheels skid (grass, 2026-11-05)
+    minimum_travel_distance: 0.1   # back to the trial_3b value (0.05 tried 2026-11-05, trial_5b map was worse)
     minimum_travel_heading: 0.10    # ~6 deg: small rotation steps, because wheel yaw is the weak link (no IMU)
     check_min_dist_and_heading_precisely: false
     scan_buffer_size: 20
@@ -70,14 +70,14 @@ slam_toolbox:
     loop_search_space_smear_deviation: 0.03
 
     # Scan Matcher Parameters
-    distance_variance_penalty: 0.05   # was 0.15: wheels report distance they didn't travel on grass, so trust scans
+    distance_variance_penalty: 0.15   # back to the trial_3b value. 0.05 let the matcher slide along plain walls (bowed wall, doubled walls in trial_5b). The slip itself is now removed upstream by lidar odometry
     angle_variance_penalty: 0.3       # back to default: odom yaw is gyro-based now (EKF + IMU)
 
     fine_search_angle_offset: 0.00349     
     coarse_search_angle_offset: 0.349   
     coarse_angle_resolution: 0.0175  # 1 deg, was 2
     minimum_angle_penalty: 0.9
-    minimum_distance_penalty: 0.2   # was 0.5, same reason
+    minimum_distance_penalty: 0.5   # back to the trial_3b value, same reason
     use_response_expansion: true
     min_pass_through: 2
     occupancy_threshold: 0.1

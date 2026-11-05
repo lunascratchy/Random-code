@@ -8,8 +8,8 @@ from launch.actions import (
     GroupAction, RegisterEventHandler,
 )
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import Command, LaunchConfiguration
-from launch.conditions import IfCondition
+from launch.substitutions import Command, LaunchConfiguration, PythonExpression
+from launch.conditions import IfCondition, UnlessCondition
 from launch.event_handlers import OnProcessStart, OnProcessExit
 
 from launch_ros.actions import Node, PushRosNamespace
@@ -259,6 +259,50 @@ def generate_launch_description():
         }],
     )
 
+    # Lidar odometry (rf2o) instead of wheel distance. On grass the wheels over-report travel by
+    # 50-85 % (slip), which smears the SLAM map. With this on, forward speed in the EKF comes from
+    # the scan matcher, yaw rate from the IMU gyro, and wheel odometry is not fused
+    # (config/ekf_lidar_odom.yaml). Defaults to on when rf2o_laser_odometry is installed.
+    try:
+        get_package_share_directory('rf2o_laser_odometry')
+        rf2o_installed = True
+    except Exception:
+        rf2o_installed = False
+    use_lidar_odom = LaunchConfiguration('use_lidar_odom')
+    declare_use_lidar_odom = DeclareLaunchArgument(
+        'use_lidar_odom', default_value='true' if rf2o_installed else 'false',
+        description=('true = fuse rf2o lidar odometry instead of wheel distance (needs '
+                     'rf2o_laser_odometry built in the workspace). false = old wheel-vx EKF.'))
+    lidar_odom_on = IfCondition(use_lidar_odom)
+
+    rf2o = Node(
+        package='rf2o_laser_odometry',
+        executable='rf2o_laser_odometry_node',
+        name='rf2o_laser_odometry',
+        output='screen',
+        parameters=[{
+            'laser_scan_topic': 'scan_filtered',   # robot's own outline already removed
+            'odom_topic': 'odom_rf2o_raw',
+            'publish_tf': False,                   # the EKF owns odom -> base_footprint
+            'base_frame_id': 'base_footprint',
+            'odom_frame_id': 'odom',
+            'init_pose_from_topic': '',
+            'freq': 20.0,
+            'use_sim_time': use_sim_time,
+        }],
+        remappings=[('/tf', 'tf'), ('/tf_static', 'tf_static')],
+        condition=IfCondition(PythonExpression(
+            ["'", use_lidar_odom, "' == 'true' and '", LaunchConfiguration('use_lidar'), "' == 'true'"])),
+    )
+    odom_cov_relay = Node(
+        package='auracle_bringup',
+        executable='odom_cov_relay.py',
+        name='odom_cov_relay',
+        output='screen',
+        parameters=[{'use_sim_time': use_sim_time}],
+        condition=lidar_odom_on,
+    )
+
     # Fuses /diff_cont/odom (wheel encoders) with /imu_broadcaster/imu (MPU6050
     # gyro) and publishes the odom->base_link transform that slam_toolbox
     # actually uses. diff_cont.enable_odom_tf is false in my_controllers.yaml
@@ -271,6 +315,19 @@ def generate_launch_description():
         output="screen",
         parameters=[ekf_params_file, {'use_sim_time': use_sim_time}],
         remappings=[('/tf', 'tf'), ('/tf_static', 'tf_static')],
+        condition=UnlessCondition(use_lidar_odom),
+    )
+    # Same node, with the lidar-odometry overlay loaded after ekf.yaml (later file wins).
+    ekf_localization_lidar = Node(
+        package="robot_localization",
+        executable="ekf_node",
+        name="ekf_filter_node",
+        output="screen",
+        parameters=[ekf_params_file,
+                    os.path.join(bringup_pkg, 'config', 'ekf_lidar_odom.yaml'),
+                    {'use_sim_time': use_sim_time}],
+        remappings=[('/tf', 'tf'), ('/tf_static', 'tf_static')],
+        condition=lidar_odom_on,
     )
 
     # Everything except rsp (which handles its own namespacing) is namespaced here so relative topic names above resolve
@@ -282,6 +339,9 @@ def generate_launch_description():
         twist_stamper,
         joint_state_publisher,
         ekf_localization,
+        ekf_localization_lidar,
+        rf2o,
+        odom_cov_relay,
         scan_filter,
     ])
 
@@ -292,6 +352,7 @@ def generate_launch_description():
         declare_use_lidar,
         declare_arduino_port,
         declare_use_joy_node,
+        declare_use_lidar_odom,
         rsp,
         joystick,
         rplidar,
