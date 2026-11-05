@@ -322,6 +322,15 @@ Also: 75 mm spiked wheels: URDF `wheel_radius` 0.0375 (was 0.0239), base_footpri
 - Run on the Pi: `ros2 launch auracle_bt mission.launch.py` (namespace auracle). Stop it with Ctrl+C (cancels the Nav2 goal). Teleop still wins in twist_mux; the robot only stops for `key_drive` while it is running.
 - Not built or run yet: first build on the Pi: `colcon build --symlink-install --packages-select auracle_bt`.
 
+## 4.22 Behaviour tree: asks for the pose estimate, then drives the route by itself (2026-11-05)
+- Package is `auracle_bt_1` (the folder name), everywhere. `package.xml` and `CMakeLists.txt` said `auracle_bt`, while `mission.launch.py` and `bt_runner.cpp` looked for `auracle_bt_1`, so launch could not find the package. `src/auracle_bt` is a different package, not built or touched. Section 4.21 says `auracle_bt`: read it as `auracle_bt_1`.
+- Default tree `behavior_trees/region_tree.xml`: WaitForNav2 (action server only, `need_amcl="false"` because AMCL may have nothing to publish before the pose estimate) -> WaitForInitialPose (asks for the RViz **2D Pose Estimate**, the only click; holds 2.5 s for AMCL) -> LoadWaypoints (`route_<route>` in `config/route.yaml`) -> FollowWaypoints (Nav2 NavigateThroughPoses). Replaces the fixed `start` pose of 4.21.
+- The tree does not take goals from RViz. 2D Goal Pose is plain Nav2 and is not used. A tried version with `goal_tree.xml`, `WaitForGoal`/`NavigateToGoal`, `mission_rviz.launch.py` and `rviz/mission.rviz` was removed again; `auracle_bringup` was never changed.
+- `bt_runner.cpp`: new `WaitForInitialPose` node and a `need_amcl` port on `WaitForNav2`; `tree_file` accepts a bare name (looked up in `behavior_trees/`) or a full path.
+- Build fix: first build failed with `Target "bt_runner" links to: BT::behaviortree_cpp but the target was not found`. `CMakeLists.txt` now links BehaviorTree.CPP through `ament_target_dependencies(... behaviortree_cpp)` (what Nav2 does).
+- Open: `route_1`..`route_3` in `config/route.yaml` are still empty and an empty route refuses to run. The repo has no region coordinates (map_1 has no labelled regions), so they have to come from somewhere before the robot can move.
+- Run (Pi, after `launch_robot.launch.py`): `ros2 launch auracle_bt_1 mission.launch.py namespace:=auracle route:=2 map:=<map.yaml>`. Laptop (RViz only, normal launch, click only 2D Pose Estimate): `ros2 launch auracle_bringup localization_nav_rviz.launch.py namespace:=auracle use_nav:=false`. Build: `colcon build --symlink-install --packages-select auracle_bt_1`. Not run on the robot yet.
+
 ## 5. Pending / open issues
 
 | Issue | Status / next step |
