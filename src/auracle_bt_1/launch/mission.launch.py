@@ -13,10 +13,13 @@ from launch_ros.parameter_descriptions import ParameterValue
 def generate_launch_description():
     """Mission on the Pi, AFTER launch_robot.launch.py:
 
-        ros2 launch auracle_bt_1 mission.launch.py route:=2
+        ros2 launch auracle_bt mission.launch.py map:=<map.yaml>
 
-    Starts Nav2 + AMCL on the map (start_nav:=true) and the mission runner, which waits for them,
-    sets the start pose, then drives route_<route> from config/route.yaml. No RViz here (laptop)."""
+    Starts Nav2 + AMCL on the map (start_nav:=true) and the mission runner. The runner waits for
+    Nav2, asks for a 2D Pose Estimate, then drives to every 2D Goal Pose you click. No RViz here:
+    on the laptop run  ros2 launch auracle_bt mission_rviz.launch.py
+
+    Old route mode (coordinates in route.yaml): tree_file:=region_tree.xml route:=2"""
     bringup = get_package_share_directory('auracle_bringup')
     ns = LaunchConfiguration('namespace')
 
@@ -33,7 +36,7 @@ def generate_launch_description():
     )
 
     runner = Node(
-        package='auracle_bt_1',
+        package='auracle_bt',
         executable='bt_runner',
         name='bt_runner',
         namespace=ns,
@@ -48,16 +51,16 @@ def generate_launch_description():
 
     return LaunchDescription([
         DeclareLaunchArgument('route', default_value='1',
-                              description='1, 2 or 3: which route_N in route.yaml to drive'),
+                              description='region_tree.xml only: 1, 2 or 3, which route_N in route.yaml to drive'),
         DeclareLaunchArgument('map', default_value=os.path.expanduser('~/maps/trial_6a.yaml')),
         DeclareLaunchArgument('start_nav', default_value='true',
                               description='false if Nav2 is already running'),
         DeclareLaunchArgument('namespace', default_value='auracle'),
         DeclareLaunchArgument('use_sim_time', default_value='false'),
         DeclareLaunchArgument('route_file', default_value='',
-                              description='empty = share/auracle_bt_1/config/route.yaml'),
+                              description='region_tree.xml only. empty = share/auracle_bt/config/route.yaml'),
         DeclareLaunchArgument('tree_file', default_value='',
-                              description='empty = share/auracle_bt_1/behavior_trees/region_tree.xml'),
+                              description='empty = goal_tree.xml (pose estimate + 2D Goal Pose). Name or full path'),
         nav,
         runner,
     ])

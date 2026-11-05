@@ -18,6 +18,6 @@ ament_target_dependencies(bt_runner
 target_link_libraries(bt_runner BT::behaviortree_cpp yaml-cpp)
 
 install(TARGETS bt_runner DESTINATION lib/${PROJECT_NAME})
-install(DIRECTORY behavior_trees config launch DESTINATION share/${PROJECT_NAME})
+install(DIRECTORY behavior_trees config launch rviz DESTINATION share/${PROJECT_NAME})
 
 ament_package()

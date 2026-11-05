@@ -1,3 +1,6 @@
+# ONLY used by behavior_trees/region_tree.xml (launch with tree_file:=region_tree.xml).
+# The default goal_tree.xml needs none of this: you give a 2D Pose Estimate and 2D Goal Poses in RViz.
+#
 # Routes for the map you are navigating on (map frame, metres, same numbers RViz shows).
 # Launch with  route:=1 | 2 | 3  to pick one. The robot drives from `start` through every point of
 # that route in order, without stopping at the intermediate ones, and ends at the last point.
