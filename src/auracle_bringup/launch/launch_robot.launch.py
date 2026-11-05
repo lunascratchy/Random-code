@@ -279,7 +279,7 @@ def generate_launch_description():
         package='rf2o_laser_odometry',
         executable='rf2o_laser_odometry_node',
         name='rf2o_laser_odometry',
-        output='screen',
+        output='log',
         parameters=[{
             'laser_scan_topic': 'scan_filtered',   # robot's own outline already removed
             'odom_topic': 'odom_rf2o_raw',
@@ -287,7 +287,7 @@ def generate_launch_description():
             'base_frame_id': 'base_footprint',
             'odom_frame_id': 'odom',
             'init_pose_from_topic': '',
-            'freq': 20.0,
+            'freq': 8.0,   # lidar is ~7.5 Hz; 20 made it warn "Waiting for laser_scans" every tick
             'use_sim_time': use_sim_time,
         }],
         remappings=[('/tf', 'tf'), ('/tf_static', 'tf_static')],
