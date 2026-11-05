@@ -1,0 +1,14 @@
+gyro bias -0.028 deg/s, 40 lines/s
+1  fixed PWM 100 (LB ticks/s, RB ticks/s, RB/LB, yaw deg/s)
+    fwd: LB    570  RB    573  ratio 1.01  yaw  +0.3
+    rev: LB   -639  RB   -643  ratio 1.01  yaw  -0.6
+    fwd: LB    569  RB    571  ratio 1.00  yaw  +0.4
+    rev: LB   -650  RB   -645  ratio 0.99  yaw  -0.6
+    fwd: LB    561  RB    564  ratio 1.01  yaw  +0.6
+    rev: LB   -644  RB   -641  ratio 1.00  yaw  -0.8
+2  spins, 5 s each (mean/sd ticks/s, % of time below 25% and above 125% of target, yaw deg/s +- sd)
+    418 left : L  457/ 71 low  0% over 25% | R  462/ 49 low  0% over  8% | yaw  +18.7 +- 3.3
+    418 right: L  419/137 low  5% over 21% | R  479/ 71 low  0% over 30% | yaw  -12.4 +- 6.9
+    786 left : L  811/ 77 low  0% over  0% | R  787/ 73 low  0% over  0% | yaw  +43.4 +- 9.6
+    786 right: L  789/ 56 low  0% over  0% | R  812/111 low  0% over  8% | yaw  -32.2 +- 13.3
+saved /home/auracle/auracle_tools/runs/floor_check_1104_1513.json

@@ -1,0 +1,1 @@
+/home/auracle/auracle_tools/runs/slam_084635.log

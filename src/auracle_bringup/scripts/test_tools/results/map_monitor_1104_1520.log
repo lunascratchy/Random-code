@@ -1,0 +1,34 @@
+15:20:49 monitor started
+15:21:19 scan 7.5 Hz (215 pts, filter removed 0.5) | imu 40 | odom 20 | ekf 30 | slam tf 0 | map msgs 0 | teleop 0 Hz | stalls 0 (total 0) | cmd max 0.00 m/s, 0.00 rad/s, odom max 0.00 m/s | driven 0.0 m | no map yet | max tilt 7 deg, yaw 1 deg/s | SLAM jumps 0 | PC clock -282 ms | Pi 51C, throttled 0x0
+15:21:19 WARN PC clock is -282 ms off the Pi
+15:21:28 WARN yaw rate spike 126 deg/s: robot knocked or lifted?
+15:21:49 scan 7.5 Hz (192 pts, filter removed 2.4) | imu 40 | odom 20 | ekf 30 | slam tf 0 | map msgs 0 | teleop 0 Hz | stalls 0 (total 0) | cmd max 0.00 m/s, 0.00 rad/s, odom max 0.00 m/s | driven 0.0 m | no map yet | max tilt 21 deg, yaw 146 deg/s | SLAM jumps 0 | PC clock -283 ms | Pi 51C, throttled 0x0
+15:22:19 scan 7.5 Hz (241 pts, filter removed 0.0) | imu 40 | odom 20 | ekf 30 | slam tf 0 | map msgs 0 | teleop 0 Hz | stalls 0 (total 0) | cmd max 0.00 m/s, 0.00 rad/s, odom max 0.00 m/s | driven 0.0 m | no map yet | max tilt 5 deg, yaw 0 deg/s | SLAM jumps 0 | PC clock -283 ms | Pi 51C, throttled 0x0
+15:22:39 WARN imu: no data for 0.5 s
+15:22:39 WARN odom: no data for 0.5 s
+15:22:39 WARN ekf: no data for 0.5 s
+15:22:40 WARN scan: no data for 1.0 s
+15:22:40 WARN scan_filtered: no data for 1.0 s
+15:22:49 scan 4.9 Hz (241 pts, filter removed 0.0) | imu 26 | odom 13 | ekf 20 | slam tf 0 | map msgs 0 | teleop 0 Hz | stalls 0 (total 0) | cmd max 0.00 m/s, 0.00 rad/s, odom max 0.00 m/s | driven 0.0 m | no map yet | max tilt 5 deg, yaw 0 deg/s | SLAM jumps 0 | PC clock -281 ms | Pi 55C, throttled 0x0
+15:22:49 WARN imu: no data for 0.5 s
+15:22:49 WARN odom: no data for 0.5 s
+15:22:49 WARN ekf: no data for 0.5 s
+15:22:50 WARN scan: no data for 1.0 s
+15:22:50 WARN scan_filtered: no data for 1.0 s
+15:22:59 WARN imu: no data for 10.5 s
+15:22:59 WARN odom: no data for 10.5 s
+15:22:59 WARN ekf: no data for 10.5 s
+15:23:00 WARN scan: no data for 11.0 s
+15:23:00 WARN scan_filtered: no data for 11.0 s
+15:23:19 scan 4.4 Hz (243 pts, filter removed 0.0) | imu 14 | odom 9 | ekf 14 | slam tf 0 | map msgs 0 | teleop 0 Hz | stalls 0 (total 0) | cmd max 0.00 m/s, 0.00 rad/s, odom max 0.00 m/s | driven 0.0 m | no map yet | max tilt 5 deg, yaw 0 deg/s | SLAM jumps 0 | PC clock -283 ms | Pi 56C, throttled 0x0
+15:23:49 scan 7.5 Hz (241 pts, filter removed 0.0) | imu 40 | odom 20 | ekf 30 | slam tf 0 | map msgs 0 | teleop 0 Hz | stalls 0 (total 0) | cmd max 0.00 m/s, 0.00 rad/s, odom max 0.00 m/s | driven 0.0 m | no map yet | max tilt 5 deg, yaw 0 deg/s | SLAM jumps 0 | PC clock -283 ms | Pi 52C, throttled 0x0
+15:24:19 scan 7.5 Hz (241 pts, filter removed 0.0) | imu 40 | odom 20 | ekf 30 | slam tf 1 | map msgs 1 | teleop 0 Hz | stalls 0 (total 0) | cmd max 0.00 m/s, 0.00 rad/s, odom max 0.00 m/s | driven 0.0 m | map 11.0x7.0 m, free 21.0 m2, walls 2417 | max tilt 6 deg, yaw 0 deg/s | SLAM jumps 0 | PC clock -283 ms | Pi 55C, throttled 0x0
+15:24:49 scan 7.5 Hz (241 pts, filter removed 0.0) | imu 40 | odom 20 | ekf 30 | slam tf 7 | map msgs 0 | teleop 0 Hz | stalls 0 (total 0) | cmd max 0.00 m/s, 0.00 rad/s, odom max 0.00 m/s | driven 0.0 m | map 11.0x7.0 m, free 21.0 m2, walls 2417 | max tilt 6 deg, yaw 0 deg/s | SLAM jumps 0 | PC clock -284 ms | Pi 53C, throttled 0x0
+15:25:00 WARN SLAM correction 1.37 m / 169.8 deg (a loop closure, or scan matching slipped)
+15:25:19 scan 7.5 Hz (238 pts, filter removed 0.0) | imu 40 | odom 20 | ekf 30 | slam tf 7 | map msgs 0 | teleop 0 Hz | stalls 0 (total 0) | cmd max 0.00 m/s, 0.00 rad/s, odom max 0.16 m/s | driven 0.2 m | map 11.0x7.0 m, free 21.0 m2, walls 2417 | max tilt 10 deg, yaw 4 deg/s | SLAM jumps 1 | PC clock -280 ms | Pi 53C, throttled 0x0
+15:25:49 scan 7.4 Hz (231 pts, filter removed 0.0) | imu 40 | odom 20 | ekf 30 | slam tf 7 | map msgs 0 | teleop 0 Hz | stalls 0 (total 0) | cmd max 0.00 m/s, 0.00 rad/s, odom max 0.00 m/s | driven 0.2 m | map 11.0x7.0 m, free 21.0 m2, walls 2417 | max tilt 5 deg, yaw 0 deg/s | SLAM jumps 0 | PC clock -284 ms | Pi 54C, throttled 0x0
+15:26:19 scan 7.5 Hz (230 pts, filter removed 0.0) | imu 40 | odom 20 | ekf 30 | slam tf 7 | map msgs 0 | teleop 0 Hz | stalls 0 (total 0) | cmd max 0.00 m/s, 0.00 rad/s, odom max 0.00 m/s | driven 0.2 m | map 11.0x7.0 m, free 21.0 m2, walls 2417 | max tilt 5 deg, yaw 0 deg/s | SLAM jumps 0 | PC clock -290 ms | Pi 54C, throttled 0x0
+15:26:49 scan 7.5 Hz (230 pts, filter removed 0.0) | imu 40 | odom 20 | ekf 30 | slam tf 7 | map msgs 0 | teleop 0 Hz | stalls 0 (total 0) | cmd max 0.00 m/s, 0.00 rad/s, odom max 0.00 m/s | driven 0.2 m | map 11.0x7.0 m, free 21.0 m2, walls 2417 | max tilt 6 deg, yaw 0 deg/s | SLAM jumps 0 | PC clock -284 ms | Pi 57C, throttled 0x0
+15:27:19 scan 7.5 Hz (222 pts, filter removed 0.0) | imu 40 | odom 20 | ekf 30 | slam tf 7 | map msgs 0 | teleop 0 Hz | stalls 0 (total 0) | cmd max 0.00 m/s, 0.00 rad/s, odom max 0.04 m/s | driven 0.2 m | map 11.0x7.0 m, free 21.0 m2, walls 2417 | max tilt 12 deg, yaw 76 deg/s | SLAM jumps 0 | PC clock -285 ms | Pi 55C, throttled 0x0
+15:27:38 WARN yaw rate spike 122 deg/s: robot knocked or lifted?
+15:27:49 scan 7.5 Hz (202 pts, filter removed 1.3) | imu 40 | odom 20 | ekf 30 | slam tf 7 | map msgs 0 | teleop 0 Hz | stalls 0 (total 0) | cmd max 0.00 m/s, 0.00 rad/s, odom max 0.25 m/s | driven 0.7 m | map 11.0x7.0 m, free 21.0 m2, walls 2417 | max tilt 17 deg, yaw 223 deg/s | SLAM jumps 0 | PC clock -277 ms | Pi 55C, throttled 0x0

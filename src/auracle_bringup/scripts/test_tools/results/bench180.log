@@ -1,0 +1,20 @@
+Opened /dev/arduino. Waiting for the Nano to boot (keep the robot still)...
+Nano is READY.
+
+L       0 ticks/s  R       2 ticks/s   | total L       0  R       1
+L     120 ticks/s  R       0 ticks/s   | total L      66  R       1   <-- RIGHT reads ~0
+L     516 ticks/s  R      60 ticks/s   | total L     350  R      34
+L     949 ticks/s  R     335 ticks/s   | total L     872  R     218
+L    1171 ticks/s  R     465 ticks/s   | total L    1516  R     474
+L    1206 ticks/s  R     482 ticks/s   | total L    2119  R     715
+L    1215 ticks/s  R     498 ticks/s   | total L    2787  R     989
+L    1222 ticks/s  R     518 ticks/s   | total L    3459  R    1274
+L    1229 ticks/s  R     511 ticks/s   | total L    4135  R    1555
+L    1231 ticks/s  R     522 ticks/s   | total L    4812  R    1842
+L    1234 ticks/s  R     514 ticks/s   | total L    5429  R    2099
+L    1235 ticks/s  R     520 ticks/s   | total L    6108  R    2385
+L    1238 ticks/s  R     515 ticks/s   | total L    6789  R    2668
+L    1240 ticks/s  R     516 ticks/s   | total L    7471  R    2952
+
+Final counts since start: L 8031  R 3183
+Sent stop. Done.

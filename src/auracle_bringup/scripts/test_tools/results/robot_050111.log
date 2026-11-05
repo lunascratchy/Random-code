@@ -1,0 +1,439 @@
+[INFO] [launch]: All log files can be found below /home/auracle/.ros/log/2026-10-23-05-01-12-294265-auracle-23767
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [robot_state_publisher-1]: process started with pid [23786]
+[INFO] [joy_drive.py-2]: process started with pid [23787]
+[INFO] [rplidar_composition-3]: process started with pid [23788]
+[INFO] [twist_mux-4]: process started with pid [23789]
+[INFO] [twist_stamper-5]: process started with pid [23790]
+[INFO] [joint_state_publisher-6]: process started with pid [23791]
+[INFO] [ekf_node-7]: process started with pid [23792]
+[rplidar_composition-3] [INFO] [1792720872.723127579] [auracle.rplidar_node]: RPLIDAR running on ROS 2 package rplidar_ros. SDK Version: '1.12.0'
+[twist_mux-4] [INFO] [1792720872.799537521] [auracle.twist_mux]: Topic handler 'topics.joystick' subscribed to topic 'cmd_vel_joy': timeout = 0.500000s , priority = 100.
+[twist_mux-4] [INFO] [1792720872.807133981] [auracle.twist_mux]: Topic handler 'topics.navigation' subscribed to topic 'cmd_vel_nav': timeout = 0.500000s , priority = 40.
+[twist_mux-4] [INFO] [1792720872.807514140] [auracle.twist_mux]: Topic handler 'topics.tracker' subscribed to topic 'cmd_vel_tracker': timeout = 0.500000s , priority = 50.
+[robot_state_publisher-1] [INFO] [1792720872.840741627] [auracle.robot_state_publisher]: Robot initialized
+[joint_state_publisher-6] [INFO] [1792720873.635296478] [auracle.joint_state_publisher]: Waiting for robot_description to be published on the robot_description topic...
+[joint_state_publisher-6] [INFO] [1792720873.644632996] [auracle.joint_state_publisher]: Got description, configuring robot
+[joy_drive.py-2] [INFO] [1792720873.666360397] [auracle.joy_drive_node]: joy_drive ready: modes=['stick', 'triggers', 'buttons'], max 0.14 m/s / 1.3 rad/s, speed level 50%
+[joy_drive.py-2] [INFO] [1792720873.745648263] [auracle.joy_drive_node]: Controller input active (speed 50%)
+[joy_drive.py-2] [INFO] [1792720873.995585955] [auracle.joy_drive_node]: No /joy for 0.3s: stopping
+[joy_drive.py-2] [INFO] [1792720874.245521535] [auracle.joy_drive_node]: Controller input active (speed 50%)
+[rplidar_composition-3] [INFO] [1792720875.242364823] [auracle.rplidar_node]: RPLIDAR S/N: 965BED95C4E493CBA5E69EF0078B4B6F
+[rplidar_composition-3] [INFO] [1792720875.242435692] [auracle.rplidar_node]: Firmware Ver: 1.29
+[rplidar_composition-3] [INFO] [1792720875.242456840] [auracle.rplidar_node]: Hardware Rev: 7
+[rplidar_composition-3] [INFO] [1792720875.243841331] [auracle.rplidar_node]: RPLidar health status : '0'
+[rplidar_composition-3] [INFO] [1792720875.243910107] [auracle.rplidar_node]: Start
+[rplidar_composition-3] [INFO] [1792720875.879491419] [auracle.rplidar_node]: current scan mode: Standard, max_distance: 12.0 m, Point number: 2.0K , angle_compensate: 1, flip_x_axis 0
+[joy_drive.py-2] [INFO] [1792720876.395584388] [auracle.joy_drive_node]: No /joy for 0.3s: stopping
+[joy_drive.py-2] [INFO] [1792720877.195448115] [auracle.joy_drive_node]: Controller input active (speed 50%)
+[INFO] [ros2_control_node-8]: process started with pid [23931]
+[INFO] [spawner-9]: process started with pid [23932]
+[ros2_control_node-8] [INFO] [1792720877.997684498] [auracle.controller_manager]: Using Steady (Monotonic) clock for triggering controller manager cycles.
+[ros2_control_node-8] [INFO] [1792720878.007289733] [auracle.controller_manager]: Subscribing to '/auracle/robot_description' topic for robot description.
+[ros2_control_node-8] [INFO] [1792720878.007486063] [auracle.controller_manager]: update rate is 20 Hz
+[ros2_control_node-8] [INFO] [1792720878.007782594] [auracle.controller_manager]: Overruns handling is : enabled
+[ros2_control_node-8] [INFO] [1792720878.007815630] [auracle.controller_manager]: Spawning controller_manager RT thread with scheduler priority: 50
+[ros2_control_node-8] [WARN] [1792720878.009656871] [auracle.controller_manager]: Could not enable FIFO RT scheduling policy: with error number <1>(Operation not permitted). See [https://control.ros.org/master/doc/ros2_control/controller_manager/doc/userdoc.html] for details on how to enable realtime scheduling.
+[ros2_control_node-8] [INFO] [1792720878.013632644] [auracle.controller_manager]: Received robot description from topic.
+[ros2_control_node-8] [INFO] [1792720878.013774308] [auracle.controller_manager]: Enforcing command limits is disabled. Command limits from URDF will be ignored.
+[ros2_control_node-8] [INFO] [1792720878.020170606] [auracle.controller_manager]: Loading hardware 'RealRobot' 
+[ros2_control_node-8] [INFO] [1792720878.022005162] [auracle.controller_manager]: Loaded hardware 'RealRobot' from plugin 'auracle_hardware/AuracleHardwareInterface'
+[ros2_control_node-8] [INFO] [1792720878.022171289] [auracle.controller_manager]: Initialize hardware 'RealRobot' 
+[ros2_control_node-8] [INFO] [1792720878.030078983] [auracle.controller_manager]: Successful initialization of hardware 'RealRobot'
+[ros2_control_node-8] [INFO] [1792720878.031257367] [auracle.controller_manager]: Activating component 'RealRobot'.
+[ros2_control_node-8] [INFO] [1792720878.031326273] [resource_manager]: 'configure' hardware 'RealRobot' 
+[spawner-9] [INFO] [1792720878.607913871] [auracle.spawner_diff_cont]: waiting for service /auracle/controller_manager/list_controllers to become available...
+[joy_drive.py-2] [INFO] [1792720881.745596472] [auracle.joy_drive_node]: No /joy for 0.3s: stopping
+[joy_drive.py-2] [INFO] [1792720882.045549594] [auracle.joy_drive_node]: Controller input active (speed 50%)
+[ros2_control_node-8] [INFO] [1792720885.128716910] [resource_manager]: Successful 'configure' of hardware 'RealRobot'
+[ros2_control_node-8] [INFO] [1792720885.128771261] [resource_manager]: 'activate' hardware 'RealRobot' 
+[ros2_control_node-8] [INFO] [1792720885.128846907] [resource_manager]: Successful 'activate' of hardware 'RealRobot'
+[ros2_control_node-8] [INFO] [1792720885.129004108] [auracle.controller_manager]: Registering statistics for : RealRobot
+[ros2_control_node-8] [INFO] [1792720885.129195493] [auracle.controller_manager]: Resource Manager has been successfully initialized. Starting Controller Manager services...
+[ros2_control_node-8] [INFO] [1792720885.364583863] [auracle.controller_manager]: Loading controller : 'diff_cont' of type 'diff_drive_controller/DiffDriveController'
+[ros2_control_node-8] [INFO] [1792720885.364670047] [auracle.controller_manager]: Loading controller 'diff_cont'
+[ros2_control_node-8] [INFO] [1792720885.369772816] [auracle.controller_manager]: Controller 'diff_cont' node arguments: --ros-args --params-file /tmp/launch_params_b3gg6ali --params-file /home/auracle/auracle_ws/Random-code/install/auracle_bringup/share/auracle_bringup/config/my_controllers.yaml --params-file /home/auracle/auracle_ws/Random-code/install/auracle_bringup/share/auracle_bringup/config/my_controllers_real.yaml 
+[spawner-9] [INFO] [1792720885.414058304] [auracle.spawner_diff_cont]: Loaded diff_cont
+[ros2_control_node-8] [INFO] [1792720885.417049615] [auracle.controller_manager]: Configuring controller: 'diff_cont'
+[ros2_control_node-8] [INFO] [1792720885.463585319] [auracle.controller_manager]: Activating controllers: [ diff_cont ]
+[ros2_control_node-8] [INFO] [1792720885.510521218] [auracle.controller_manager]: Successfully switched controllers!
+[spawner-9] [INFO] [1792720885.563054394] [auracle.spawner_diff_cont]: Configured and activated diff_cont
+[INFO] [spawner-9]: process has finished cleanly [pid 23932]
+[INFO] [spawner-10]: process started with pid [24003]
+[ros2_control_node-8] [WARN] [1792720885.960250136] [auracle.diff_cont]: Velocity command timed out. Braking.
+[spawner-10] [INFO] [1792720886.363515943] [auracle.spawner_joint_broad]: Setting controller param "node_options_args" to "['--ros-args', '--remap', 'joint_states:=joint_states_hw']" for joint_broad
+[ros2_control_node-8] [INFO] [1792720886.365801897] [auracle.controller_manager]: Loading controller : 'joint_broad' of type 'joint_state_broadcaster/JointStateBroadcaster'
+[ros2_control_node-8] [INFO] [1792720886.365866192] [auracle.controller_manager]: Loading controller 'joint_broad'
+[ros2_control_node-8] [INFO] [1792720886.369290309] [auracle.controller_manager]: Controller 'joint_broad' node arguments: --ros-args --params-file /tmp/launch_params_b3gg6ali --params-file /home/auracle/auracle_ws/Random-code/install/auracle_bringup/share/auracle_bringup/config/my_controllers.yaml --params-file /home/auracle/auracle_ws/Random-code/install/auracle_bringup/share/auracle_bringup/config/my_controllers_real.yaml --ros-args --remap joint_states:=joint_states_hw 
+[spawner-10] [INFO] [1792720886.413382265] [auracle.spawner_joint_broad]: Loaded joint_broad
+[ros2_control_node-8] [INFO] [1792720886.416242967] [auracle.controller_manager]: Configuring controller: 'joint_broad'
+[ros2_control_node-8] [INFO] [1792720886.416406520] [auracle.joint_broad]: 'joints' or 'interfaces' parameter is empty. All available state interfaces will be published
+[ros2_control_node-8] [INFO] [1792720886.463479231] [auracle.controller_manager]: Activating controllers: [ joint_broad ]
+[ros2_control_node-8] [INFO] [1792720886.510295466] [auracle.controller_manager]: Requested controller switch from non-realtime loop
+[ros2_control_node-8] [INFO] [1792720886.510678273] [auracle.controller_manager]: Successfully switched controllers!
+[spawner-10] [INFO] [1792720886.563217598] [auracle.spawner_joint_broad]: Configured and activated joint_broad
+[INFO] [spawner-10]: process has finished cleanly [pid 24003]
+[INFO] [spawner-11]: process started with pid [24030]
+[ros2_control_node-8] [WARN] [1792720886.960323434] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [INFO] [1792720887.317766171] [auracle.controller_manager]: Loading controller : 'imu_broadcaster' of type 'imu_sensor_broadcaster/IMUSensorBroadcaster'
+[ros2_control_node-8] [INFO] [1792720887.317845133] [auracle.controller_manager]: Loading controller 'imu_broadcaster'
+[ros2_control_node-8] [INFO] [1792720887.319212346] [auracle.controller_manager]: Controller 'imu_broadcaster' node arguments: --ros-args --params-file /tmp/launch_params_b3gg6ali --params-file /home/auracle/auracle_ws/Random-code/install/auracle_bringup/share/auracle_bringup/config/my_controllers.yaml --params-file /home/auracle/auracle_ws/Random-code/install/auracle_bringup/share/auracle_bringup/config/my_controllers_real.yaml 
+[spawner-11] [INFO] [1792720887.386318696] [auracle.spawner_imu_broadcaster]: Loaded imu_broadcaster
+[ros2_control_node-8] [INFO] [1792720887.388426728] [auracle.controller_manager]: Configuring controller: 'imu_broadcaster'
+[ros2_control_node-8] [INFO] [1792720887.414182659] [auracle.controller_manager]: Activating controllers: [ imu_broadcaster ]
+[ros2_control_node-8] [INFO] [1792720887.460469405] [auracle.controller_manager]: Successfully switched controllers!
+[spawner-11] [INFO] [1792720887.513295316] [auracle.spawner_imu_broadcaster]: Configured and activated imu_broadcaster
+[INFO] [spawner-11]: process has finished cleanly [pid 24030]
+[ros2_control_node-8] [WARN] [1792720887.960323770] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720888.960335884] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792720889.095531600] [auracle.joy_drive_node]: No /joy for 0.3s: stopping
+[joy_drive.py-2] [INFO] [1792720889.645498820] [auracle.joy_drive_node]: Controller input active (speed 50%)
+[ros2_control_node-8] [WARN] [1792720890.010350780] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720891.060324492] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720892.110341333] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720893.110348428] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720894.160330417] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720895.160333661] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792720895.495629672] [auracle.joy_drive_node]: No /joy for 0.3s: stopping
+[joy_drive.py-2] [INFO] [1792720895.595385575] [auracle.joy_drive_node]: Controller input active (speed 50%)
+[ros2_control_node-8] [WARN] [1792720896.210692809] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720897.260332324] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720898.260356789] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720899.310359278] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720900.310469520] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720901.360340474] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792720901.845572649] [auracle.joy_drive_node]: No /joy for 0.3s: stopping
+[joy_drive.py-2] [INFO] [1792720902.295604247] [auracle.joy_drive_node]: Controller input active (speed 50%)
+[ros2_control_node-8] [WARN] [1792720902.360435605] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720903.410347096] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792720903.495537548] [auracle.joy_drive_node]: No /joy for 0.3s: stopping
+[joy_drive.py-2] [INFO] [1792720904.295404220] [auracle.joy_drive_node]: Controller input active (speed 50%)
+[ros2_control_node-8] [WARN] [1792720904.410360154] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792720905.295540312] [auracle.joy_drive_node]: No /joy for 0.3s: stopping
+[ros2_control_node-8] [WARN] [1792720905.460312940] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792720905.645514532] [auracle.joy_drive_node]: Controller input active (speed 50%)
+[ros2_control_node-8] [WARN] [1792720906.460322165] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720907.460330816] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792720907.495516467] [auracle.joy_drive_node]: No /joy for 0.3s: stopping
+[joy_drive.py-2] [INFO] [1792720908.295663374] [auracle.joy_drive_node]: Controller input active (speed 50%)
+[ros2_control_node-8] [WARN] [1792720908.510356490] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792720908.945658807] [auracle.joy_drive_node]: No /joy for 0.3s: stopping
+[joy_drive.py-2] [INFO] [1792720909.195402243] [auracle.joy_drive_node]: Controller input active (speed 50%)
+[ros2_control_node-8] [WARN] [1792720909.560330183] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720910.560333019] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792720910.745593017] [auracle.joy_drive_node]: No /joy for 0.3s: stopping
+[joy_drive.py-2] [INFO] [1792720911.145473816] [auracle.joy_drive_node]: Controller input active (speed 50%)
+[ros2_control_node-8] [WARN] [1792720911.560339522] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720912.610350029] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720913.660329593] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792720914.095592762] [auracle.joy_drive_node]: No /joy for 0.3s: stopping
+[joy_drive.py-2] [INFO] [1792720914.395596346] [auracle.joy_drive_node]: Controller input active (speed 50%)
+[ros2_control_node-8] [WARN] [1792720914.710359303] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720915.710372714] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720916.760328395] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792720917.445526957] [auracle.joy_drive_node]: No /joy for 0.3s: stopping
+[ros2_control_node-8] [WARN] [1792720917.760329379] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792720918.345732493] [auracle.joy_drive_node]: Controller input active (speed 50%)
+[ros2_control_node-8] [WARN] [1792720918.810347319] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792720919.445619073] [auracle.joy_drive_node]: No /joy for 0.3s: stopping
+[ros2_control_node-8] [WARN] [1792720919.860330536] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792720920.245618517] [auracle.joy_drive_node]: Controller input active (speed 50%)
+[joy_drive.py-2] [INFO] [1792720920.845580493] [auracle.joy_drive_node]: No /joy for 0.3s: stopping
+[ros2_control_node-8] [WARN] [1792720920.860347354] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792720921.295635660] [auracle.joy_drive_node]: Controller input active (speed 50%)
+[joy_drive.py-2] [INFO] [1792720921.845592589] [auracle.joy_drive_node]: No /joy for 0.3s: stopping
+[ros2_control_node-8] [WARN] [1792720921.910373163] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792720922.945460540] [auracle.joy_drive_node]: Controller input active (speed 50%)
+[ros2_control_node-8] [WARN] [1792720922.960330492] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720924.010351728] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720925.010360879] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720926.060323337] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720927.060354599] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720928.110338298] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792720928.645601736] [auracle.joy_drive_node]: No /joy for 0.3s: stopping
+[joy_drive.py-2] [INFO] [1792720929.045545838] [auracle.joy_drive_node]: Controller input active (speed 50%)
+[ros2_control_node-8] [WARN] [1792720929.110345079] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792720930.045623933] [auracle.joy_drive_node]: No /joy for 0.3s: stopping
+[ros2_control_node-8] [WARN] [1792720930.110351934] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792720930.295224784] [auracle.joy_drive_node]: Controller input active (speed 50%)
+[ros2_control_node-8] [WARN] [1792720931.110415307] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720932.160338895] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792720932.845596790] [auracle.joy_drive_node]: No /joy for 0.3s: stopping
+[joy_drive.py-2] [INFO] [1792720933.095421288] [auracle.joy_drive_node]: Controller input active (speed 50%)
+[ros2_control_node-8] [WARN] [1792720933.210349556] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720934.260332385] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720935.260336721] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792720935.795597363] [auracle.joy_drive_node]: No /joy for 0.3s: stopping
+[joy_drive.py-2] [INFO] [1792720936.095450760] [auracle.joy_drive_node]: Controller input active (speed 50%)
+[ros2_control_node-8] [WARN] [1792720936.310349531] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720937.360334730] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720938.410344299] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720939.410344543] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720940.410363249] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720941.460330115] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720942.510325647] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720943.510477000] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720944.560310812] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720945.560314833] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792720946.495580632] [auracle.joy_drive_node]: No /joy for 0.3s: stopping
+[ros2_control_node-8] [WARN] [1792720946.610325291] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720947.610427442] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792720948.545514149] [auracle.joy_drive_node]: Controller input active (speed 50%)
+[ros2_control_node-8] [WARN] [1792720948.660331252] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792720949.145576921] [auracle.joy_drive_node]: No /joy for 0.3s: stopping
+[ros2_control_node-8] [WARN] [1792720949.710361877] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792720949.945394347] [auracle.joy_drive_node]: Controller input active (speed 50%)
+[ros2_control_node-8] [WARN] [1792720950.760311983] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792720951.045586814] [auracle.joy_drive_node]: No /joy for 0.3s: stopping
+[joy_drive.py-2] [INFO] [1792720951.245479393] [auracle.joy_drive_node]: Controller input active (speed 50%)
+[ros2_control_node-8] [WARN] [1792720951.760329523] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720952.810324000] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720953.810455039] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720954.860332442] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720955.910360363] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720956.960327376] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792720957.895605378] [auracle.joy_drive_node]: No /joy for 0.3s: stopping
+[ros2_control_node-8] [WARN] [1792720957.960337343] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720959.010320801] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720960.010339155] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720961.010340473] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720962.060333505] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792720962.545682451] [auracle.joy_drive_node]: Controller input active (speed 50%)
+[ros2_control_node-8] [WARN] [1792720963.110333723] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720964.110357614] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720965.110444598] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720966.110721043] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720967.160336708] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792720967.695594535] [auracle.joy_drive_node]: No /joy for 0.3s: stopping
+[joy_drive.py-2] [INFO] [1792720967.995409025] [auracle.joy_drive_node]: Controller input active (speed 50%)
+[ros2_control_node-8] [WARN] [1792720968.160356397] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720969.210345266] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720970.260328189] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720971.260329092] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720972.260337088] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720973.310403066] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720974.360330008] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720975.410327357] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720976.410344741] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720977.410356256] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720978.460355086] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720979.510401194] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720980.560335395] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720981.610349984] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720982.610353313] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720983.660333922] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792720984.295591621] [auracle.joy_drive_node]: No /joy for 0.3s: stopping
+[joy_drive.py-2] [INFO] [1792720984.595475071] [auracle.joy_drive_node]: Controller input active (speed 50%)
+[ros2_control_node-8] [WARN] [1792720984.710771229] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720985.760335286] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720986.810359227] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720987.860330002] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720988.910343776] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720989.910344013] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720990.910358213] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720991.960337450] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720993.010356114] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720994.060338574] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720995.110348496] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720996.110358585] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720997.160324489] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720998.160330282] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792720999.160337185] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721000.210361571] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721001.260314105] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792721001.345614129] [auracle.joy_drive_node]: No /joy for 0.3s: stopping
+[joy_drive.py-2] [INFO] [1792721001.495434152] [auracle.joy_drive_node]: Controller input active (speed 50%)
+[ros2_control_node-8] [WARN] [1792721002.260332620] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792721002.295590125] [auracle.joy_drive_node]: No /joy for 0.3s: stopping
+[joy_drive.py-2] [INFO] [1792721002.545590221] [auracle.joy_drive_node]: Controller input active (speed 50%)
+[ros2_control_node-8] [WARN] [1792721003.260333153] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721004.310342538] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721005.310351905] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721006.310358567] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721007.360278102] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721008.360337449] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721009.360343908] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721010.410353739] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721011.460334884] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721012.510471175] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721013.560331877] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721014.610338319] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721015.610351222] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721016.660327423] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721017.710353160] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721018.760324305] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721019.760329801] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721020.810332669] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721021.810352609] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721022.860335273] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721023.910361695] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721024.960331100] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792721025.495587705] [auracle.joy_drive_node]: No /joy for 0.3s: stopping
+[joy_drive.py-2] [INFO] [1792721025.545542188] [auracle.joy_drive_node]: Controller input active (speed 50%)
+[ros2_control_node-8] [WARN] [1792721026.010355263] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721027.060316371] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721028.060323515] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721029.110357956] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792721029.295618464] [auracle.joy_drive_node]: No /joy for 0.3s: stopping
+[joy_drive.py-2] [INFO] [1792721029.595484396] [auracle.joy_drive_node]: Controller input active (speed 50%)
+[ros2_control_node-8] [WARN] [1792721030.160321380] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721031.160330227] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721032.160331668] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721033.160335775] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721034.210368735] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721035.260320658] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721036.260338413] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721037.310349021] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721038.360324777] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721039.360332440] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792721040.045590714] [auracle.joy_drive_node]: No /joy for 0.3s: stopping
+[joy_drive.py-2] [INFO] [1792721040.295367701] [auracle.joy_drive_node]: Controller input active (speed 50%)
+[ros2_control_node-8] [WARN] [1792721040.410348140] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721041.410353914] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721042.460345393] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721043.510428722] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721044.560332109] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721045.610349976] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792721046.395581474] [auracle.joy_drive_node]: No /joy for 0.3s: stopping
+[joy_drive.py-2] [INFO] [1792721046.645557848] [auracle.joy_drive_node]: Controller input active (speed 50%)
+[ros2_control_node-8] [WARN] [1792721046.660325880] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721047.710353191] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792721047.845601235] [auracle.joy_drive_node]: No /joy for 0.3s: stopping
+[joy_drive.py-2] [INFO] [1792721048.045393389] [auracle.joy_drive_node]: Controller input active (speed 50%)
+[joy_drive.py-2] [INFO] [1792721048.645579062] [auracle.joy_drive_node]: No /joy for 0.3s: stopping
+[ros2_control_node-8] [WARN] [1792721048.760320152] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721049.810356296] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792721050.295459865] [auracle.joy_drive_node]: Controller input active (speed 50%)
+[ros2_control_node-8] [WARN] [1792721050.860352923] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792721051.495586474] [auracle.joy_drive_node]: No /joy for 0.3s: stopping
+[joy_drive.py-2] [INFO] [1792721051.795472239] [auracle.joy_drive_node]: Controller input active (speed 50%)
+[ros2_control_node-8] [WARN] [1792721051.910359679] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792721052.445593784] [auracle.joy_drive_node]: No /joy for 0.3s: stopping
+[ros2_control_node-8] [WARN] [1792721052.960334472] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792721053.745603414] [auracle.joy_drive_node]: Controller input active (speed 50%)
+[ros2_control_node-8] [WARN] [1792721053.960334690] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721055.010351261] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721056.060326518] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721057.060330051] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792721057.695574065] [auracle.joy_drive_node]: No /joy for 0.3s: stopping
+[joy_drive.py-2] [INFO] [1792721057.945485310] [auracle.joy_drive_node]: Controller input active (speed 50%)
+[ros2_control_node-8] [WARN] [1792721058.110346658] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792721058.995526640] [auracle.joy_drive_node]: No /joy for 0.3s: stopping
+[ros2_control_node-8] [WARN] [1792721059.110353562] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792721059.295385201] [auracle.joy_drive_node]: Controller input active (speed 50%)
+[ros2_control_node-8] [WARN] [1792721060.110358021] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721061.160322389] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792721061.945602904] [auracle.joy_drive_node]: No /joy for 0.3s: stopping
+[ros2_control_node-8] [WARN] [1792721062.160336477] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792721062.195572779] [auracle.joy_drive_node]: Controller input active (speed 50%)
+[ros2_control_node-8] [WARN] [1792721063.210357826] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721064.260320471] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721065.260337541] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721066.310374130] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721067.360339479] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721068.410342050] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721069.410397971] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721070.460330469] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721071.460332909] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792721071.945626976] [auracle.joy_drive_node]: No /joy for 0.3s: stopping
+[joy_drive.py-2] [INFO] [1792721072.195523463] [auracle.joy_drive_node]: Controller input active (speed 50%)
+[ros2_control_node-8] [WARN] [1792721072.510331591] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721073.510344106] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792721073.645651057] [auracle.joy_drive_node]: No /joy for 0.3s: stopping
+[joy_drive.py-2] [INFO] [1792721073.795454339] [auracle.joy_drive_node]: Controller input active (speed 50%)
+[ros2_control_node-8] [WARN] [1792721074.510387379] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792721074.995591355] [auracle.joy_drive_node]: No /joy for 0.3s: stopping
+[joy_drive.py-2] [INFO] [1792721075.245448971] [auracle.joy_drive_node]: Controller input active (speed 50%)
+[ros2_control_node-8] [WARN] [1792721075.560329395] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721076.560331151] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721077.610359740] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792721078.495543314] [auracle.joy_drive_node]: No /joy for 0.3s: stopping
+[ros2_control_node-8] [WARN] [1792721078.660326237] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792721078.845545041] [auracle.joy_drive_node]: Controller input active (speed 50%)
+[ros2_control_node-8] [WARN] [1792721079.660336066] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721080.710339211] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721081.710352004] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721082.760321427] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721083.760324182] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721084.810345938] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721085.810348841] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792721086.445602744] [auracle.joy_drive_node]: No /joy for 0.3s: stopping
+[joy_drive.py-2] [INFO] [1792721086.645423490] [auracle.joy_drive_node]: Controller input active (speed 50%)
+[ros2_control_node-8] [WARN] [1792721086.810475799] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721087.860297946] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721088.860325534] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721089.860336660] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721090.910344934] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721091.960335524] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721093.010353280] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721094.060303296] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721095.060328069] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721096.060334417] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721097.110320155] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721098.110367836] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721099.160334463] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721100.210359959] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721101.260299327] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721102.260301675] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792721102.445598534] [auracle.joy_drive_node]: No /joy for 0.3s: stopping
+[joy_drive.py-2] [INFO] [1792721102.595474037] [auracle.joy_drive_node]: Controller input active (speed 50%)
+[ros2_control_node-8] [WARN] [1792721103.260326171] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721104.310353630] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721105.310355997] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721106.310356197] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721107.310356841] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792721107.445586681] [auracle.joy_drive_node]: No /joy for 0.3s: stopping
+[joy_drive.py-2] [INFO] [1792721107.795443910] [auracle.joy_drive_node]: Controller input active (speed 50%)
+[ros2_control_node-8] [WARN] [1792721108.360334486] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792721108.745588071] [auracle.joy_drive_node]: No /joy for 0.3s: stopping
+[joy_drive.py-2] [INFO] [1792721108.945508371] [auracle.joy_drive_node]: Controller input active (speed 50%)
+[ros2_control_node-8] [WARN] [1792721109.410326724] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721110.410349720] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792721110.845595083] [auracle.joy_drive_node]: No /joy for 0.3s: stopping
+[joy_drive.py-2] [INFO] [1792721111.095421384] [auracle.joy_drive_node]: Controller input active (speed 50%)
+[ros2_control_node-8] [WARN] [1792721111.460345809] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721112.510353787] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792721113.495573511] [auracle.joy_drive_node]: No /joy for 0.3s: stopping
+[ros2_control_node-8] [WARN] [1792721113.560324396] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792721113.845457480] [auracle.joy_drive_node]: Controller input active (speed 50%)
+[joy_drive.py-2] [INFO] [1792721114.545620155] [auracle.joy_drive_node]: No /joy for 0.3s: stopping
+[ros2_control_node-8] [WARN] [1792721114.560328521] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792721114.745514881] [auracle.joy_drive_node]: Controller input active (speed 50%)
+[ros2_control_node-8] [WARN] [1792721115.560338462] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721116.610345625] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721117.610360732] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721118.610413320] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721119.660325911] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721120.660330944] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792721121.595586499] [auracle.joy_drive_node]: No /joy for 0.3s: stopping
+[ros2_control_node-8] [WARN] [1792721121.710342515] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792721121.845554022] [auracle.joy_drive_node]: Controller input active (speed 50%)
+[ros2_control_node-8] [WARN] [1792721122.710347511] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721123.760334415] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721124.810346227] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721125.860331261] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721126.860332812] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721127.910335994] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721128.910351435] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721129.960328524] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792721130.795583219] [auracle.joy_drive_node]: No /joy for 0.3s: stopping
+[joy_drive.py-2] [INFO] [1792721130.945469567] [auracle.joy_drive_node]: Controller input active (speed 50%)
+[ros2_control_node-8] [WARN] [1792721131.010343533] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721132.010344781] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721133.010350380] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721134.060348163] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721135.110342390] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721136.110347563] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721137.110366218] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721138.160331631] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721139.160353360] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721140.210354087] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721141.260336537] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721142.310421745] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721143.360326881] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721144.360334443] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721145.360336968] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721146.360353771] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792721147.410339628] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792721148.145614918] [auracle.joy_drive_node]: No /joy for 0.3s: stopping
+[joy_drive.py-2] [INFO] [1792721148.345790851] [auracle.joy_drive_node]: Controller input active (speed 50%)

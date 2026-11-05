@@ -1,0 +1,209 @@
+[INFO] [launch]: All log files can be found below /home/auracle/.ros/log/2026-11-05-12-44-15-165603-auracle-107976
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [robot_state_publisher-1]: process started with pid [108010]
+[INFO] [joy_drive.py-2]: process started with pid [108011]
+[INFO] [rplidar_composition-3]: process started with pid [108012]
+[INFO] [twist_mux-4]: process started with pid [108013]
+[INFO] [twist_stamper-5]: process started with pid [108014]
+[INFO] [joint_state_publisher-6]: process started with pid [108015]
+[INFO] [ekf_node-7]: process started with pid [108016]
+[INFO] [scan_to_scan_filter_chain-8]: process started with pid [108017]
+[rplidar_composition-3] [INFO] [1793871855.635154666] [auracle.rplidar_node]: RPLIDAR running on ROS 2 package rplidar_ros. SDK Version: '1.12.0'
+[twist_mux-4] [INFO] [1793871855.678837090] [auracle.twist_mux]: Topic handler 'topics.joystick' subscribed to topic 'cmd_vel_joy': timeout = 0.500000s , priority = 100.
+[twist_mux-4] [INFO] [1793871855.680203074] [auracle.twist_mux]: Topic handler 'topics.navigation' subscribed to topic 'cmd_vel_nav': timeout = 0.500000s , priority = 40.
+[twist_mux-4] [INFO] [1793871855.680555310] [auracle.twist_mux]: Topic handler 'topics.tracker' subscribed to topic 'cmd_vel_tracker': timeout = 0.500000s , priority = 50.
+[robot_state_publisher-1] [INFO] [1793871855.680367294] [auracle.robot_state_publisher]: Robot initialized
+[joy_drive.py-2] [INFO] [1793871856.494037350] [auracle.joy_drive_node]: joy_drive ready: modes=['stick', 'triggers', 'buttons'], max 0.16 m/s / 1.3 rad/s, speed level 50%
+[joint_state_publisher-6] [INFO] [1793871856.524588838] [auracle.joint_state_publisher]: Waiting for robot_description to be published on the robot_description topic...
+[joint_state_publisher-6] [INFO] [1793871856.532608335] [auracle.joint_state_publisher]: Got description, configuring robot
+[rplidar_composition-3] [INFO] [1793871858.161596279] [auracle.rplidar_node]: RPLIDAR S/N: 965BED95C4E493CBA5E69EF0078B4B6F
+[rplidar_composition-3] [INFO] [1793871858.161675333] [auracle.rplidar_node]: Firmware Ver: 1.29
+[rplidar_composition-3] [INFO] [1793871858.161696574] [auracle.rplidar_node]: Hardware Rev: 7
+[rplidar_composition-3] [INFO] [1793871858.163072205] [auracle.rplidar_node]: RPLidar health status : '0'
+[rplidar_composition-3] [INFO] [1793871858.163126631] [auracle.rplidar_node]: Start
+[rplidar_composition-3] [INFO] [1793871858.798786027] [auracle.rplidar_node]: current scan mode: Standard, max_distance: 12.0 m, Point number: 2.0K , angle_compensate: 1, flip_x_axis 0
+[INFO] [ros2_control_node-9]: process started with pid [108344]
+[INFO] [spawner-10]: process started with pid [108345]
+[ros2_control_node-9] [INFO] [1793871860.865200579] [auracle.controller_manager]: Using Steady (Monotonic) clock for triggering controller manager cycles.
+[ros2_control_node-9] [INFO] [1793871860.873887365] [auracle.controller_manager]: Subscribing to '/auracle/robot_description' topic for robot description.
+[ros2_control_node-9] [INFO] [1793871860.875449068] [auracle.controller_manager]: update rate is 40 Hz
+[ros2_control_node-9] [INFO] [1793871860.875492401] [auracle.controller_manager]: Overruns handling is : enabled
+[ros2_control_node-9] [INFO] [1793871860.875509456] [auracle.controller_manager]: Spawning controller_manager RT thread with scheduler priority: 50
+[ros2_control_node-9] [WARN] [1793871860.875875026] [auracle.controller_manager]: Could not enable FIFO RT scheduling policy: with error number <1>(Operation not permitted). See [https://control.ros.org/master/doc/ros2_control/controller_manager/doc/userdoc.html] for details on how to enable realtime scheduling.
+[ros2_control_node-9] [INFO] [1793871860.876804237] [auracle.controller_manager]: Received robot description from topic.
+[ros2_control_node-9] [INFO] [1793871860.876920495] [auracle.controller_manager]: Enforcing command limits is disabled. Command limits from URDF will be ignored.
+[ros2_control_node-9] [INFO] [1793871860.882228636] [auracle.controller_manager]: Loading hardware 'RealRobot' 
+[ros2_control_node-9] [INFO] [1793871860.883668248] [auracle.controller_manager]: Loaded hardware 'RealRobot' from plugin 'auracle_hardware/AuracleHardwareInterface'
+[ros2_control_node-9] [INFO] [1793871860.883830117] [auracle.controller_manager]: Initialize hardware 'RealRobot' 
+[ros2_control_node-9] [INFO] [1793871860.888529098] [auracle.controller_manager]: Successful initialization of hardware 'RealRobot'
+[ros2_control_node-9] [INFO] [1793871860.889329218] [auracle.controller_manager]: Activating component 'RealRobot'.
+[ros2_control_node-9] [INFO] [1793871860.889379847] [resource_manager]: 'configure' hardware 'RealRobot' 
+[spawner-10] [INFO] [1793871861.474178405] [auracle.spawner_diff_cont]: waiting for service /auracle/controller_manager/list_controllers to become available...
+[ros2_control_node-9] [INFO] [1793871863.191427057] [resource_manager]: Successful 'configure' of hardware 'RealRobot'
+[ros2_control_node-9] [INFO] [1793871863.191482260] [resource_manager]: 'activate' hardware 'RealRobot' 
+[ros2_control_node-9] [INFO] [1793871863.191558944] [resource_manager]: Successful 'activate' of hardware 'RealRobot'
+[ros2_control_node-9] [INFO] [1793871863.191716942] [auracle.controller_manager]: Registering statistics for : RealRobot
+[ros2_control_node-9] [INFO] [1793871863.191913199] [auracle.controller_manager]: Resource Manager has been successfully initialized. Starting Controller Manager services...
+[ros2_control_node-9] [INFO] [1793871863.230860273] [auracle.controller_manager]: Loading controller : 'diff_cont' of type 'diff_drive_controller/DiffDriveController'
+[ros2_control_node-9] [INFO] [1793871863.230952827] [auracle.controller_manager]: Loading controller 'diff_cont'
+[ros2_control_node-9] [INFO] [1793871863.235847898] [auracle.controller_manager]: Controller 'diff_cont' node arguments: --ros-args --params-file /tmp/launch_params_eapt9gr4 --params-file /home/auracle/auracle_ws/Random-code/install/auracle_bringup/share/auracle_bringup/config/my_controllers.yaml --params-file /home/auracle/auracle_ws/Random-code/install/auracle_bringup/share/auracle_bringup/config/my_controllers_real.yaml 
+[spawner-10] [INFO] [1793871863.254356808] [auracle.spawner_diff_cont]: Loaded diff_cont
+[ros2_control_node-9] [INFO] [1793871863.257021720] [auracle.controller_manager]: Configuring controller: 'diff_cont'
+[ros2_control_node-9] [INFO] [1793871863.279515842] [auracle.controller_manager]: Activating controllers: [ diff_cont ]
+[ros2_control_node-9] [INFO] [1793871863.301660856] [auracle.controller_manager]: Successfully switched controllers!
+[spawner-10] [INFO] [1793871863.329358285] [auracle.spawner_diff_cont]: Configured and activated diff_cont
+[INFO] [spawner-10]: process has finished cleanly [pid 108345]
+[INFO] [spawner-11]: process started with pid [108478]
+[ros2_control_node-9] [WARN] [1793871863.776491148] [auracle.diff_cont]: Velocity command timed out. Braking.
+[spawner-11] [INFO] [1793871864.118935794] [auracle.spawner_joint_broad]: Setting controller param "node_options_args" to "['--ros-args', '--remap', 'joint_states:=joint_states_hw']" for joint_broad
+[ros2_control_node-9] [INFO] [1793871864.121169527] [auracle.controller_manager]: Loading controller : 'joint_broad' of type 'joint_state_broadcaster/JointStateBroadcaster'
+[ros2_control_node-9] [INFO] [1793871864.121251897] [auracle.controller_manager]: Loading controller 'joint_broad'
+[ros2_control_node-9] [INFO] [1793871864.124780632] [auracle.controller_manager]: Controller 'joint_broad' node arguments: --ros-args --params-file /tmp/launch_params_eapt9gr4 --params-file /home/auracle/auracle_ws/Random-code/install/auracle_bringup/share/auracle_bringup/config/my_controllers.yaml --params-file /home/auracle/auracle_ws/Random-code/install/auracle_bringup/share/auracle_bringup/config/my_controllers_real.yaml --ros-args --remap joint_states:=joint_states_hw 
+[spawner-11] [INFO] [1793871864.154705943] [auracle.spawner_joint_broad]: Loaded joint_broad
+[ros2_control_node-9] [INFO] [1793871864.158241382] [auracle.controller_manager]: Configuring controller: 'joint_broad'
+[ros2_control_node-9] [INFO] [1793871864.158460305] [auracle.joint_broad]: 'joints' or 'interfaces' parameter is empty. All available state interfaces will be published
+[ros2_control_node-9] [INFO] [1793871864.180454062] [auracle.controller_manager]: Activating controllers: [ joint_broad ]
+[ros2_control_node-9] [INFO] [1793871864.201455368] [auracle.controller_manager]: Requested controller switch from non-realtime loop
+[ros2_control_node-9] [INFO] [1793871864.201743272] [auracle.controller_manager]: Successfully switched controllers!
+[spawner-11] [INFO] [1793871864.229689439] [auracle.spawner_joint_broad]: Configured and activated joint_broad
+[INFO] [spawner-11]: process has finished cleanly [pid 108478]
+[INFO] [spawner-12]: process started with pid [108542]
+[ros2_control_node-9] [WARN] [1793871864.801467467] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [INFO] [1793871864.985187317] [auracle.controller_manager]: Loading controller : 'imu_broadcaster' of type 'imu_sensor_broadcaster/IMUSensorBroadcaster'
+[ros2_control_node-9] [INFO] [1793871864.985253927] [auracle.controller_manager]: Loading controller 'imu_broadcaster'
+[ros2_control_node-9] [INFO] [1793871864.986554282] [auracle.controller_manager]: Controller 'imu_broadcaster' node arguments: --ros-args --params-file /tmp/launch_params_eapt9gr4 --params-file /home/auracle/auracle_ws/Random-code/install/auracle_bringup/share/auracle_bringup/config/my_controllers.yaml --params-file /home/auracle/auracle_ws/Random-code/install/auracle_bringup/share/auracle_bringup/config/my_controllers_real.yaml 
+[spawner-12] [INFO] [1793871865.024618162] [auracle.spawner_imu_broadcaster]: Loaded imu_broadcaster
+[ros2_control_node-9] [INFO] [1793871865.027013930] [auracle.controller_manager]: Configuring controller: 'imu_broadcaster'
+[ros2_control_node-9] [INFO] [1793871865.055015912] [auracle.controller_manager]: Activating controllers: [ imu_broadcaster ]
+[ros2_control_node-9] [INFO] [1793871865.076637895] [auracle.controller_manager]: Successfully switched controllers!
+[spawner-12] [INFO] [1793871865.104503415] [auracle.spawner_imu_broadcaster]: Configured and activated imu_broadcaster
+[INFO] [spawner-12]: process has finished cleanly [pid 108542]
+[ros2_control_node-9] [WARN] [1793871865.801497582] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871866.801502808] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871867.826498719] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871868.826502446] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871869.851479412] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871870.851510416] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871871.876483327] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871872.876495072] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871873.876533965] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871874.876545117] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871875.901489714] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871876.901508459] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871877.926525406] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871878.951507761] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871879.951518840] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871886.676504977] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871887.701535832] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871888.726488317] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871889.726489729] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871890.726500326] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871891.751538977] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871892.776494462] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871893.801487743] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871894.801488618] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871895.801497178] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871896.826486996] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871897.851489147] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871898.851494744] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871899.851495434] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871900.851496531] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871901.851511350] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871908.251502763] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871909.251718413] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871910.276494012] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871911.301505219] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871912.326487555] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871913.326508800] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871914.351491007] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871915.351562807] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871916.376468830] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871917.376537037] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871918.401489930] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871919.401507545] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871920.426492067] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871921.451493959] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871923.126496485] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871924.126502470] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871925.151507640] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871926.176500384] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871927.176501981] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871928.201506429] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871929.226490654] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871930.226517103] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871931.251512069] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871932.251540314] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871933.276497095] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-9] [WARN] [1793871934.276554655] [auracle.diff_cont]: Velocity command timed out. Braking.
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [ros2_control_node-9]: sending signal 'SIGINT' to process[ros2_control_node-9]
+[INFO] [scan_to_scan_filter_chain-8]: sending signal 'SIGINT' to process[scan_to_scan_filter_chain-8]
+[INFO] [ekf_node-7]: sending signal 'SIGINT' to process[ekf_node-7]
+[INFO] [joint_state_publisher-6]: sending signal 'SIGINT' to process[joint_state_publisher-6]
+[INFO] [twist_stamper-5]: sending signal 'SIGINT' to process[twist_stamper-5]
+[INFO] [twist_mux-4]: sending signal 'SIGINT' to process[twist_mux-4]
+[INFO] [rplidar_composition-3]: sending signal 'SIGINT' to process[rplidar_composition-3]
+[INFO] [joy_drive.py-2]: sending signal 'SIGINT' to process[joy_drive.py-2]
+[INFO] [robot_state_publisher-1]: sending signal 'SIGINT' to process[robot_state_publisher-1]
+[ros2_control_node-9] [INFO] [1793871934.310334938] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[ros2_control_node-9] [INFO] [1793871934.310435714] [auracle.controller_manager]: Shutdown request received....
+[ros2_control_node-9] [INFO] [1793871934.310508139] [auracle.controller_manager]: Shutting down all controllers in the controller manager.
+[ros2_control_node-9] [INFO] [1793871934.310533306] [auracle.controller_manager]: Deactivating controller 'imu_broadcaster'
+[ros2_control_node-9] [INFO] [1793871934.310611397] [auracle.controller_manager]: Shutting down controller 'imu_broadcaster'
+[ros2_control_node-9] [INFO] [1793871934.310855765] [auracle.controller_manager]: Deactivating controller 'joint_broad'
+[ros2_control_node-9] [INFO] [1793871934.310921153] [auracle.controller_manager]: Shutting down controller 'joint_broad'
+[ros2_control_node-9] [INFO] [1793871934.310992282] [auracle.controller_manager]: Deactivating controller 'diff_cont'
+[ros2_control_node-9] [INFO] [1793871934.311412425] [auracle.controller_manager]: Shutting down controller 'diff_cont'
+[ros2_control_node-9] [INFO] [1793871934.311553127] [resource_manager]: 'deactivate' hardware 'RealRobot' 
+[ros2_control_node-9] [INFO] [1793871934.311687014] [resource_manager]: Successful 'deactivate' of hardware 'RealRobot'
+[ros2_control_node-9] [INFO] [1793871934.311703107] [resource_manager]: 'shutdown' hardware 'RealRobot' 
+[ros2_control_node-9] [INFO] [1793871934.311710106] [resource_manager]: Successful 'shutdown' of hardware 'RealRobot'
+[ros2_control_node-9] [INFO] [1793871934.311833235] [auracle.controller_manager]: Shutting down the controller manager.
+[scan_to_scan_filter_chain-8] [INFO] [1793871934.313551529] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[ekf_node-7] [INFO] [1793871934.318909021] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[ekf_node-7] [WARN] [1793871934.319244128] [rmw_zenoh_cpp]: unable to publish message since the zenoh session is closed
+[scan_to_scan_filter_chain-8] [2m2026-11-05T09:45:34.320550Z[0m [31mERROR[0m rx-2 ThreadId(09) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 28
+[twist_mux-4] [INFO] [1793871934.326243433] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[ros2_control_node-9] [WARN] [1793871934.327557085] [rmw_zenoh_cpp]: unable to publish message since the zenoh session is closed
+[rplidar_composition-3] [INFO] [1793871934.329560135] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[robot_state_publisher-1] [INFO] [1793871934.334172543] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[joy_drive.py-2] [WARN] [1793871934.336725124] [rmw_zenoh_cpp]: unable to publish message since the zenoh session is closed
+[rplidar_composition-3] [WARN] [1793871934.348469076] [rmw_zenoh_cpp]: unable to publish message since the zenoh session is closed
+[ekf_node-7] [WARN] [1793871934.350528311] [rmw_zenoh_cpp]: unable to publish message since the zenoh session is closed
+[ekf_node-7] [WARN] [1793871934.350574311] [rmw_zenoh_cpp]: unable to publish message since the zenoh session is closed
+[ros2_control_node-9] [ERROR] [1793871934.394064700] [auracle.controller_manager.pal_statistics]: Exception in publisher thread: context cannot be slept with because it's invalid!. Aborting!
+[ros2_control_node-9] [ERROR] [1793871934.394054830] [auracle.controller_manager.pal_statistics]: Exception in publisher thread: context cannot be slept with because it's invalid!. Aborting!
+[ros2_control_node-9] [INFO] [1793871934.408608916] [auracle.controller_manager.pal_statistics]: Async messages lost 0
+[ros2_control_node-9] [INFO] [1793871934.408641490] [auracle.controller_manager.pal_statistics]: publish_async_failures_ 0
+[ros2_control_node-9] [INFO] [1793871934.409153891] [auracle.controller_manager.pal_statistics]: Async messages lost 0
+[ros2_control_node-9] [INFO] [1793871934.409179909] [auracle.controller_manager.pal_statistics]: publish_async_failures_ 0
+[INFO] [ekf_node-7]: process has finished cleanly [pid 108016]
+[INFO] [twist_mux-4]: process has finished cleanly [pid 108013]
+[INFO] [robot_state_publisher-1]: process has finished cleanly [pid 108010]
+[INFO] [scan_to_scan_filter_chain-8]: process has finished cleanly [pid 108017]
+[INFO] [ros2_control_node-9]: process has finished cleanly [pid 108344]
+[joy_drive.py-2] Traceback (most recent call last):
+[joy_drive.py-2]   File "/home/auracle/auracle_ws/Random-code/install/auracle_bringup/lib/auracle_bringup/joy_drive.py", line 354, in <module>
+[joy_drive.py-2]     main()
+[joy_drive.py-2]   File "/home/auracle/auracle_ws/Random-code/install/auracle_bringup/lib/auracle_bringup/joy_drive.py", line 350, in main
+[joy_drive.py-2]     rclpy.try_shutdown()
+[joy_drive.py-2]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/utilities.py", line 100, in try_shutdown
+[joy_drive.py-2]     g_default_context.try_shutdown()
+[joy_drive.py-2]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/context.py", line 139, in try_shutdown
+[joy_drive.py-2]     self.__context.shutdown()
+[joy_drive.py-2] rclpy._rclpy_pybind11.RCLError: failed to shutdown: rcl_shutdown already called on the given context, at ./src/rcl/init.c:333
+[ERROR] [joy_drive.py-2]: process has died [pid 108011, exit code 1, cmd '/home/auracle/auracle_ws/Random-code/install/auracle_bringup/lib/auracle_bringup/joy_drive.py --ros-args -r __node:=joy_drive_node -r __ns:=/auracle --params-file /home/auracle/auracle_ws/Random-code/install/auracle_bringup/share/auracle_bringup/config/joystick.yaml --params-file /tmp/launch_params_jj5xa_by -r cmd_vel:=cmd_vel_joy'].
+[ERROR] [joint_state_publisher-6]: process[joint_state_publisher-6] failed to terminate '5' seconds after receiving 'SIGINT', escalating to 'SIGTERM'
+[ERROR] [twist_stamper-5]: process[twist_stamper-5] failed to terminate '5' seconds after receiving 'SIGINT', escalating to 'SIGTERM'
+[ERROR] [rplidar_composition-3]: process[rplidar_composition-3] failed to terminate '5' seconds after receiving 'SIGINT', escalating to 'SIGTERM'
+[INFO] [joint_state_publisher-6]: sending signal 'SIGTERM' to process[joint_state_publisher-6]
+[INFO] [twist_stamper-5]: sending signal 'SIGTERM' to process[twist_stamper-5]
+[INFO] [rplidar_composition-3]: sending signal 'SIGTERM' to process[rplidar_composition-3]
+[rplidar_composition-3] [INFO] [1793871940.218683537] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[INFO] [rplidar_composition-3]: process has finished cleanly [pid 108012]
+[ERROR] [joint_state_publisher-6]: process[joint_state_publisher-6] failed to terminate '10.0' seconds after receiving 'SIGTERM', escalating to 'SIGKILL'
+[ERROR] [twist_stamper-5]: process[twist_stamper-5] failed to terminate '10.0' seconds after receiving 'SIGTERM', escalating to 'SIGKILL'
+[INFO] [joint_state_publisher-6]: sending signal 'SIGKILL' to process[joint_state_publisher-6]
+[INFO] [twist_stamper-5]: sending signal 'SIGKILL' to process[twist_stamper-5]
+[ERROR] [joint_state_publisher-6]: process has died [pid 108015, exit code -9, cmd '/opt/ros/jazzy/lib/joint_state_publisher/joint_state_publisher --ros-args -r __ns:=/auracle --params-file /tmp/launch_params_gvdl49gt'].
+[ERROR] [twist_stamper-5]: process has died [pid 108014, exit code -9, cmd '/opt/ros/jazzy/lib/twist_stamper/twist_stamper --ros-args -r __ns:=/auracle --params-file /tmp/launch_params_z1cqjraq -r cmd_vel_in:=cmd_vel_unstamped -r cmd_vel_out:=diff_cont/cmd_vel'].

@@ -1,0 +1,509 @@
+[INFO] [launch]: All log files can be found below /home/auracle/.ros/log/2026-10-23-04-30-55-859541-auracle-15077
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [robot_state_publisher-1]: process started with pid [15104]
+[INFO] [joy_drive.py-2]: process started with pid [15105]
+[INFO] [rplidar_composition-3]: process started with pid [15106]
+[INFO] [twist_mux-4]: process started with pid [15107]
+[INFO] [twist_stamper-5]: process started with pid [15108]
+[INFO] [joint_state_publisher-6]: process started with pid [15109]
+[INFO] [ekf_node-7]: process started with pid [15110]
+[rplidar_composition-3] [INFO] [1792719056.313916417] [auracle.rplidar_node]: RPLIDAR running on ROS 2 package rplidar_ros. SDK Version: '1.12.0'
+[twist_mux-4] [INFO] [1792719056.312481969] [auracle.twist_mux]: Topic handler 'topics.joystick' subscribed to topic 'cmd_vel_joy': timeout = 0.500000s , priority = 100.
+[twist_mux-4] [INFO] [1792719056.317020367] [auracle.twist_mux]: Topic handler 'topics.navigation' subscribed to topic 'cmd_vel_nav': timeout = 0.500000s , priority = 40.
+[twist_mux-4] [INFO] [1792719056.317305646] [auracle.twist_mux]: Topic handler 'topics.tracker' subscribed to topic 'cmd_vel_tracker': timeout = 0.500000s , priority = 50.
+[robot_state_publisher-1] [INFO] [1792719056.355278114] [auracle.robot_state_publisher]: Robot initialized
+[joy_drive.py-2] [INFO] [1792719057.241470516] [auracle.joy_drive_node]: joy_drive ready: modes=['stick', 'triggers', 'buttons'], max 0.14 m/s / 1.0 rad/s, speed level 50%
+[joint_state_publisher-6] [INFO] [1792719057.251233351] [auracle.joint_state_publisher]: Waiting for robot_description to be published on the robot_description topic...
+[joint_state_publisher-6] [INFO] [1792719057.259228183] [auracle.joint_state_publisher]: Got description, configuring robot
+[rplidar_composition-3] [INFO] [1792719058.843956152] [auracle.rplidar_node]: RPLIDAR S/N: 965BED95C4E493CBA5E69EF0078B4B6F
+[rplidar_composition-3] [INFO] [1792719058.844027374] [auracle.rplidar_node]: Firmware Ver: 1.29
+[rplidar_composition-3] [INFO] [1792719058.844045578] [auracle.rplidar_node]: Hardware Rev: 7
+[rplidar_composition-3] [INFO] [1792719058.845416858] [auracle.rplidar_node]: RPLidar health status : '0'
+[rplidar_composition-3] [INFO] [1792719058.845453007] [auracle.rplidar_node]: Start
+[rplidar_composition-3] [ERROR] [1792719061.390932482] [auracle.rplidar_node]: Cannot start scan: '80008000'
+[rplidar_composition-3] [INFO] [1792719061.391018889] [auracle.rplidar_node]: Stop
+[INFO] [ros2_control_node-8]: process started with pid [15256]
+[INFO] [spawner-9]: process started with pid [15257]
+[ros2_control_node-8] [INFO] [1792719061.557407290] [auracle.controller_manager]: Using Steady (Monotonic) clock for triggering controller manager cycles.
+[ros2_control_node-8] [INFO] [1792719061.565974861] [auracle.controller_manager]: Subscribing to '/auracle/robot_description' topic for robot description.
+[ros2_control_node-8] [INFO] [1792719061.566180767] [auracle.controller_manager]: update rate is 20 Hz
+[ros2_control_node-8] [INFO] [1792719061.566209619] [auracle.controller_manager]: Overruns handling is : enabled
+[ros2_control_node-8] [INFO] [1792719061.566223471] [auracle.controller_manager]: Spawning controller_manager RT thread with scheduler priority: 50
+[ros2_control_node-8] [WARN] [1792719061.569539862] [auracle.controller_manager]: Could not enable FIFO RT scheduling policy: with error number <1>(Operation not permitted). See [https://control.ros.org/master/doc/ros2_control/controller_manager/doc/userdoc.html] for details on how to enable realtime scheduling.
+[ros2_control_node-8] [INFO] [1792719061.570578191] [auracle.controller_manager]: Received robot description from topic.
+[ros2_control_node-8] [INFO] [1792719061.570698246] [auracle.controller_manager]: Enforcing command limits is disabled. Command limits from URDF will be ignored.
+[ros2_control_node-8] [INFO] [1792719061.576307404] [auracle.controller_manager]: Loading hardware 'RealRobot' 
+[ros2_control_node-8] [INFO] [1792719061.577841045] [auracle.controller_manager]: Loaded hardware 'RealRobot' from plugin 'auracle_hardware/AuracleHardwareInterface'
+[ros2_control_node-8] [INFO] [1792719061.578018563] [auracle.controller_manager]: Initialize hardware 'RealRobot' 
+[ros2_control_node-8] [INFO] [1792719061.587928868] [auracle.controller_manager]: Successful initialization of hardware 'RealRobot'
+[ros2_control_node-8] [INFO] [1792719061.588808086] [auracle.controller_manager]: Activating component 'RealRobot'.
+[ros2_control_node-8] [INFO] [1792719061.588873030] [resource_manager]: 'configure' hardware 'RealRobot' 
+[rplidar_composition-3] [ERROR] [1792719061.891252715] [auracle.rplidar_node]: Failed to set scan mode
+[ERROR] [rplidar_composition-3]: process has died [pid 15106, exit code 1, cmd '/opt/ros/jazzy/lib/rplidar_ros/rplidar_composition --ros-args -r __node:=rplidar_node -r __ns:=/auracle --params-file /tmp/launch_params_zz6f8x__'].
+[spawner-9] [INFO] [1792719062.201488122] [auracle.spawner_diff_cont]: waiting for service /auracle/controller_manager/list_controllers to become available...
+[INFO] [rplidar_composition-3]: process started with pid [15307]
+[rplidar_composition-3] [INFO] [1792719063.963878421] [auracle.rplidar_node]: RPLIDAR running on ROS 2 package rplidar_ros. SDK Version: '1.12.0'
+[ros2_control_node-8] [INFO] [1792719064.919752450] [resource_manager]: Successful 'configure' of hardware 'RealRobot'
+[ros2_control_node-8] [INFO] [1792719064.919810802] [resource_manager]: 'activate' hardware 'RealRobot' 
+[ros2_control_node-8] [INFO] [1792719064.919890820] [resource_manager]: Successful 'activate' of hardware 'RealRobot'
+[ros2_control_node-8] [INFO] [1792719064.920100356] [auracle.controller_manager]: Registering statistics for : RealRobot
+[ros2_control_node-8] [INFO] [1792719064.920325781] [auracle.controller_manager]: Resource Manager has been successfully initialized. Starting Controller Manager services...
+[ros2_control_node-8] [INFO] [1792719064.956374629] [auracle.controller_manager]: Loading controller : 'diff_cont' of type 'diff_drive_controller/DiffDriveController'
+[ros2_control_node-8] [INFO] [1792719064.956476536] [auracle.controller_manager]: Loading controller 'diff_cont'
+[ros2_control_node-8] [INFO] [1792719064.961738252] [auracle.controller_manager]: Controller 'diff_cont' node arguments: --ros-args --params-file /tmp/launch_params_srsotqkq --params-file /home/auracle/auracle_ws/Random-code/install/auracle_bringup/share/auracle_bringup/config/my_controllers.yaml --params-file /home/auracle/auracle_ws/Random-code/install/auracle_bringup/share/auracle_bringup/config/my_controllers_real.yaml 
+[spawner-9] [INFO] [1792719065.022935815] [auracle.spawner_diff_cont]: Loaded diff_cont
+[ros2_control_node-8] [INFO] [1792719065.025029324] [auracle.controller_manager]: Configuring controller: 'diff_cont'
+[ros2_control_node-8] [INFO] [1792719065.073548114] [auracle.controller_manager]: Activating controllers: [ diff_cont ]
+[ros2_control_node-8] [INFO] [1792719065.120277523] [auracle.controller_manager]: Successfully switched controllers!
+[spawner-9] [INFO] [1792719065.172743183] [auracle.spawner_diff_cont]: Configured and activated diff_cont
+[INFO] [spawner-9]: process has finished cleanly [pid 15257]
+[INFO] [spawner-10]: process started with pid [15342]
+[ros2_control_node-8] [WARN] [1792719065.570035513] [auracle.diff_cont]: Velocity command timed out. Braking.
+[spawner-10] [INFO] [1792719065.953751425] [auracle.spawner_joint_broad]: Setting controller param "node_options_args" to "['--ros-args', '--remap', 'joint_states:=joint_states_hw']" for joint_broad
+[ros2_control_node-8] [INFO] [1792719065.955422954] [auracle.controller_manager]: Loading controller : 'joint_broad' of type 'joint_state_broadcaster/JointStateBroadcaster'
+[ros2_control_node-8] [INFO] [1792719065.955505491] [auracle.controller_manager]: Loading controller 'joint_broad'
+[ros2_control_node-8] [INFO] [1792719065.959980359] [auracle.controller_manager]: Controller 'joint_broad' node arguments: --ros-args --params-file /tmp/launch_params_srsotqkq --params-file /home/auracle/auracle_ws/Random-code/install/auracle_bringup/share/auracle_bringup/config/my_controllers.yaml --params-file /home/auracle/auracle_ws/Random-code/install/auracle_bringup/share/auracle_bringup/config/my_controllers_real.yaml --ros-args --remap joint_states:=joint_states_hw 
+[spawner-10] [INFO] [1792719066.022719970] [auracle.spawner_joint_broad]: Loaded joint_broad
+[ros2_control_node-8] [INFO] [1792719066.024979089] [auracle.controller_manager]: Configuring controller: 'joint_broad'
+[ros2_control_node-8] [INFO] [1792719066.025186718] [auracle.joint_broad]: 'joints' or 'interfaces' parameter is empty. All available state interfaces will be published
+[ros2_control_node-8] [INFO] [1792719066.073542842] [auracle.controller_manager]: Activating controllers: [ joint_broad ]
+[ros2_control_node-8] [INFO] [1792719066.119999882] [auracle.controller_manager]: Requested controller switch from non-realtime loop
+[ros2_control_node-8] [INFO] [1792719066.120782082] [auracle.controller_manager]: Successfully switched controllers!
+[spawner-10] [INFO] [1792719066.172911910] [auracle.spawner_joint_broad]: Configured and activated joint_broad
+[INFO] [spawner-10]: process has finished cleanly [pid 15342]
+[INFO] [spawner-11]: process started with pid [15362]
+[rplidar_composition-3] [INFO] [1792719066.480848754] [auracle.rplidar_node]: RPLIDAR S/N: 965BED95C4E493CBA5E69EF0078B4B6F
+[rplidar_composition-3] [INFO] [1792719066.480930346] [auracle.rplidar_node]: Firmware Ver: 1.29
+[rplidar_composition-3] [INFO] [1792719066.480944624] [auracle.rplidar_node]: Hardware Rev: 7
+[rplidar_composition-3] [INFO] [1792719066.482320599] [auracle.rplidar_node]: RPLidar health status : '0'
+[rplidar_composition-3] [INFO] [1792719066.482426413] [auracle.rplidar_node]: Start
+[ros2_control_node-8] [WARN] [1792719066.570069815] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [INFO] [1792719066.947006000] [auracle.controller_manager]: Loading controller : 'imu_broadcaster' of type 'imu_sensor_broadcaster/IMUSensorBroadcaster'
+[ros2_control_node-8] [INFO] [1792719066.947084796] [auracle.controller_manager]: Loading controller 'imu_broadcaster'
+[ros2_control_node-8] [INFO] [1792719066.948439530] [auracle.controller_manager]: Controller 'imu_broadcaster' node arguments: --ros-args --params-file /tmp/launch_params_srsotqkq --params-file /home/auracle/auracle_ws/Random-code/install/auracle_bringup/share/auracle_bringup/config/my_controllers.yaml --params-file /home/auracle/auracle_ws/Random-code/install/auracle_bringup/share/auracle_bringup/config/my_controllers_real.yaml 
+[spawner-11] [INFO] [1792719066.993796668] [auracle.spawner_imu_broadcaster]: Loaded imu_broadcaster
+[ros2_control_node-8] [INFO] [1792719066.995810621] [auracle.controller_manager]: Configuring controller: 'imu_broadcaster'
+[ros2_control_node-8] [INFO] [1792719067.023508398] [auracle.controller_manager]: Activating controllers: [ imu_broadcaster ]
+[ros2_control_node-8] [INFO] [1792719067.070586084] [auracle.controller_manager]: Successfully switched controllers!
+[spawner-11] [INFO] [1792719067.123240502] [auracle.spawner_imu_broadcaster]: Configured and activated imu_broadcaster
+[INFO] [spawner-11]: process has finished cleanly [pid 15362]
+[ros2_control_node-8] [WARN] [1792719067.620009233] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719068.620055368] [auracle.diff_cont]: Velocity command timed out. Braking.
+[rplidar_composition-3] [ERROR] [1792719068.995965151] [auracle.rplidar_node]: Cannot start scan: '80008000'
+[rplidar_composition-3] [INFO] [1792719068.996076447] [auracle.rplidar_node]: Stop
+[rplidar_composition-3] [ERROR] [1792719069.496293754] [auracle.rplidar_node]: Failed to set scan mode
+[ros2_control_node-8] [WARN] [1792719069.670042434] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719070.720040353] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719071.720045525] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719072.770033276] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719073.770192152] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ERROR] [rplidar_composition-3]: process has died [pid 15307, exit code 1, cmd '/opt/ros/jazzy/lib/rplidar_ros/rplidar_composition --ros-args -r __node:=rplidar_node -r __ns:=/auracle --params-file /tmp/launch_params_zz6f8x__'].
+[ros2_control_node-8] [WARN] [1792719074.820050274] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719075.870035229] [auracle.diff_cont]: Velocity command timed out. Braking.
+[INFO] [rplidar_composition-3]: process started with pid [15426]
+[rplidar_composition-3] [INFO] [1792719076.841476123] [auracle.rplidar_node]: RPLIDAR running on ROS 2 package rplidar_ros. SDK Version: '1.12.0'
+[ros2_control_node-8] [WARN] [1792719076.920021434] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719077.920034016] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719078.920047450] [auracle.diff_cont]: Velocity command timed out. Braking.
+[rplidar_composition-3] [INFO] [1792719079.359037832] [auracle.rplidar_node]: RPLIDAR S/N: 965BED95C4E493CBA5E69EF0078B4B6F
+[rplidar_composition-3] [INFO] [1792719079.359100758] [auracle.rplidar_node]: Firmware Ver: 1.29
+[rplidar_composition-3] [INFO] [1792719079.359118369] [auracle.rplidar_node]: Hardware Rev: 7
+[rplidar_composition-3] [INFO] [1792719079.360482733] [auracle.rplidar_node]: RPLidar health status : '0'
+[rplidar_composition-3] [INFO] [1792719079.360534529] [auracle.rplidar_node]: Start
+[ros2_control_node-8] [WARN] [1792719079.970049838] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719081.020047170] [auracle.diff_cont]: Velocity command timed out. Braking.
+[rplidar_composition-3] [ERROR] [1792719081.934987325] [auracle.rplidar_node]: Cannot start scan: '80008000'
+[rplidar_composition-3] [INFO] [1792719081.935092065] [auracle.rplidar_node]: Stop
+[ros2_control_node-8] [WARN] [1792719082.020049048] [auracle.diff_cont]: Velocity command timed out. Braking.
+[rplidar_composition-3] [ERROR] [1792719082.435355160] [auracle.rplidar_node]: Failed to set scan mode
+[ros2_control_node-8] [WARN] [1792719083.070051621] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719084.120016213] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719085.120022221] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719086.120040988] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719087.120043422] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ERROR] [rplidar_composition-3]: process has died [pid 15426, exit code 1, cmd '/opt/ros/jazzy/lib/rplidar_ros/rplidar_composition --ros-args -r __node:=rplidar_node -r __ns:=/auracle --params-file /tmp/launch_params_zz6f8x__'].
+[ros2_control_node-8] [WARN] [1792719088.120043689] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719089.170047892] [auracle.diff_cont]: Velocity command timed out. Braking.
+[INFO] [rplidar_composition-3]: process started with pid [15529]
+[rplidar_composition-3] [INFO] [1792719089.633829188] [auracle.rplidar_node]: RPLIDAR running on ROS 2 package rplidar_ros. SDK Version: '1.12.0'
+[ros2_control_node-8] [WARN] [1792719090.220060094] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719091.270037427] [auracle.diff_cont]: Velocity command timed out. Braking.
+[rplidar_composition-3] [INFO] [1792719092.151961691] [auracle.rplidar_node]: RPLIDAR S/N: 965BED95C4E493CBA5E69EF0078B4B6F
+[rplidar_composition-3] [INFO] [1792719092.152032191] [auracle.rplidar_node]: Firmware Ver: 1.29
+[rplidar_composition-3] [INFO] [1792719092.152050820] [auracle.rplidar_node]: Hardware Rev: 7
+[rplidar_composition-3] [INFO] [1792719092.153426498] [auracle.rplidar_node]: RPLidar health status : '0'
+[rplidar_composition-3] [INFO] [1792719092.153482350] [auracle.rplidar_node]: Start
+[ros2_control_node-8] [WARN] [1792719092.270045120] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719093.270050031] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719094.270053580] [auracle.diff_cont]: Velocity command timed out. Braking.
+[rplidar_composition-3] [ERROR] [1792719094.719540132] [auracle.rplidar_node]: Cannot start scan: '80008000'
+[rplidar_composition-3] [INFO] [1792719094.719659631] [auracle.rplidar_node]: Stop
+[rplidar_composition-3] [ERROR] [1792719095.219955864] [auracle.rplidar_node]: Failed to set scan mode
+[ros2_control_node-8] [WARN] [1792719095.270092591] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719096.320805489] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719097.370039704] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719098.370052549] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719099.420041790] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ERROR] [rplidar_composition-3]: process has died [pid 15529, exit code 1, cmd '/opt/ros/jazzy/lib/rplidar_ros/rplidar_composition --ros-args -r __node:=rplidar_node -r __ns:=/auracle --params-file /tmp/launch_params_zz6f8x__'].
+[ros2_control_node-8] [WARN] [1792719100.420112468] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719101.470042710] [auracle.diff_cont]: Velocity command timed out. Braking.
+[INFO] [rplidar_composition-3]: process started with pid [15646]
+[rplidar_composition-3] [INFO] [1792719102.428444894] [auracle.rplidar_node]: RPLIDAR running on ROS 2 package rplidar_ros. SDK Version: '1.12.0'
+[ros2_control_node-8] [WARN] [1792719102.470189275] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719103.520048778] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719104.520062197] [auracle.diff_cont]: Velocity command timed out. Braking.
+[rplidar_composition-3] [INFO] [1792719104.944801020] [auracle.rplidar_node]: RPLIDAR S/N: 965BED95C4E493CBA5E69EF0078B4B6F
+[rplidar_composition-3] [INFO] [1792719104.944872926] [auracle.rplidar_node]: Firmware Ver: 1.29
+[rplidar_composition-3] [INFO] [1792719104.944890556] [auracle.rplidar_node]: Hardware Rev: 7
+[rplidar_composition-3] [INFO] [1792719104.946248907] [auracle.rplidar_node]: RPLidar health status : '0'
+[rplidar_composition-3] [INFO] [1792719104.946302591] [auracle.rplidar_node]: Start
+[ros2_control_node-8] [WARN] [1792719105.570040809] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719106.620038976] [auracle.diff_cont]: Velocity command timed out. Braking.
+[rplidar_composition-3] [ERROR] [1792719107.522832527] [auracle.rplidar_node]: Cannot start scan: '80008000'
+[rplidar_composition-3] [INFO] [1792719107.522937692] [auracle.rplidar_node]: Stop
+[ros2_control_node-8] [WARN] [1792719107.670036439] [auracle.diff_cont]: Velocity command timed out. Braking.
+[rplidar_composition-3] [ERROR] [1792719108.023138779] [auracle.rplidar_node]: Failed to set scan mode
+[ros2_control_node-8] [WARN] [1792719108.670048247] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719109.720037064] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719110.720036657] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719111.720037677] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719112.720039289] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ERROR] [rplidar_composition-3]: process has died [pid 15646, exit code 1, cmd '/opt/ros/jazzy/lib/rplidar_ros/rplidar_composition --ros-args -r __node:=rplidar_node -r __ns:=/auracle --params-file /tmp/launch_params_zz6f8x__'].
+[ros2_control_node-8] [WARN] [1792719113.720047012] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719114.770049940] [auracle.diff_cont]: Velocity command timed out. Braking.
+[INFO] [rplidar_composition-3]: process started with pid [15766]
+[rplidar_composition-3] [INFO] [1792719115.234693947] [auracle.rplidar_node]: RPLIDAR running on ROS 2 package rplidar_ros. SDK Version: '1.12.0'
+[ros2_control_node-8] [WARN] [1792719115.770098626] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719116.820037462] [auracle.diff_cont]: Velocity command timed out. Braking.
+[rplidar_composition-3] [INFO] [1792719117.752669078] [auracle.rplidar_node]: RPLIDAR S/N: 965BED95C4E493CBA5E69EF0078B4B6F
+[rplidar_composition-3] [INFO] [1792719117.752735596] [auracle.rplidar_node]: Firmware Ver: 1.29
+[rplidar_composition-3] [INFO] [1792719117.752752763] [auracle.rplidar_node]: Hardware Rev: 7
+[rplidar_composition-3] [INFO] [1792719117.754116271] [auracle.rplidar_node]: RPLidar health status : '0'
+[rplidar_composition-3] [INFO] [1792719117.754153696] [auracle.rplidar_node]: Start
+[ros2_control_node-8] [WARN] [1792719117.820039278] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719118.820039520] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719119.820046817] [auracle.diff_cont]: Velocity command timed out. Braking.
+[rplidar_composition-3] [ERROR] [1792719120.305428199] [auracle.rplidar_node]: Cannot start scan: '80008000'
+[rplidar_composition-3] [INFO] [1792719120.305529124] [auracle.rplidar_node]: Stop
+[rplidar_composition-3] [ERROR] [1792719120.805808076] [auracle.rplidar_node]: Failed to set scan mode
+[ERROR] [rplidar_composition-3]: process has died [pid 15766, exit code 1, cmd '/opt/ros/jazzy/lib/rplidar_ros/rplidar_composition --ros-args -r __node:=rplidar_node -r __ns:=/auracle --params-file /tmp/launch_params_zz6f8x__'].
+[ros2_control_node-8] [WARN] [1792719120.820053818] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719121.870044264] [auracle.diff_cont]: Velocity command timed out. Braking.
+[INFO] [rplidar_composition-3]: process started with pid [15824]
+[ros2_control_node-8] [WARN] [1792719122.870653909] [auracle.diff_cont]: Velocity command timed out. Braking.
+[rplidar_composition-3] [INFO] [1792719122.876099070] [auracle.rplidar_node]: RPLIDAR running on ROS 2 package rplidar_ros. SDK Version: '1.12.0'
+[ros2_control_node-8] [WARN] [1792719123.920066934] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719124.970044769] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719126.020040643] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719127.020049209] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719128.070035724] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719129.070037493] [auracle.diff_cont]: Velocity command timed out. Braking.
+[rplidar_composition-3] [INFO] [1792719130.018988930] [auracle.rplidar_node]: RPLIDAR S/N: 965BED95C4E493CBA5E69EF0078B4B6F
+[rplidar_composition-3] [INFO] [1792719130.019049763] [auracle.rplidar_node]: Firmware Ver: 1.29
+[rplidar_composition-3] [INFO] [1792719130.019068578] [auracle.rplidar_node]: Hardware Rev: 7
+[rplidar_composition-3] [INFO] [1792719130.020489477] [auracle.rplidar_node]: RPLidar health status : '0'
+[rplidar_composition-3] [INFO] [1792719130.020581106] [auracle.rplidar_node]: Start
+[ros2_control_node-8] [WARN] [1792719130.070049225] [auracle.diff_cont]: Velocity command timed out. Braking.
+[joy_drive.py-2] [INFO] [1792719130.570814791] [auracle.joy_drive_node]: Controller input active (speed 50%)
+[ros2_control_node-8] [WARN] [1792719131.120039185] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719132.120050898] [auracle.diff_cont]: Velocity command timed out. Braking.
+[rplidar_composition-3] [ERROR] [1792719132.522049335] [auracle.rplidar_node]: Cannot start scan: '80008000'
+[rplidar_composition-3] [INFO] [1792719132.522161816] [auracle.rplidar_node]: Stop
+[rplidar_composition-3] [ERROR] [1792719133.022432310] [auracle.rplidar_node]: Failed to set scan mode
+[ros2_control_node-8] [WARN] [1792719133.170045488] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719134.170046701] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719135.220040383] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [ERROR] [1792719137.620118073] [AuracleHardwareInterface]: Nano FAULT on R wheel: code 3 NO_MOTION (PWM applied but wheel barely moves: stalled wheel or dead encoder) | speed 0 ticks/s, target 450 ticks/s
+[ERROR] [rplidar_composition-3]: process has died [pid 15824, exit code 1, cmd '/opt/ros/jazzy/lib/rplidar_ros/rplidar_composition --ros-args -r __node:=rplidar_node -r __ns:=/auracle --params-file /tmp/launch_params_zz6f8x__'].
+[ros2_control_node-8] [WARN] [1792719138.270034659] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719139.270045706] [auracle.diff_cont]: Velocity command timed out. Braking.
+[INFO] [rplidar_composition-3]: process started with pid [15975]
+[ros2_control_node-8] [WARN] [1792719140.270054493] [auracle.diff_cont]: Velocity command timed out. Braking.
+[rplidar_composition-3] [INFO] [1792719140.308527251] [auracle.rplidar_node]: RPLIDAR running on ROS 2 package rplidar_ros. SDK Version: '1.12.0'
+[ros2_control_node-8] [WARN] [1792719141.320046564] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719142.370034894] [auracle.diff_cont]: Velocity command timed out. Braking.
+[rplidar_composition-3] [INFO] [1792719142.828773037] [auracle.rplidar_node]: RPLIDAR S/N: 965BED95C4E493CBA5E69EF0078B4B6F
+[rplidar_composition-3] [INFO] [1792719142.828844278] [auracle.rplidar_node]: Firmware Ver: 1.29
+[rplidar_composition-3] [INFO] [1792719142.828862981] [auracle.rplidar_node]: Hardware Rev: 7
+[rplidar_composition-3] [INFO] [1792719142.830246659] [auracle.rplidar_node]: RPLidar health status : '0'
+[rplidar_composition-3] [INFO] [1792719142.830278492] [auracle.rplidar_node]: Start
+[ros2_control_node-8] [WARN] [1792719143.370046552] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719144.420427065] [auracle.diff_cont]: Velocity command timed out. Braking.
+[rplidar_composition-3] [ERROR] [1792719145.395602590] [auracle.rplidar_node]: Cannot start scan: '80008000'
+[rplidar_composition-3] [INFO] [1792719145.395703108] [auracle.rplidar_node]: Stop
+[ros2_control_node-8] [WARN] [1792719145.470039027] [auracle.diff_cont]: Velocity command timed out. Braking.
+[rplidar_composition-3] [ERROR] [1792719145.895914917] [auracle.rplidar_node]: Failed to set scan mode
+[ros2_control_node-8] [WARN] [1792719146.520048245] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719147.520049663] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719148.570038382] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719149.570056373] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ERROR] [rplidar_composition-3]: process has died [pid 15975, exit code 1, cmd '/opt/ros/jazzy/lib/rplidar_ros/rplidar_composition --ros-args -r __node:=rplidar_node -r __ns:=/auracle --params-file /tmp/launch_params_zz6f8x__'].
+[INFO] [rplidar_composition-3]: process started with pid [16061]
+[rplidar_composition-3] [INFO] [1792719153.131581059] [auracle.rplidar_node]: RPLIDAR running on ROS 2 package rplidar_ros. SDK Version: '1.12.0'
+[ros2_control_node-8] [ERROR] [1792719154.519993899] [AuracleHardwareInterface]: Nano FAULT on R wheel: code 3 NO_MOTION (PWM applied but wheel barely moves: stalled wheel or dead encoder) | speed 0 ticks/s, target -450 ticks/s
+[rplidar_composition-3] [INFO] [1792719155.649957190] [auracle.rplidar_node]: RPLIDAR S/N: 965BED95C4E493CBA5E69EF0078B4B6F
+[rplidar_composition-3] [INFO] [1792719155.650021226] [auracle.rplidar_node]: Firmware Ver: 1.29
+[rplidar_composition-3] [INFO] [1792719155.650038745] [auracle.rplidar_node]: Hardware Rev: 7
+[rplidar_composition-3] [INFO] [1792719155.651394163] [auracle.rplidar_node]: RPLidar health status : '0'
+[rplidar_composition-3] [INFO] [1792719155.651444644] [auracle.rplidar_node]: Start
+[rplidar_composition-3] [ERROR] [1792719156.210326389] [auracle.rplidar_node]: Cannot start scan: '80008000'
+[rplidar_composition-3] [INFO] [1792719156.210464481] [auracle.rplidar_node]: Stop
+[rplidar_composition-3] [ERROR] [1792719156.710715827] [auracle.rplidar_node]: Failed to set scan mode
+[ros2_control_node-8] [ERROR] [1792719157.519997731] [AuracleHardwareInterface]: Nano FAULT on R wheel: code 3 NO_MOTION (PWM applied but wheel barely moves: stalled wheel or dead encoder) | speed 0 ticks/s, target -450 ticks/s
+[ros2_control_node-8] [ERROR] [1792719159.569989944] [AuracleHardwareInterface]: Nano FAULT on R wheel: code 3 NO_MOTION (PWM applied but wheel barely moves: stalled wheel or dead encoder) | speed 0 ticks/s, target -450 ticks/s
+[ERROR] [rplidar_composition-3]: process has died [pid 16061, exit code 1, cmd '/opt/ros/jazzy/lib/rplidar_ros/rplidar_composition --ros-args -r __node:=rplidar_node -r __ns:=/auracle --params-file /tmp/launch_params_zz6f8x__'].
+[ros2_control_node-8] [ERROR] [1792719161.819999654] [AuracleHardwareInterface]: Nano FAULT on R wheel: code 3 NO_MOTION (PWM applied but wheel barely moves: stalled wheel or dead encoder) | speed 0 ticks/s, target 450 ticks/s
+[INFO] [rplidar_composition-3]: process started with pid [16133]
+[rplidar_composition-3] [INFO] [1792719163.877670670] [auracle.rplidar_node]: RPLIDAR running on ROS 2 package rplidar_ros. SDK Version: '1.12.0'
+[ros2_control_node-8] [WARN] [1792719164.070013233] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719165.070047509] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [ERROR] [1792719167.169997162] [AuracleHardwareInterface]: Nano FAULT on R wheel: code 3 NO_MOTION (PWM applied but wheel barely moves: stalled wheel or dead encoder) | speed 0 ticks/s, target 650 ticks/s
+[rplidar_composition-3] [ERROR] [1792719168.394189483] [auracle.rplidar_node]: Error, operation time out. RESULT_OPERATION_TIMEOUT!
+[ros2_control_node-8] [ERROR] [1792719169.319987790] [AuracleHardwareInterface]: Nano FAULT on R wheel: code 3 NO_MOTION (PWM applied but wheel barely moves: stalled wheel or dead encoder) | speed 0 ticks/s, target 450 ticks/s
+[ros2_control_node-8] [ERROR] [1792719171.419992276] [AuracleHardwareInterface]: Nano FAULT on R wheel: code 3 NO_MOTION (PWM applied but wheel barely moves: stalled wheel or dead encoder) | speed 0 ticks/s, target 450 ticks/s
+[ros2_control_node-8] [ERROR] [1792719173.569994673] [AuracleHardwareInterface]: Nano FAULT on R wheel: code 3 NO_MOTION (PWM applied but wheel barely moves: stalled wheel or dead encoder) | speed 0 ticks/s, target -450 ticks/s
+[ros2_control_node-8] [ERROR] [1792719175.719994573] [AuracleHardwareInterface]: Nano FAULT on R wheel: code 3 NO_MOTION (PWM applied but wheel barely moves: stalled wheel or dead encoder) | speed 0 ticks/s, target -450 ticks/s
+[ros2_control_node-8] [ERROR] [1792719177.819992206] [AuracleHardwareInterface]: Nano FAULT on R wheel: code 3 NO_MOTION (PWM applied but wheel barely moves: stalled wheel or dead encoder) | speed 0 ticks/s, target -450 ticks/s
+[ros2_control_node-8] [WARN] [1792719180.670038897] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719181.720029713] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719182.720052317] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [ERROR] [1792719185.469989343] [AuracleHardwareInterface]: Nano FAULT on R wheel: code 3 NO_MOTION (PWM applied but wheel barely moves: stalled wheel or dead encoder) | speed 0 ticks/s, target -450 ticks/s
+[ros2_control_node-8] [WARN] [1792719186.370048447] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [ERROR] [1792719188.519989848] [AuracleHardwareInterface]: Nano FAULT on R wheel: code 3 NO_MOTION (PWM applied but wheel barely moves: stalled wheel or dead encoder) | speed 0 ticks/s, target 450 ticks/s
+[ros2_control_node-8] [WARN] [1792719189.320054453] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719190.370040840] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719191.370045068] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719192.420037098] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719193.470051907] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719194.520053123] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719195.570041246] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719196.570049307] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719197.570054998] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719198.570062984] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719199.620046738] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719200.670036379] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719201.670053348] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719202.720052582] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719203.770036817] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719204.770049489] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719205.820051408] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719206.870046165] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719207.870051106] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719208.870052843] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719209.920052969] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719210.920053632] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719211.970047369] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719213.020034514] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719214.070036122] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719215.070041081] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719216.070042855] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719217.070043703] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719218.120037385] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719219.120044936] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719220.170036174] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719221.220034689] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719222.220037315] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719223.220047581] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719224.270051809] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719225.320045242] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719226.370048156] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719227.370064909] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719228.420042212] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719229.420052465] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719230.470045583] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719231.520039053] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719232.520049898] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719233.570099737] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719234.620044485] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719235.620047868] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719236.620051010] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719237.670090813] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719238.670095566] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719239.720043834] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719240.720047960] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719241.770038817] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719242.820047432] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719243.870040919] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719244.870050026] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719245.920044494] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719246.920069823] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719247.970050125] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719249.020036666] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719250.020040015] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719251.020044771] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [ERROR] [1792719253.419993255] [AuracleHardwareInterface]: Nano FAULT on R wheel: code 3 NO_MOTION (PWM applied but wheel barely moves: stalled wheel or dead encoder) | speed 0 ticks/s, target 450 ticks/s
+[ros2_control_node-8] [ERROR] [1792719255.569997553] [AuracleHardwareInterface]: Nano FAULT on R wheel: code 3 NO_MOTION (PWM applied but wheel barely moves: stalled wheel or dead encoder) | speed 0 ticks/s, target 450 ticks/s
+[ros2_control_node-8] [ERROR] [1792719257.619994359] [AuracleHardwareInterface]: Nano FAULT on R wheel: code 3 NO_MOTION (PWM applied but wheel barely moves: stalled wheel or dead encoder) | speed 0 ticks/s, target 450 ticks/s
+[ros2_control_node-8] [WARN] [1792719258.420043247] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [ERROR] [1792719260.719996186] [AuracleHardwareInterface]: Nano FAULT on R wheel: code 3 NO_MOTION (PWM applied but wheel barely moves: stalled wheel or dead encoder) | speed 0 ticks/s, target -450 ticks/s
+[ros2_control_node-8] [WARN] [1792719263.020050957] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719264.070040292] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719265.120061516] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719266.120099320] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719267.170055045] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719268.220085694] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719269.270044419] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719270.320044643] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719271.320046402] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719272.320064683] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719273.370043742] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719274.372616049] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719275.420027323] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719276.420047029] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719277.470030884] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719278.470038128] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719279.470047872] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719280.520038283] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719281.520047823] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719282.570043122] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719283.570047181] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719284.620047276] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719285.620051187] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719286.670052227] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719287.720048343] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719288.720049849] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719289.770047776] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719291.270047331] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719292.320046425] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719293.320050283] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719294.370048562] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719295.420050526] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719296.421009901] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719297.470051626] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719298.520046442] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719299.570039480] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719300.570045764] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719301.570046343] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719302.570084089] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719303.620053423] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719304.620089143] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719305.670039297] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719306.670042666] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719307.720045764] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719308.770042937] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719309.770057509] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719310.820044089] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719311.870047187] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719312.870051167] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719313.920046451] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719314.920049505] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719315.970046010] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719316.970051027] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719318.020047403] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719319.020050068] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719320.070049520] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719321.120048539] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719322.120057774] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719323.170053071] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719324.170079953] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719325.220044920] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719326.270052048] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719327.320041439] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719328.320048656] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719329.320050856] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719330.370046685] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719331.370053622] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719332.420050273] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719333.420106859] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719334.470040307] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719335.470042504] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719336.520042793] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719337.570040015] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719338.570060167] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719339.620042723] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719340.670041500] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719341.670051301] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719342.720037616] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719343.720048435] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719344.770049879] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719345.820061805] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719346.870042916] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719347.870044642] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719348.870050795] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719349.920036795] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719350.970045184] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719351.970056511] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719353.020043301] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719354.020051650] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719355.070047644] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719356.070062882] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719357.120045024] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719358.120050262] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719359.170038015] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719360.170038439] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719361.170039084] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719362.170052674] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719363.220058371] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719364.220073480] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719365.270052418] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719366.270094434] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719367.320040150] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719368.320044543] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719369.320092973] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719370.370054896] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719371.420048042] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719372.420048380] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792719373.470041062] [auracle.diff_cont]: Velocity command timed out. Braking.
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [ros2_control_node-8]: sending signal 'SIGINT' to process[ros2_control_node-8]
+[INFO] [ekf_node-7]: sending signal 'SIGINT' to process[ekf_node-7]
+[INFO] [joint_state_publisher-6]: sending signal 'SIGINT' to process[joint_state_publisher-6]
+[INFO] [twist_stamper-5]: sending signal 'SIGINT' to process[twist_stamper-5]
+[INFO] [twist_mux-4]: sending signal 'SIGINT' to process[twist_mux-4]
+[INFO] [rplidar_composition-3]: sending signal 'SIGINT' to process[rplidar_composition-3]
+[INFO] [joy_drive.py-2]: sending signal 'SIGINT' to process[joy_drive.py-2]
+[INFO] [robot_state_publisher-1]: sending signal 'SIGINT' to process[robot_state_publisher-1]
+[ros2_control_node-8] [INFO] [1792719374.169342450] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[ros2_control_node-8] [INFO] [1792719374.169415690] [auracle.controller_manager]: Shutdown request received....
+[ros2_control_node-8] [INFO] [1792719374.169475893] [auracle.controller_manager]: Shutting down all controllers in the controller manager.
+[ros2_control_node-8] [INFO] [1792719374.169503430] [auracle.controller_manager]: Deactivating controller 'imu_broadcaster'
+[ros2_control_node-8] [INFO] [1792719374.169594022] [auracle.controller_manager]: Shutting down controller 'imu_broadcaster'
+[ros2_control_node-8] [INFO] [1792719374.169843371] [auracle.controller_manager]: Deactivating controller 'joint_broad'
+[ros2_control_node-8] [INFO] [1792719374.170116813] [auracle.controller_manager]: Shutting down controller 'joint_broad'
+[ros2_control_node-8] [INFO] [1792719374.170388606] [auracle.controller_manager]: Deactivating controller 'diff_cont'
+[ros2_control_node-8] [INFO] [1792719374.170484494] [auracle.controller_manager]: Shutting down controller 'diff_cont'
+[ros2_control_node-8] [INFO] [1792719374.170583086] [resource_manager]: 'deactivate' hardware 'RealRobot' 
+[ros2_control_node-8] [INFO] [1792719374.170651419] [resource_manager]: Successful 'deactivate' of hardware 'RealRobot'
+[ros2_control_node-8] [INFO] [1792719374.170660807] [resource_manager]: 'shutdown' hardware 'RealRobot' 
+[ros2_control_node-8] [INFO] [1792719374.170666604] [resource_manager]: Successful 'shutdown' of hardware 'RealRobot'
+[ros2_control_node-8] [INFO] [1792719374.170768028] [auracle.controller_manager]: Shutting down the controller manager.
+[ekf_node-7] [INFO] [1792719374.172217014] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[ekf_node-7] [2m2026-10-23T01:36:14.172612Z[0m [31mERROR[0m rx-1 ThreadId(08) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 22
+[twist_mux-4] [INFO] [1792719374.180657261] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[rplidar_composition-3] [INFO] [1792719374.186220742] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[robot_state_publisher-1] [INFO] [1792719374.188722680] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[ekf_node-7] [WARN] [1792719374.212721029] [rmw_zenoh_cpp]: unable to publish message since the zenoh session is closed
+[ekf_node-7] [WARN] [1792719374.212763880] [rmw_zenoh_cpp]: unable to publish message since the zenoh session is closed
+[ros2_control_node-8] [WARN] [1792719374.223506512] [rmw_zenoh_cpp]: unable to publish message since the zenoh session is closed
+[ros2_control_node-8] [ERROR] [1792719374.233708223] [auracle.controller_manager.pal_statistics]: Exception in publisher thread: context cannot be slept with because it's invalid!. Aborting!
+[ros2_control_node-8] [ERROR] [1792719374.233873814] [auracle.controller_manager.pal_statistics]: Exception in publisher thread: context cannot be slept with because it's invalid!. Aborting!
+[INFO] [ekf_node-7]: process has finished cleanly [pid 15110]
+[INFO] [twist_mux-4]: process has finished cleanly [pid 15107]
+[INFO] [robot_state_publisher-1]: process has finished cleanly [pid 15104]
+[ros2_control_node-8] [INFO] [1792719374.274966934] [auracle.controller_manager.pal_statistics]: Async messages lost 0
+[ros2_control_node-8] [INFO] [1792719374.274995064] [auracle.controller_manager.pal_statistics]: publish_async_failures_ 0
+[ros2_control_node-8] [INFO] [1792719374.278088958] [auracle.controller_manager.pal_statistics]: Async messages lost 0
+[ros2_control_node-8] [INFO] [1792719374.278135532] [auracle.controller_manager.pal_statistics]: publish_async_failures_ 0
+[INFO] [ros2_control_node-8]: process has finished cleanly [pid 15256]
+[joy_drive.py-2] Traceback (most recent call last):
+[joy_drive.py-2]   File "/home/auracle/auracle_ws/Random-code/install/auracle_bringup/lib/auracle_bringup/joy_drive.py", line 350, in <module>
+[joy_drive.py-2]     main()
+[joy_drive.py-2]   File "/home/auracle/auracle_ws/Random-code/install/auracle_bringup/lib/auracle_bringup/joy_drive.py", line 346, in main
+[joy_drive.py-2]     rclpy.try_shutdown()
+[joy_drive.py-2]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/utilities.py", line 100, in try_shutdown
+[joy_drive.py-2]     g_default_context.try_shutdown()
+[joy_drive.py-2]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/context.py", line 139, in try_shutdown
+[joy_drive.py-2]     self.__context.shutdown()
+[joy_drive.py-2] rclpy._rclpy_pybind11.RCLError: failed to shutdown: rcl_shutdown already called on the given context, at ./src/rcl/init.c:333
+[ERROR] [joy_drive.py-2]: process has died [pid 15105, exit code 1, cmd '/home/auracle/auracle_ws/Random-code/install/auracle_bringup/lib/auracle_bringup/joy_drive.py --ros-args -r __node:=joy_drive_node -r __ns:=/auracle --params-file /home/auracle/auracle_ws/Random-code/install/auracle_bringup/share/auracle_bringup/config/joystick.yaml --params-file /tmp/launch_params_d5lclm1o -r cmd_vel:=cmd_vel_joy'].
+[ERROR] [rplidar_composition-3]: process has died [pid 16133, exit code -11, cmd '/opt/ros/jazzy/lib/rplidar_ros/rplidar_composition --ros-args -r __node:=rplidar_node -r __ns:=/auracle --params-file /tmp/launch_params_zz6f8x__'].
+[ERROR] [joint_state_publisher-6]: process[joint_state_publisher-6] failed to terminate '5' seconds after receiving 'SIGINT', escalating to 'SIGTERM'
+[ERROR] [twist_stamper-5]: process[twist_stamper-5] failed to terminate '5' seconds after receiving 'SIGINT', escalating to 'SIGTERM'
+[INFO] [joint_state_publisher-6]: sending signal 'SIGTERM' to process[joint_state_publisher-6]
+[INFO] [twist_stamper-5]: sending signal 'SIGTERM' to process[twist_stamper-5]
+[ERROR] [joint_state_publisher-6]: process[joint_state_publisher-6] failed to terminate '10.0' seconds after receiving 'SIGTERM', escalating to 'SIGKILL'
+[ERROR] [twist_stamper-5]: process[twist_stamper-5] failed to terminate '10.0' seconds after receiving 'SIGTERM', escalating to 'SIGKILL'
+[INFO] [joint_state_publisher-6]: sending signal 'SIGKILL' to process[joint_state_publisher-6]
+[INFO] [twist_stamper-5]: sending signal 'SIGKILL' to process[twist_stamper-5]
+[ERROR] [joint_state_publisher-6]: process has died [pid 15109, exit code -9, cmd '/opt/ros/jazzy/lib/joint_state_publisher/joint_state_publisher --ros-args -r __ns:=/auracle --params-file /tmp/launch_params_6zqgon5x'].
+[ERROR] [twist_stamper-5]: process has died [pid 15108, exit code -9, cmd '/opt/ros/jazzy/lib/twist_stamper/twist_stamper --ros-args -r __ns:=/auracle --params-file /tmp/launch_params_ks2fyfcy -r cmd_vel_in:=cmd_vel_unstamped -r cmd_vel_out:=diff_cont/cmd_vel'].

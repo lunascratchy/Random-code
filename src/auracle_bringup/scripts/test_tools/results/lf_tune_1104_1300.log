@@ -1,0 +1,20 @@
+1  rears PWM 100, LF = rear + offset (ticks/s, yaw deg/s, + = left)
+    offset  None: fwd LB   137 RB   149 yaw   +0.7 | rev LB  -147 RB  -144 yaw   -0.4
+    offset   -20: fwd LB   365 RB   353 yaw   -0.2 | rev LB  -378 RB  -359 yaw   +0.4
+    offset     0: fwd LB   404 RB   384 yaw   -0.5 | rev LB  -420 RB  -393 yaw   +0.8
+    offset    20: fwd LB   463 RB   436 yaw   -1.0 | rev LB  -478 RB  -446 yaw   +1.1
+    offset    40: fwd LB   521 RB   484 yaw   -1.5 | rev LB  -510 RB  -483 yaw   +1.5
+2  current firmware: forward, back, spin left, spin right
+  drive_test.py 0.5
+    asked +0.500 m | encoders: left +0.524  right +0.514  mean +0.519 m
+    heading change (gyro) -1.5 deg   (+ = turned left)
+  drive_test.py -0.5
+    asked -0.500 m | encoders: left -0.524  right -0.509  mean -0.517 m
+    heading change (gyro) +2.2 deg   (+ = turned left)
+  spin_test.py 360
+    gyro turned +363.0 deg | encoders: left -1.348  right +1.165 m
+    effective wheel_separation = 0.397 m
+  spin_test.py -360
+    gyro turned -361.1 deg | encoders: left +1.401  right -1.283 m
+    effective wheel_separation = 0.426 m
+saved /home/auracle/auracle_tools/runs/lf_tune_1104_1302.json

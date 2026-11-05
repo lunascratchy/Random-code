@@ -1,0 +1,706 @@
+[INFO] [launch]: All log files can be found below /home/auracle/.ros/log/2026-10-23-06-38-11-464236-auracle-2280
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [robot_state_publisher-1]: process started with pid [2308]
+[INFO] [joy_drive.py-2]: process started with pid [2309]
+[INFO] [rplidar_composition-3]: process started with pid [2310]
+[INFO] [twist_mux-4]: process started with pid [2311]
+[INFO] [twist_stamper-5]: process started with pid [2312]
+[INFO] [joint_state_publisher-6]: process started with pid [2313]
+[INFO] [ekf_node-7]: process started with pid [2314]
+[rplidar_composition-3] [INFO] [1792726692.345240441] [auracle.rplidar_node]: RPLIDAR running on ROS 2 package rplidar_ros. SDK Version: '1.12.0'
+[twist_mux-4] [INFO] [1792726692.346767887] [auracle.twist_mux]: Topic handler 'topics.joystick' subscribed to topic 'cmd_vel_joy': timeout = 0.500000s , priority = 100.
+[twist_mux-4] [INFO] [1792726692.388217671] [auracle.twist_mux]: Topic handler 'topics.navigation' subscribed to topic 'cmd_vel_nav': timeout = 0.500000s , priority = 40.
+[twist_mux-4] [INFO] [1792726692.388751264] [auracle.twist_mux]: Topic handler 'topics.tracker' subscribed to topic 'cmd_vel_tracker': timeout = 0.500000s , priority = 50.
+[robot_state_publisher-1] [INFO] [1792726692.512347042] [auracle.robot_state_publisher]: Robot initialized
+[joint_state_publisher-6] [INFO] [1792726693.301409366] [auracle.joint_state_publisher]: Waiting for robot_description to be published on the robot_description topic...
+[joint_state_publisher-6] [INFO] [1792726693.347593896] [auracle.joint_state_publisher]: Got description, configuring robot
+[joy_drive.py-2] [INFO] [1792726693.422535789] [auracle.joy_drive_node]: joy_drive ready: modes=['stick', 'triggers', 'buttons'], max 0.14 m/s / 1.3 rad/s, speed level 50%
+[rplidar_composition-3] [INFO] [1792726694.869755856] [auracle.rplidar_node]: RPLIDAR S/N: 965BED95C4E493CBA5E69EF0078B4B6F
+[rplidar_composition-3] [INFO] [1792726694.869831893] [auracle.rplidar_node]: Firmware Ver: 1.29
+[rplidar_composition-3] [INFO] [1792726694.869850856] [auracle.rplidar_node]: Hardware Rev: 7
+[rplidar_composition-3] [INFO] [1792726694.871252376] [auracle.rplidar_node]: RPLidar health status : '0'
+[rplidar_composition-3] [INFO] [1792726694.871297562] [auracle.rplidar_node]: Start
+[rplidar_composition-3] [INFO] [1792726695.507186022] [auracle.rplidar_node]: current scan mode: Standard, max_distance: 12.0 m, Point number: 2.0K , angle_compensate: 1, flip_x_axis 0
+[INFO] [ros2_control_node-8]: process started with pid [2448]
+[INFO] [spawner-9]: process started with pid [2449]
+[ros2_control_node-8] [INFO] [1792726697.473114891] [auracle.controller_manager]: Using Steady (Monotonic) clock for triggering controller manager cycles.
+[ros2_control_node-8] [INFO] [1792726697.503680275] [auracle.controller_manager]: Subscribing to '/auracle/robot_description' topic for robot description.
+[ros2_control_node-8] [INFO] [1792726697.503850090] [auracle.controller_manager]: update rate is 20 Hz
+[ros2_control_node-8] [INFO] [1792726697.503873016] [auracle.controller_manager]: Overruns handling is : enabled
+[ros2_control_node-8] [INFO] [1792726697.503886349] [auracle.controller_manager]: Spawning controller_manager RT thread with scheduler priority: 50
+[ros2_control_node-8] [WARN] [1792726697.504088405] [auracle.controller_manager]: Could not enable FIFO RT scheduling policy: with error number <1>(Operation not permitted). See [https://control.ros.org/master/doc/ros2_control/controller_manager/doc/userdoc.html] for details on how to enable realtime scheduling.
+[ros2_control_node-8] [INFO] [1792726697.512170765] [auracle.controller_manager]: Received robot description from topic.
+[ros2_control_node-8] [INFO] [1792726697.512367728] [auracle.controller_manager]: Enforcing command limits is disabled. Command limits from URDF will be ignored.
+[ros2_control_node-8] [INFO] [1792726697.519756680] [auracle.controller_manager]: Loading hardware 'RealRobot' 
+[ros2_control_node-8] [INFO] [1792726697.531629396] [auracle.controller_manager]: Loaded hardware 'RealRobot' from plugin 'auracle_hardware/AuracleHardwareInterface'
+[ros2_control_node-8] [INFO] [1792726697.531826767] [auracle.controller_manager]: Initialize hardware 'RealRobot' 
+[ros2_control_node-8] [INFO] [1792726697.542676315] [auracle.controller_manager]: Successful initialization of hardware 'RealRobot'
+[ros2_control_node-8] [INFO] [1792726697.543591853] [auracle.controller_manager]: Activating component 'RealRobot'.
+[ros2_control_node-8] [INFO] [1792726697.543737576] [resource_manager]: 'configure' hardware 'RealRobot' 
+[spawner-9] [INFO] [1792726698.065396084] [auracle.spawner_diff_cont]: waiting for service /auracle/controller_manager/list_controllers to become available...
+[ros2_control_node-8] [INFO] [1792726700.266034772] [resource_manager]: Successful 'configure' of hardware 'RealRobot'
+[ros2_control_node-8] [INFO] [1792726700.266095753] [resource_manager]: 'activate' hardware 'RealRobot' 
+[ros2_control_node-8] [INFO] [1792726700.266197827] [resource_manager]: Successful 'activate' of hardware 'RealRobot'
+[ros2_control_node-8] [INFO] [1792726700.266415346] [auracle.controller_manager]: Registering statistics for : RealRobot
+[ros2_control_node-8] [INFO] [1792726700.266648013] [auracle.controller_manager]: Resource Manager has been successfully initialized. Starting Controller Manager services...
+[ros2_control_node-8] [INFO] [1792726700.320263643] [auracle.controller_manager]: Loading controller : 'diff_cont' of type 'diff_drive_controller/DiffDriveController'
+[ros2_control_node-8] [INFO] [1792726700.320363013] [auracle.controller_manager]: Loading controller 'diff_cont'
+[ros2_control_node-8] [INFO] [1792726700.337500865] [auracle.controller_manager]: Controller 'diff_cont' node arguments: --ros-args --params-file /tmp/launch_params_1l79cvt5 --params-file /home/auracle/auracle_ws/Random-code/install/auracle_bringup/share/auracle_bringup/config/my_controllers.yaml --params-file /home/auracle/auracle_ws/Random-code/install/auracle_bringup/share/auracle_bringup/config/my_controllers_real.yaml 
+[spawner-9] [INFO] [1792726700.356758014] [auracle.spawner_diff_cont]: Loaded diff_cont
+[ros2_control_node-8] [INFO] [1792726700.358772517] [auracle.controller_manager]: Configuring controller: 'diff_cont'
+[ros2_control_node-8] [INFO] [1792726700.408591958] [auracle.controller_manager]: Activating controllers: [ diff_cont ]
+[ros2_control_node-8] [INFO] [1792726700.455913600] [auracle.controller_manager]: Successfully switched controllers!
+[spawner-9] [INFO] [1792726700.506883375] [auracle.spawner_diff_cont]: Configured and activated diff_cont
+[INFO] [spawner-9]: process has finished cleanly [pid 2449]
+[INFO] [spawner-10]: process started with pid [2513]
+[ros2_control_node-8] [WARN] [1792726700.904509031] [auracle.diff_cont]: Velocity command timed out. Braking.
+[spawner-10] [INFO] [1792726701.333426831] [auracle.spawner_joint_broad]: Setting controller param "node_options_args" to "['--ros-args', '--remap', 'joint_states:=joint_states_hw']" for joint_broad
+[ros2_control_node-8] [INFO] [1792726701.335489796] [auracle.controller_manager]: Loading controller : 'joint_broad' of type 'joint_state_broadcaster/JointStateBroadcaster'
+[ros2_control_node-8] [INFO] [1792726701.335558704] [auracle.controller_manager]: Loading controller 'joint_broad'
+[ros2_control_node-8] [INFO] [1792726701.362986325] [auracle.controller_manager]: Controller 'joint_broad' node arguments: --ros-args --params-file /tmp/launch_params_1l79cvt5 --params-file /home/auracle/auracle_ws/Random-code/install/auracle_bringup/share/auracle_bringup/config/my_controllers.yaml --params-file /home/auracle/auracle_ws/Random-code/install/auracle_bringup/share/auracle_bringup/config/my_controllers_real.yaml --ros-args --remap joint_states:=joint_states_hw 
+[spawner-10] [INFO] [1792726701.407669575] [auracle.spawner_joint_broad]: Loaded joint_broad
+[ros2_control_node-8] [INFO] [1792726701.410758079] [auracle.controller_manager]: Configuring controller: 'joint_broad'
+[ros2_control_node-8] [INFO] [1792726701.410946245] [auracle.joint_broad]: 'joints' or 'interfaces' parameter is empty. All available state interfaces will be published
+[ros2_control_node-8] [INFO] [1792726701.457464627] [auracle.controller_manager]: Activating controllers: [ joint_broad ]
+[ros2_control_node-8] [INFO] [1792726701.504487343] [auracle.controller_manager]: Requested controller switch from non-realtime loop
+[ros2_control_node-8] [INFO] [1792726701.504725103] [auracle.controller_manager]: Successfully switched controllers!
+[spawner-10] [INFO] [1792726701.557543973] [auracle.spawner_joint_broad]: Configured and activated joint_broad
+[INFO] [spawner-10]: process has finished cleanly [pid 2513]
+[INFO] [spawner-11]: process started with pid [2539]
+[ros2_control_node-8] [WARN] [1792726701.904530113] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [INFO] [1792726702.331957189] [auracle.controller_manager]: Loading controller : 'imu_broadcaster' of type 'imu_sensor_broadcaster/IMUSensorBroadcaster'
+[ros2_control_node-8] [INFO] [1792726702.332023060] [auracle.controller_manager]: Loading controller 'imu_broadcaster'
+[ros2_control_node-8] [INFO] [1792726702.338676992] [auracle.controller_manager]: Controller 'imu_broadcaster' node arguments: --ros-args --params-file /tmp/launch_params_1l79cvt5 --params-file /home/auracle/auracle_ws/Random-code/install/auracle_bringup/share/auracle_bringup/config/my_controllers.yaml --params-file /home/auracle/auracle_ws/Random-code/install/auracle_bringup/share/auracle_bringup/config/my_controllers_real.yaml 
+[spawner-11] [INFO] [1792726702.376870625] [auracle.spawner_imu_broadcaster]: Loaded imu_broadcaster
+[ros2_control_node-8] [INFO] [1792726702.378902683] [auracle.controller_manager]: Configuring controller: 'imu_broadcaster'
+[ros2_control_node-8] [INFO] [1792726702.410443382] [auracle.controller_manager]: Activating controllers: [ imu_broadcaster ]
+[ros2_control_node-8] [INFO] [1792726702.454662280] [auracle.controller_manager]: Successfully switched controllers!
+[spawner-11] [INFO] [1792726702.507708225] [auracle.spawner_imu_broadcaster]: Configured and activated imu_broadcaster
+[INFO] [spawner-11]: process has finished cleanly [pid 2539]
+[ros2_control_node-8] [WARN] [1792726702.954547784] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726703.954551634] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726705.004550979] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726706.054601362] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726707.104558504] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726708.104593298] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726709.104596758] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726710.154542955] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726711.154546879] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726712.154548988] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726713.154552393] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726714.154639520] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726715.204559143] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726716.254572285] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726717.304551779] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726718.354550106] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726719.404551192] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726720.404551966] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726721.454570864] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726722.504537687] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726723.504544877] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726724.554556052] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726725.604546950] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726726.654542292] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726727.704529097] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726728.704534712] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726729.754533999] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726730.754534410] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726731.754539470] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726732.754541196] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726733.804543945] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726734.854528750] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726735.854571162] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726736.904529516] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726737.904531601] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726738.904563073] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726739.954535098] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726740.954543794] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726741.954548397] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726743.004533829] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726744.004583616] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726745.054541197] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726746.104534017] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726747.104550472] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726748.154539367] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726749.154567043] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726750.204533957] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726751.204568134] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726752.254546936] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726753.254564999] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726754.304544379] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726755.354551034] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726756.404537451] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726757.404544225] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726758.454537530] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726759.454549693] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726760.454550246] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726761.454550540] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726762.454559740] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726763.504547749] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726764.504547824] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726765.554549347] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726766.554552445] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726767.554555931] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726768.604575269] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726769.654549255] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726770.654552704] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726771.654568542] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726772.654569009] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726773.704544570] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726774.754568945] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726775.804541987] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726776.804548140] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726777.854547774] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726778.904533038] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726779.904541154] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726780.904543436] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726781.954550293] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726783.004542946] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726784.054546673] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726785.104545032] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726786.104553757] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726787.154549831] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726788.204534794] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726789.204545297] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726790.254547352] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726791.304543834] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726792.354538204] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726793.354542262] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726794.354545820] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726795.404574616] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726796.454546098] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726797.454548323] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726798.504541749] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726799.554541027] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726800.554608955] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726801.554658951] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726802.604541974] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726803.604545971] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726804.604855354] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726805.654650934] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726806.704577865] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726807.704598973] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726808.704713691] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726809.754587844] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726810.804543886] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726811.854550575] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726812.904539319] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726813.904545261] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726814.904546110] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726815.904556681] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726816.954556370] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726818.004549517] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726819.054539457] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726820.054542288] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726821.054542934] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726822.104546374] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726823.154545000] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726824.204540884] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726825.254542343] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726826.304541561] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726827.304548559] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726828.354550018] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726829.354550997] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726830.404550659] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726831.454548692] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726832.504547558] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726833.504551704] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726834.554551178] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726835.604535721] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726836.604547478] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726837.604694696] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726838.654538853] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726839.654542629] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726840.654549515] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726841.654556050] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726842.704545038] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726843.754581451] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726844.804547939] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726845.854549594] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726846.904550896] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726847.954542884] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726848.954545919] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726850.004537699] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726851.004547889] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726852.054544059] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726853.104541100] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726854.154538011] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726855.154543238] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726856.154547483] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726857.204553320] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726858.254548583] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726859.254581347] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726860.304554795] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726861.354574817] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726862.404540599] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726863.454535880] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726864.504535550] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726865.504545888] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726866.554539952] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726867.554544992] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726868.604542099] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726869.654529059] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726870.654540321] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726871.654545065] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726872.704551246] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726873.754567020] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726874.804546165] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726875.854540827] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726876.904542009] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726877.904544605] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726878.904578293] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726879.954541419] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726881.004539878] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726882.004540048] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726883.054527463] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726884.054546932] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726885.054552958] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726886.104539825] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726887.154546933] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726888.204549226] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726889.254550686] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726890.304543609] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726891.304546449] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726892.304550215] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726893.354547194] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726894.404543728] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726895.454543225] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726896.454544176] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726897.504539636] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726898.504545098] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726899.504556020] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726900.554506109] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726901.554552420] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726902.604539119] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726903.654498818] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726904.654543444] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726905.704539051] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726906.754550990] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726907.804534467] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726908.804541667] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726909.804545516] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726910.804549809] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726911.804551842] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726912.854538875] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726913.854561241] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726914.904542147] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726915.954541108] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726917.004540328] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726918.004547038] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726919.054543369] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726920.054567542] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726921.104548096] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726922.154540334] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726923.204547517] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726936.554539013] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726937.554546695] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726938.554554635] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726939.604549373] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726942.954540553] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726943.954551957] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726944.954552027] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726946.004547117] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726947.054542071] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726948.054552670] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726949.104545717] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726950.154539523] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726951.204539514] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726952.204540817] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726953.204548935] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726954.254583074] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726955.304549084] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726956.354543539] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726957.354550823] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726958.404544407] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726959.404555506] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726960.454560590] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726961.504543692] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726962.504544699] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726963.554546248] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726964.604547972] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726965.654546158] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726966.704561604] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726967.754533291] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726968.754539529] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726969.754541693] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726970.754548838] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726971.754557001] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726972.804559410] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726973.854534764] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726974.854536817] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726975.904552411] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726976.954551301] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726978.004536358] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726979.004536818] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726980.004538194] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726981.004540506] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726982.004557225] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726983.054554374] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726984.104530283] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726985.104546039] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726986.104549148] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726987.154545093] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726988.154547017] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726989.154547514] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726990.204555978] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726991.254553257] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726992.304551054] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726993.354548703] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726994.354549886] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726995.354558510] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726996.404549650] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726997.454539605] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726998.504539615] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792726999.504543954] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727000.504571477] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727001.554540636] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727002.554549864] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727003.554581332] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727004.604541953] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727005.604547681] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727006.654548969] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727007.654636085] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727008.704540781] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727009.754538625] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727010.804543357] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727011.854576943] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727012.904565256] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727013.954551847] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727015.004544679] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727016.054554511] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727017.104528547] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727018.104542949] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727019.154539614] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727020.154549645] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727023.504549455] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727024.504554931] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727025.554547133] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727026.554548979] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727027.604584755] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727028.654531707] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727029.654539863] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727030.654551778] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727031.704551400] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727032.754549837] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727033.804548812] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727047.204563921] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727048.254548913] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727049.304543276] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727057.254542870] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727058.304530881] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727060.504548445] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727061.554540234] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727092.604550335] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727098.604550718] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727099.654542724] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727102.804526817] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727103.804538662] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727107.704548994] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727108.754547164] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727109.804536944] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727112.004550347] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727113.004551131] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727117.754547167] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727118.804545947] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727119.804550787] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727120.854542882] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727121.854551611] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727122.904547113] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727123.904553175] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727124.954556274] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727125.954571047] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727127.004548280] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727128.004569405] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727129.054559434] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727130.054563930] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727131.104581792] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727132.154551359] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727133.204580184] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727134.254540880] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727135.254548042] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727140.704542880] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727141.754535549] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727142.754552837] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727143.804545675] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727147.104551934] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727148.154533810] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727149.154548746] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727150.204612176] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727151.254610440] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727152.304528168] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727153.304538956] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727154.304543818] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727155.354552785] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727164.704549770] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727165.754544535] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727166.754556432] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727167.804545271] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727168.854534259] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727169.854553173] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727170.904547309] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727171.904554094] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727173.454546878] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727174.504543725] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727175.504555737] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727183.454535857] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727184.504539759] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727193.804550716] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727194.854554482] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727195.904548210] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727196.954532864] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727212.304548588] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727213.354547417] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727214.404547097] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727215.404553615] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727216.454547740] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727217.454551314] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727218.504550476] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727219.504550901] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727220.504590900] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727221.554545914] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727227.404548681] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727233.654532327] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727234.654549563] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727235.654585187] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727236.704545118] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727237.754572463] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727238.804551746] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727239.854540251] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727240.854540381] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727241.854553251] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727242.904540460] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727243.904546646] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727244.954532169] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727245.954543836] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727247.004585470] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727248.054541809] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727249.054548050] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727250.104542426] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727251.154541135] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727252.154547950] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727253.204542492] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727254.204551039] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727255.204563368] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727256.254542111] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727257.254554570] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727258.304546758] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727259.304559642] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727260.354548293] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727261.404540221] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727262.404545198] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727263.404558434] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727264.454510289] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727265.504538292] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727266.504554157] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727267.554542512] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727268.604542589] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727269.654571925] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727270.704544205] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727271.704549682] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727272.754540833] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727273.754546662] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727274.754549694] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727275.754584634] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727276.804547063] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727277.804552892] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727278.854550635] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727279.854551927] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727280.904543707] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727281.904551554] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727282.904558661] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727283.954543534] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727284.954553807] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727285.954555562] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727286.954738411] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727288.004546240] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727289.054546254] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727290.054562503] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727291.104578424] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727292.104758581] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727293.154741964] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727294.205230956] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727295.254554233] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727296.255251238] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727297.255376562] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727298.305363779] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727299.354545112] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727300.354548362] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727301.354548779] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727302.355118396] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727303.404550693] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727304.404723208] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727305.455095659] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727306.504550818] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727307.554573085] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727308.604547316] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727309.654550990] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727310.704543443] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727311.704553311] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727312.754544134] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727313.804544661] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727314.804550028] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727315.804563322] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727316.854534923] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727317.854562901] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727318.904541835] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727319.954542159] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727320.954545714] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727322.004547041] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727323.054535405] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727324.054551867] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727325.104566749] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727326.154542798] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727327.204507088] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727328.204546440] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727329.204548124] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727330.254546266] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727331.304544685] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727332.354548641] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727333.404572505] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727334.454547980] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727335.454554055] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727336.504539411] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727337.554508268] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727338.554543485] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727339.604546952] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727340.654541178] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727341.654541988] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727342.654547113] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727343.654558701] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727344.704546668] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727345.704558256] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727346.704559733] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727347.754544663] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727348.754545658] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727349.804533181] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727350.854548537] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727351.854549009] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727352.904540519] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727353.904543877] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727354.904551105] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727355.954535059] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727356.954552231] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727358.004545074] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727359.054562306] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727360.104548779] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727361.154545918] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727362.204547076] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727363.204549230] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727364.254541017] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727365.304541935] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727366.304542625] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727367.304545261] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727368.354531194] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727369.354551079] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727370.354553815] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727371.404537671] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727372.404547963] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727373.454551540] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727374.454558684] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727375.504556817] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727376.554541673] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727377.554550724] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727378.604553617] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727379.604673890] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727380.654557838] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727381.704583175] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727382.754548105] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727383.754556393] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727384.804541485] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727385.804590032] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727386.854558254] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727387.854560487] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727388.904559079] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727389.904566571] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727390.954547256] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727391.955299650] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727393.004545173] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727394.054574265] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727395.104549264] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727396.104553608] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727397.154554107] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727398.154635877] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727399.204537747] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727400.204540836] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727401.204552817] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727402.204581631] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727403.254554205] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727404.304566500] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727405.354536556] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727408.054541017] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727414.554545088] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727418.404551413] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727419.404551708] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727428.754568239] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727429.804560292] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727438.254546072] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727439.304547622] [auracle.diff_cont]: Velocity command timed out. Braking.
+[ros2_control_node-8] [WARN] [1792727440.354543913] [auracle.diff_cont]: Velocity command timed out. Braking.
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [ros2_control_node-8]: sending signal 'SIGINT' to process[ros2_control_node-8]
+[INFO] [ekf_node-7]: sending signal 'SIGINT' to process[ekf_node-7]
+[INFO] [joint_state_publisher-6]: sending signal 'SIGINT' to process[joint_state_publisher-6]
+[INFO] [twist_stamper-5]: sending signal 'SIGINT' to process[twist_stamper-5]
+[INFO] [twist_mux-4]: sending signal 'SIGINT' to process[twist_mux-4]
+[INFO] [rplidar_composition-3]: sending signal 'SIGINT' to process[rplidar_composition-3]
+[INFO] [joy_drive.py-2]: sending signal 'SIGINT' to process[joy_drive.py-2]
+[INFO] [robot_state_publisher-1]: sending signal 'SIGINT' to process[robot_state_publisher-1]
+[ros2_control_node-8] [INFO] [1792727445.532883192] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[ros2_control_node-8] [INFO] [1792727445.532963044] [auracle.controller_manager]: Shutdown request received....
+[ros2_control_node-8] [INFO] [1792727445.533021914] [auracle.controller_manager]: Shutting down all controllers in the controller manager.
+[ros2_control_node-8] [INFO] [1792727445.533048377] [auracle.controller_manager]: Deactivating controller 'imu_broadcaster'
+[ros2_control_node-8] [INFO] [1792727445.533122969] [auracle.controller_manager]: Shutting down controller 'imu_broadcaster'
+[ros2_control_node-8] [INFO] [1792727445.533365117] [auracle.controller_manager]: Deactivating controller 'joint_broad'
+[ros2_control_node-8] [INFO] [1792727445.533441246] [auracle.controller_manager]: Shutting down controller 'joint_broad'
+[ros2_control_node-8] [INFO] [1792727445.533515246] [auracle.controller_manager]: Deactivating controller 'diff_cont'
+[ros2_control_node-8] [INFO] [1792727445.533576431] [auracle.controller_manager]: Shutting down controller 'diff_cont'
+[ros2_control_node-8] [INFO] [1792727445.533636857] [resource_manager]: 'deactivate' hardware 'RealRobot' 
+[ros2_control_node-8] [INFO] [1792727445.533700486] [resource_manager]: Successful 'deactivate' of hardware 'RealRobot'
+[ros2_control_node-8] [INFO] [1792727445.533710430] [resource_manager]: 'shutdown' hardware 'RealRobot' 
+[ros2_control_node-8] [INFO] [1792727445.533716838] [resource_manager]: Successful 'shutdown' of hardware 'RealRobot'
+[ros2_control_node-8] [INFO] [1792727445.533783060] [auracle.controller_manager]: Shutting down the controller manager.
+[ekf_node-7] [INFO] [1792727445.536722330] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[twist_mux-4] [INFO] [1792727445.543562755] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[rplidar_composition-3] [INFO] [1792727445.551256253] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[ros2_control_node-8] [WARN] [1792727445.555569001] [rmw_zenoh_cpp]: unable to publish message since the zenoh session is closed
+[robot_state_publisher-1] [INFO] [1792727445.559825952] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[rplidar_composition-3] [WARN] [1792727445.561677984] [rmw_zenoh_cpp]: unable to publish message since the zenoh session is closed
+[ros2_control_node-8] [ERROR] [1792727445.575714483] [auracle.controller_manager.pal_statistics]: Exception in publisher thread: context cannot be slept with because it's invalid!. Aborting!
+[ros2_control_node-8] Failed to publish log message to rosout: publisher's context is invalid, at ./src/rcl/publisher.c:423
+[ros2_control_node-8] [ERROR] [1792727445.575722279] [auracle.controller_manager.pal_statistics]: Exception in publisher thread: context cannot be slept with because it's invalid!. Aborting!
+[ros2_control_node-8] Failed to publish log message to rosout: publisher's context is invalid, at ./src/rcl/publisher.c:423
+[INFO] [twist_mux-4]: process has finished cleanly [pid 2311]
+[ros2_control_node-8] [INFO] [1792727445.605330180] [auracle.controller_manager.pal_statistics]: Async messages lost 0
+[ros2_control_node-8] [INFO] [1792727445.605377439] [auracle.controller_manager.pal_statistics]: publish_async_failures_ 0
+[ros2_control_node-8] [INFO] [1792727445.605733420] [auracle.controller_manager.pal_statistics]: Async messages lost 0
+[ros2_control_node-8] [INFO] [1792727445.605749457] [auracle.controller_manager.pal_statistics]: publish_async_failures_ 0
+[INFO] [robot_state_publisher-1]: process has finished cleanly [pid 2308]
+[INFO] [ekf_node-7]: process has finished cleanly [pid 2314]
+[INFO] [ros2_control_node-8]: process has finished cleanly [pid 2448]
+[joy_drive.py-2] Traceback (most recent call last):
+[joy_drive.py-2]   File "/home/auracle/auracle_ws/Random-code/install/auracle_bringup/lib/auracle_bringup/joy_drive.py", line 350, in <module>
+[joy_drive.py-2]     rclpy.try_shutdown()
+[joy_drive.py-2] ^^^^^^
+[joy_drive.py-2]   File "/home/auracle/auracle_ws/Random-code/install/auracle_bringup/lib/auracle_bringup/joy_drive.py", line 346, in main
+[joy_drive.py-2]     node.publish_zero()
+[joy_drive.py-2] ^^^^^^^^^^^^^^^^^^^^
+[joy_drive.py-2]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/utilities.py", line 100, in try_shutdown
+[joy_drive.py-2]     g_default_context.try_shutdown()
+[joy_drive.py-2]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/context.py", line 139, in try_shutdown
+[joy_drive.py-2]     self.__context.shutdown()
+[joy_drive.py-2] rclpy._rclpy_pybind11.RCLError: failed to shutdown: rcl_shutdown already called on the given context, at ./src/rcl/init.c:333
+[ERROR] [joy_drive.py-2]: process has died [pid 2309, exit code 1, cmd '/home/auracle/auracle_ws/Random-code/install/auracle_bringup/lib/auracle_bringup/joy_drive.py --ros-args -r __node:=joy_drive_node -r __ns:=/auracle --params-file /home/auracle/auracle_ws/Random-code/install/auracle_bringup/share/auracle_bringup/config/joystick.yaml --params-file /tmp/launch_params_g5s0pb9f -r cmd_vel:=cmd_vel_joy'].
+[ERROR] [joint_state_publisher-6]: process[joint_state_publisher-6] failed to terminate '5' seconds after receiving 'SIGINT', escalating to 'SIGTERM'
+[ERROR] [twist_stamper-5]: process[twist_stamper-5] failed to terminate '5' seconds after receiving 'SIGINT', escalating to 'SIGTERM'
+[ERROR] [rplidar_composition-3]: process[rplidar_composition-3] failed to terminate '5' seconds after receiving 'SIGINT', escalating to 'SIGTERM'
+[INFO] [joint_state_publisher-6]: sending signal 'SIGTERM' to process[joint_state_publisher-6]
+[INFO] [twist_stamper-5]: sending signal 'SIGTERM' to process[twist_stamper-5]
+[INFO] [rplidar_composition-3]: sending signal 'SIGTERM' to process[rplidar_composition-3]
+[rplidar_composition-3] [INFO] [1792727451.324187948] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[INFO] [rplidar_composition-3]: process has finished cleanly [pid 2310]
+[ERROR] [joint_state_publisher-6]: process[joint_state_publisher-6] failed to terminate '10.0' seconds after receiving 'SIGTERM', escalating to 'SIGKILL'
+[ERROR] [twist_stamper-5]: process[twist_stamper-5] failed to terminate '10.0' seconds after receiving 'SIGTERM', escalating to 'SIGKILL'
+[INFO] [joint_state_publisher-6]: sending signal 'SIGKILL' to process[joint_state_publisher-6]
+[INFO] [twist_stamper-5]: sending signal 'SIGKILL' to process[twist_stamper-5]
+[ERROR] [joint_state_publisher-6]: process has died [pid 2313, exit code -9, cmd '/opt/ros/jazzy/lib/joint_state_publisher/joint_state_publisher --ros-args -r __ns:=/auracle --params-file /tmp/launch_params_cf42ehrf'].
+[ERROR] [twist_stamper-5]: process has died [pid 2312, exit code -9, cmd '/opt/ros/jazzy/lib/twist_stamper/twist_stamper --ros-args -r __ns:=/auracle --params-file /tmp/launch_params_5raiyq93 -r cmd_vel_in:=cmd_vel_unstamped -r cmd_vel_out:=diff_cont/cmd_vel'].

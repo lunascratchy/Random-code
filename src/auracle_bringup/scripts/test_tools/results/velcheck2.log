@@ -1,0 +1,26 @@
+forward    cmd L  600 R  574 | L      0  R      0 ticks/s
+  FAULT F L 1 -110 600
+forward    cmd L  600 R  574 | L   -121  R    169 ticks/s
+forward    cmd L  600 R  574 | L      0  R     77 ticks/s
+forward    cmd L  600 R  574 | L    -27  R      3 ticks/s
+forward    cmd L  600 R  574 | L    -86  R    387 ticks/s
+  FAULT F L 3 -88 600
+forward    cmd L  600 R  574 | L    -28  R    245 ticks/s
+stop       cmd L    0 R    0 | L      0  R      0 ticks/s
+stop       cmd L    0 R    0 | L      0  R      0 ticks/s
+reverse    cmd L -700 R -670 | L   -100  R     20 ticks/s
+reverse    cmd L -700 R -670 | L   -150  R   -544 ticks/s
+  FAULT F L 3 -161 -700
+reverse    cmd L -700 R -670 | L    -94  R   -572 ticks/s
+reverse    cmd L -700 R -670 | L      0  R     -2 ticks/s
+reverse    cmd L -700 R -670 | L   -136  R   -407 ticks/s
+stop       cmd L    0 R    0 | L    -40  R   -560 ticks/s
+stop       cmd L    0 R    0 | L     -3  R    -68 ticks/s
+spin left  cmd L -500 R  480 | L      0  R      0 ticks/s
+spin left  cmd L -500 R  480 | L    -79  R    192 ticks/s
+  FAULT F L 3 -89 -500
+spin left  cmd L -500 R  480 | L    -63  R    439 ticks/s
+spin left  cmd L -500 R  480 | L      0  R      5 ticks/s
+spin left  cmd L -500 R  480 | L   -151  R    153 ticks/s
+stop       cmd L    0 R    0 | L    -40  R    420 ticks/s
+stop       cmd L    0 R    0 | L     -3  R     55 ticks/s

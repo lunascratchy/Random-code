@@ -1,0 +1,353 @@
+<title>Auracle Drive Diagnosis</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one reading column like a lab notebook; status board up top, then cause notes with severity stripes, then the numbered walkthrough to teleop. */
+:root {
+  --ink: #17232b;
+  --ink-soft: #4a5a64;
+  --paper: #f5f7f6;
+  --panel: #e8edeb;
+  --rule: #c9d3d0;
+  --accent: #0f6c74;
+  --fault: #b4461f;
+  --warn: #a8740c;
+  --ok: #2f7a45;
+  --code-bg: #e1e8e6;
+  --display: "Chakra Petch", "Barlow", "Segoe UI", sans-serif;
+  --body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --ink: #dfe7e5; --ink-soft: #9aaba8; --paper: #111a1e; --panel: #19262b;
+    --rule: #2c3c42; --accent: #4fb8bf; --fault: #ec7d55; --warn: #e0ad45; --ok: #6cc486; --code-bg: #1f2e34;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --ink: #dfe7e5; --ink-soft: #9aaba8; --paper: #111a1e; --panel: #19262b;
+  --rule: #2c3c42; --accent: #4fb8bf; --fault: #ec7d55; --warn: #e0ad45; --ok: #6cc486; --code-bg: #1f2e34;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--paper); color: var(--ink);
+  font: 16px/1.62 var(--body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 40px 72px;
+}
+main { max-width: 860px; margin: 0 auto; display: flex; flex-direction: column; gap: 44px; }
+.prose { max-width: 68ch; }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; line-height: 1.15; margin: 0; }
+h1 { font-size: clamp(2rem, 5vw, 2.9rem); font-weight: 600; letter-spacing: -0.01em; }
+h2 { font-size: 1.55rem; font-weight: 600; }
+h3 { font-size: 1.12rem; font-weight: 600; }
+p { margin: 0; }
+section { display: flex; flex-direction: column; gap: 14px; }
+.eyebrow { font: 500 0.74rem/1 var(--mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); }
+header { display: flex; flex-direction: column; gap: 14px; border-bottom: 2px solid var(--ink); padding-bottom: 24px; }
+.lede { font-size: 1.12rem; color: var(--ink-soft); max-width: 62ch; }
+.meta { font: 0.8rem/1.5 var(--mono); color: var(--ink-soft); display: flex; flex-wrap: wrap; gap: 6px 20px; }
+code, .mono { font-family: var(--mono); font-size: 0.86em; }
+code { background: var(--code-bg); padding: 1px 5px; border-radius: 3px; }
+ul, ol { margin: 0; padding-left: 1.3em; display: flex; flex-direction: column; gap: 6px; }
+a { color: var(--accent); }
+
+.note { border: 1px solid var(--rule); background: var(--panel); padding: 14px 18px; border-radius: 4px; font-size: 0.95rem; display: flex; flex-direction: column; gap: 8px; }
+.note strong.bad { color: var(--fault); }
+.stop { border: 1px solid var(--fault); padding: 10px 14px; border-radius: 4px; font-size: 0.93rem; }
+.stop b { color: var(--fault); }
+
+.status { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px; }
+.item { border: 1px solid var(--rule); border-radius: 4px; padding: 10px 12px; display: flex; gap: 10px; align-items: flex-start; font-size: 0.92rem; }
+.pill { font: 500 0.68rem/1 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; padding: 4px 6px; border-radius: 3px; white-space: nowrap; border: 1px solid currentColor; }
+.pill.done { color: var(--ok); }
+.pill.you { color: var(--warn); }
+.pill.block { color: var(--fault); }
+
+.cause { display: grid; grid-template-columns: 6px 1fr; gap: 0 20px; }
+.cause::before { content: ""; border-radius: 3px; background: var(--sev, var(--warn)); }
+.cause > div { display: flex; flex-direction: column; gap: 10px; }
+.cause.high { --sev: var(--fault); }
+.cause.med { --sev: var(--warn); }
+.cause.fixed { --sev: var(--ok); }
+.sev { font: 500 0.72rem/1 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--sev); }
+
+.table-wrap { overflow-x: auto; border: 1px solid var(--rule); border-radius: 4px; }
+table { border-collapse: collapse; width: 100%; font-size: 0.9rem; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font: 600 0.74rem/1.3 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft); background: var(--panel); }
+tr:last-child td { border-bottom: 0; }
+td.num { font-family: var(--mono); text-align: right; white-space: nowrap; }
+th.num { text-align: right; }
+.hl td { background: color-mix(in srgb, var(--accent) 10%, transparent); font-weight: 600; }
+.small { font-size: 0.86rem; color: var(--ink-soft); }
+
+.phase { display: flex; flex-direction: column; gap: 12px; border-top: 2px solid var(--ink); padding-top: 14px; }
+.phase-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px; }
+.phase-head .tag { font: 500 0.74rem/1 var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
+.phase-goal { color: var(--ink-soft); max-width: 68ch; }
+ol.steps { list-style: none; padding: 0; margin: 0; counter-reset: s; display: flex; flex-direction: column; gap: 10px; }
+ol.steps > li { counter-increment: s; display: grid; grid-template-columns: 3.2em 1fr; gap: 0 10px; max-width: 76ch; }
+ol.steps > li::before { content: var(--p) "." counter(s); font: 500 0.82rem/1.9 var(--mono); color: var(--accent); }
+.step { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.why { font-size: 0.9rem; color: var(--ink-soft); border-left: 2px solid var(--rule); padding-left: 10px; }
+.why b { color: var(--ink); font-weight: 600; }
+.pass { font-size: 0.9rem; border-left: 2px solid var(--ok); padding-left: 10px; }
+.pass b { color: var(--ok); }
+pre { margin: 0; background: var(--code-bg); padding: 10px 12px; border-radius: 4px; overflow-x: auto; font: 0.84rem/1.5 var(--mono); }
+.keys { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 6px 16px; font-size: 0.92rem; }
+kbd { font: 500 0.82rem/1 var(--mono); border: 1px solid var(--rule); border-bottom-width: 2px; border-radius: 3px; padding: 2px 6px; background: var(--panel); }
+footer { border-top: 1px solid var(--rule); padding-top: 16px; font-size: 0.85rem; color: var(--ink-soft); }
+</style>
+
+<main>
+  <header>
+    <span class="eyebrow">Auracle · rocker-bogie skid-steer · ROS 2 Jazzy</span>
+    <h1>Auracle Drive Diagnosis</h1>
+    <p class="lede">Why the drive was jerky and curved, why the Pi shut off in the first bench test, and the tests that take you from the bench to smooth teleop with the keyboard and the controller.</p>
+    <div class="meta">
+      <span>Code: auracle_ws/Random-code (changes not committed yet)</span>
+      <span>Firmware on the Nano: soft start + rev/s mixing + D12 encoder pin</span>
+      <span>Updated 23 Oct 2026</span>
+    </div>
+  </header>
+
+  <section>
+    <span class="eyebrow">Where things stand</span>
+    <h2>Status</h2>
+    <div class="status">
+      <div class="item"><span class="pill done">Done</span><span>Left encoder channel B moved to D12 in firmware, matching your wire</span></div>
+      <div class="item"><span class="pill done">Done</span><span>Soft start: motor power rises over about 200 ms instead of jumping to the kick in one step</span></div>
+      <div class="item"><span class="pill done">Done</span><span>Left/right mixing in wheel rev/s, with hysteresis on the arc/spin switch</span></div>
+      <div class="item"><span class="pill done">Done</span><span>Smooth keyboard teleop node, <code>key_drive.py</code>, built</span></div>
+      <div class="item"><span class="pill done">Done</span><span>Flashing from the Pi: <code>arduino-cli</code> and <code>~/auracle_tools/flash_nano.sh</code></span></div>
+      <div class="item"><span class="pill block">Blocking</span><span>Pi browns out when the motors start. Add capacitors and charge the LiPo (Phase B)</span></div>
+      <div class="item"><span class="pill you">You</span><span>Bench test, ticks-per-turn count and minimum-speed test (Phases D–F)</span></div>
+      <div class="item"><span class="pill you">You</span><span>First drives with the keyboard, then the controller (Phases G–H)</span></div>
+    </div>
+  </section>
+
+  <section class="cause high">
+    <div>
+      <span class="sev">Why the Pi turned off</span>
+      <h2>The buck converter's output dips when the motors start</h2>
+      <p class="prose">The Pi runs from a buck converter on the same LiPo as the motors. When four motors start at once, they draw a spike of current, the LiPo voltage dips, and the buck's 5 V output falls with it. The Pi's log stops mid-line with no shutdown message, which is what an instant power loss looks like. A Pi 5 is less tolerant of this than older Pis.</p>
+      <p class="prose">It hadn't happened before for two likely reasons. The bench test started all four motors at a fixed PWM from rest. And a battery that's partly drained sags further under the same spike. The new firmware and test script both ramp the motors up now, and Phase B adds capacitors to cover the rest.</p>
+      <div class="note">
+        <p><strong class="bad">About the 5 A setting.</strong> There is a Pi 5 setting for this: <code>PSU_MAX_CURRENT=5000</code> in the EEPROM, or <code>usb_max_current_enable=1</code> in <code>config.txt</code>. It only tells the Pi to trust its supply and raises the USB port limit from 600 mA to 1.6 A. It doesn't make the buck deliver any more current, and it can't stop a brownout. The brownout comes from the buck's input voltage dipping, not from the USB limit.</p>
+        <p>Turn it on only if the buck converter is rated for 5 A or more. If it's rated lower, the Pi will let USB devices draw more than the buck can supply, and it will brown out more easily. Phase C shows how to check and set it.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <span class="eyebrow">What was wrong with the driving</span>
+    <h2>Four causes, and what's been done about each</h2>
+
+    <div class="cause high">
+      <div>
+        <span class="sev">1 · Encoder dropouts · needs your bench test</span>
+        <h3>A rear encoder kept losing its signal</h3>
+        <p class="prose">124 NO_MOTION faults in the logs, all at exactly 0 speed, one wheel per session. While the Nano thinks a wheel is stopped, it pushes that side harder (the curve). When the fault latches it stops every motor, then retries about every 2 s (the jerk). The left encoder's B wire was on D13, which has the Nano's LED on it. It's on D12 now in both the wiring and the firmware. Phase D checks that both rear encoders count steadily.</p>
+      </div>
+    </div>
+
+    <div class="cause fixed">
+      <div>
+        <span class="sev">2 · Turning · fixed in firmware</span>
+        <h3>The inner side kept reversing in turns</h3>
+        <p class="prose">No wheel may run slower than 600 ticks/s, so a turn either keeps the inner wheel forward (an arc) or reverses it (a spin). Every reversal brakes the whole side, waits up to 800 ms for it to stop, then kicks it again. The old code switched at one exact turn rate, so a turn held near it kept reversing the inner side. Now it switches into a spin at about 0.5 rad/s and only back to an arc below about 0.3 rad/s.</p>
+      </div>
+    </div>
+
+    <div class="cause fixed">
+      <div>
+        <span class="sev">3 · Straight-line drift · fixed in firmware, calibration pending</span>
+        <h3>Left and right didn't get the same wheel speed</h3>
+        <p class="prose">The two rear encoders count different ticks per turn (730 and 655), but the mixing added the same number of ticks to both sides. At low speed the sides got 0.86 and 0.92 rev/s, so the robot drifted in an arc. It now mixes in rev/s, and both get 0.92. If 730 and 655 themselves are wrong, it will still curve while odometry says it's straight, which is why Phase E counts them by hand.</p>
+      </div>
+    </div>
+
+    <div class="cause fixed">
+      <div>
+        <span class="sev">4 · Starts and stops · keyboard fixed, minimum speed pending</span>
+        <h3>Teleop sent steps, not ramps</h3>
+        <p class="prose"><code>teleop_twist_keyboard</code> sends one step per key event, and its key-repeat delay (about 0.5 s) matched the 0.5 s timeouts, which gave a go-stop-go. The new <code>key_drive.py</code> ramps and sends at a steady 20 Hz. The controller node was already smooth. The remaining jerk is the Nano's 600 ticks/s minimum (about 0.12 m/s): every start jumps to at least that speed. Phase F measures how much lower it can safely go.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <span class="eyebrow">Firmware changes on the Nano now</span>
+    <h2>What changed in the firmware</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Change</th><th>File</th><th>What it fixes</th></tr></thead>
+        <tbody>
+          <tr><td>Soft start: each motor's PWM can rise by at most 35 per 50 ms control step. Decreases stay instant. Kick time raised from 300 to 450 ms to cover the ramp.</td><td class="mono">motor_driver.cpp, config.h</td><td>The start-up current spike that browns out the Pi. Also makes starts gentler.</td></tr>
+          <tr><td>Left/right mixing in wheel rev/s, with ticks per turn given per side</td><td class="mono">auracle_firmware.ino, config.h</td><td>Drifting into an arc when driving straight</td></tr>
+          <tr><td>Hysteresis on the arc/spin switch</td><td class="mono">auracle_firmware.ino</td><td>The inner side stopping and restarting during turns</td></tr>
+          <tr><td>Left encoder B on D12</td><td class="mono">config.h</td><td>Unreliable left encoder signal</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="small">None of this has run on the motors yet. The mixing was tested with sample commands on the Pi, and the firmware compiles, flashes and boots. To undo it all: <code>git checkout firmware/</code> in Random-code, then recompile and re-flash.</p>
+  </section>
+
+  <section id="walkthrough">
+    <span class="eyebrow">Hands-on walkthrough</span>
+    <h2>Step by step: from the bench to smooth teleop</h2>
+    <p class="prose">Eight phases, in order. Each step says what to do, why, and what a pass looks like. Don't skip a failed pass: tell me what you saw instead. You'll need your capacitors, a multimeter, masking tape, a marker, a tape measure and a box to lift the robot.</p>
+    <div class="stop"><b>After every motor test, check the Pi's power:</b> run <code>vcgencmd get_throttled</code>. <code>throttled=0x0</code> means no low voltage since boot. Anything ending in 1, or a value like <code>0x50000</code>, means the 5 V supply dipped and you need more capacitance or a fuller battery.</div>
+
+    <div class="phase">
+      <div class="phase-head"><span class="tag">Phase A</span><h3>Make it safe</h3></div>
+      <ol class="steps" style="--p:'A'">
+        <li><div class="step">Stop ROS if it's running (<code>Ctrl+C</code> in the launch terminal).<span class="why"><b>Why:</b> the tests talk to the Nano directly, and only one program can use its serial port.</span></div></li>
+        <li><div class="step">Shut the Pi down (<code>sudo shutdown now</code>), wait for the green LED to stop flashing, then unplug the LiPo.<span class="why"><b>Why:</b> you'll be connecting capacitors to the battery lines. A short there can damage the pack, the buck converter or the Pi.</span></div></li>
+        <li><div class="step">Measure the LiPo at rest with the multimeter. Charge it if it's below 11.4 V.<span class="why"><b>Why:</b> a fuller pack sags less when the motors start, so it browns out less. Full is 12.6 V.</span></div></li>
+        <li><div class="step">Put the robot on a box so all six wheels hang free.<span class="why"><b>Why:</b> the bench tests spin the motors.</span></div></li>
+      </ol>
+    </div>
+
+    <div class="phase">
+      <div class="phase-head"><span class="tag">Phase B</span><h3>Add capacitors to ride through the start-up dip</h3></div>
+      <p class="phase-goal">A capacitor stores charge right next to the load and supplies the short spike, so the battery and the buck converter don't have to.</p>
+      <div class="stop"><b>Polarity matters.</b> Electrolytic capacitors (the cylinders) have a stripe marked "−" down one side: that leg goes to ground. Backwards, they can burst. The voltage printed on the capacitor must be higher than the line it sits on.</div>
+      <ol class="steps" style="--p:'B'">
+        <li><div class="step"><b>Buck converter input (battery side):</b> your largest electrolytic, rated 16 V or more (25 V is better), across the buck's IN+ and IN− terminals. 1000–2200 µF is ideal.<span class="why"><b>Why:</b> this is where the dip starts. The capacitor holds the buck's input up during the motor spike.</span></div></li>
+        <li><div class="step"><b>Buck converter output (Pi side):</b> 470–1000 µF rated 6.3 V or more (10 V is better), across OUT+ and OUT−, as close to the Pi end of the cable as you can.<span class="why"><b>Why:</b> a second buffer right at the Pi's 5 V input. It also covers the voltage drop in the thin wires of the cut USB-C cable.</span></div></li>
+        <li><div class="step"><b>L298 motor supply:</b> 470–1000 µF rated 16 V or more, across each L298 board's 12 V and GND terminals.<span class="why"><b>Why:</b> the motors then pull their start-up spike from this capacitor instead of the shared battery wires.</span></div></li>
+        <li><div class="step"><b>If you have small ceramic ones</b> (marked "104", 100 nF): one across each motor's two terminals, if you can solder there.<span class="why"><b>Why:</b> they absorb the electrical noise from the motors' brushes, which can disturb the encoders and the Pi.</span></div></li>
+        <li><div class="step">If you can, run the buck's input on its own two wires straight to the battery connector, instead of sharing a wire with the L298s.<span class="why"><b>Why:</b> motor current flowing through a shared wire drops its voltage, and the buck sees that drop. Separate wires are rewiring only, no new parts.</span></div></li>
+        <li><div class="step">Before reconnecting the LiPo, check every capacitor's polarity against the "−" stripe once more.</div></li>
+      </ol>
+    </div>
+
+    <div class="phase">
+      <div class="phase-head"><span class="tag">Phase C</span><h3>The 5 A setting (only if the buck is rated for it)</h3></div>
+      <ol class="steps" style="--p:'C'">
+        <li><div class="step">Read the rating on the buck converter or its listing. You're looking for "5A" or more of continuous output.<span class="why"><b>Why:</b> the setting tells the Pi it can draw that much. If the buck can't deliver it, the Pi will brown out more often.</span></div></li>
+        <li><div class="step">If it's 5 A or more, open the EEPROM settings:<pre>sudo rpi-eeprom-config --edit</pre>Add this line at the end, save, and reboot:<pre>PSU_MAX_CURRENT=5000</pre><span class="why"><b>Why:</b> with a cut USB-C cable, the Pi can't ask the supply how much it can give, so it assumes the worst and limits all USB ports to 600 mA together. The lidar and the Nano share that limit.</span></div></li>
+        <li><div class="step">If it's under 5 A, or you can't tell, skip this phase.<span class="why"><b>Why:</b> the Pi didn't shut off because of the USB limit. Skipping this costs nothing for now.</span></div></li>
+      </ol>
+    </div>
+
+    <div class="phase">
+      <div class="phase-head"><span class="tag">Phase D</span><h3>Bench test with the wheels in the air</h3></div>
+      <p class="phase-goal">Prove the Pi stays up while the motors run, and both rear encoders count steadily.</p>
+      <ol class="steps" style="--p:'D'">
+        <li><div class="step">Reconnect the LiPo, boot the Pi, and check the Nano is there:<pre>ls -l /dev/arduino</pre></div></li>
+        <li><div class="step">Unplug the lidar's USB for these tests.<span class="why"><b>Why:</b> it frees up most of the Pi's USB power budget. One less thing that can go wrong.</span></div></li>
+        <li><div class="step">Start gently, at PWM 80 for 10 s. The script ramps up over 2 s by itself:<pre>python3 ~/auracle_tools/encoder_check.py drive 80 10
+vcgencmd get_throttled</pre><span class="why"><b>Why:</b> a low first test is the safest check that the capacitors and soft start keep the Pi alive.</span></div><div class="pass"><b>Pass:</b> the Pi stays on, <code>throttled=0x0</code>, and both sides show a steady positive ticks/s.</div></li>
+        <li><div class="step">Then the full test, at PWM 120 for 20 s:<pre>python3 ~/auracle_tools/encoder_check.py drive 120 20
+vcgencmd get_throttled</pre></div><div class="pass"><b>Pass:</b> both sides read about 650–800 ticks/s with no <code>&lt;-- reads ~0</code> flags, and the throttled value is still 0x0.</div></li>
+        <li><div class="step">Run it again. During the 20 s, gently wiggle each rear encoder connector and cable, one at a time.<span class="why"><b>Why:</b> this recreates driving vibration. A side that drops to 0 when you touch one wire has found the culprit.</span></div><div class="pass"><b>Pass:</b> no side drops to 0.</div></li>
+        <li><div class="step">Test backwards:<pre>python3 ~/auracle_tools/encoder_check.py drive -120 10</pre></div><div class="pass"><b>Pass:</b> both sides read negative.</div></li>
+        <li><div class="step">If the Pi shuts off at any point, stop and tell me at which PWM it happened and your battery voltage.</div></li>
+      </ol>
+    </div>
+
+    <div class="phase">
+      <div class="phase-head"><span class="tag">Phase E</span><h3>Count encoder ticks per wheel turn</h3></div>
+      <p class="phase-goal">Check the 730 and 655 numbers. If they're wrong, the robot curves while odometry says it's straight.</p>
+      <ol class="steps" style="--p:'E'">
+        <li><div class="step">Unplug the LiPo. Keep the Nano on USB. Put a tape mark on the left rear wheel and a matching mark on the frame.</div></li>
+        <li><div class="step">Start the counter (motors stay off):<pre>python3 ~/auracle_tools/encoder_check.py count</pre></div></li>
+        <li><div class="step">Turn the left rear wheel forward exactly 10 turns, mark to mark. Read "total L" and divide by 10. Repeat once, then do the right rear wheel with "total R".<span class="why"><b>Why:</b> ten turns spread the error of not stopping exactly on the mark.</span></div><div class="pass"><b>Pass:</b> the two runs on each side agree within about 1%. Write down both results next to 730 and 655.</div></li>
+      </ol>
+    </div>
+
+    <div class="phase">
+      <div class="phase-head"><span class="tag">Phase F</span><h3>Find the lowest speed the wheels hold on the ground</h3></div>
+      <p class="phase-goal">This sets how gently the robot can start and crawl. Today every start jumps to 600 ticks/s.</p>
+      <ol class="steps" style="--p:'F'">
+        <li><div class="step">Put the robot on the floor with 2 m of clear space in front. Reconnect the LiPo.</div></li>
+        <li><div class="step">Drive forward for 4 s at a time, starting at PWM 100 and going down by 10 each run:<pre>python3 ~/auracle_tools/encoder_check.py drive 100 4
+python3 ~/auracle_tools/encoder_check.py drive 90 4
+python3 ~/auracle_tools/encoder_check.py drive 80 4</pre>Keep going down until a side stalls or stutters.<span class="why"><b>Why:</b> on the ground, the wheels need more power to keep turning than in the air. The lowest PWM that still rolls smoothly gives the real minimum speed.</span></div></li>
+        <li><div class="step">For the lowest PWM where both sides rolled smoothly, write down the PWM and the ticks/s for each side.<span class="why"><b>Why:</b> I'll set the firmware's minimum speed about 15% above that. A lower minimum means smaller jumps at the start and gentler crawling.</span></div></li>
+      </ol>
+    </div>
+
+    <div class="phase">
+      <div class="phase-head"><span class="tag">Phase G</span><h3>First drive with the keyboard</h3></div>
+      <ol class="steps" style="--p:'G'">
+        <li><div class="step">Plug the lidar back in. Terminal 1, start the robot:<pre>cd ~/auracle_ws/Random-code && source install/setup.bash
+ros2 launch auracle_bringup launch_robot.launch.py namespace:=auracle use_joy_node:=false</pre>Wait until <code>diff_cont</code>, <code>joint_broad</code> and <code>imu_broadcaster</code> have all been activated.</div></li>
+        <li><div class="step">Terminal 2, start the keyboard driver:<pre>cd ~/auracle_ws/Random-code && source install/setup.bash
+ros2 run auracle_bringup key_drive.py --ros-args -r cmd_vel:=cmd_vel_joy -r __ns:=/auracle</pre>Keep that terminal focused while you drive.</div></li>
+        <li><div class="step">Keys. Hold one at a time:
+          <div class="keys">
+            <span><kbd>w</kbd> / <kbd>i</kbd> forward</span>
+            <span><kbd>s</kbd> / <kbd>,</kbd> backward</span>
+            <span><kbd>a</kbd> / <kbd>j</kbd> spin left</span>
+            <span><kbd>d</kbd> / <kbd>l</kbd> spin right</span>
+            <span><kbd>u</kbd> / <kbd>o</kbd> forward arc left / right</span>
+            <span><kbd>m</kbd> / <kbd>.</kbd> backward arcs</span>
+            <span><kbd>q</kbd> / <kbd>z</kbd> speed level ±10%</span>
+            <span><kbd>space</kbd> stop smoothly</span>
+          </div>
+          <span class="why"><b>Why:</b> it starts at 60% speed. Spins and arcs are kept clear of the arc/spin switch point, so the inner side doesn't keep reversing.</span></div></li>
+        <li><div class="step"><b>Straight-line test:</b> lay 3 m of tape on the floor. Start over one end and hold <kbd>w</kbd> to the other end. Measure how far sideways the robot ended up. Do it at 60% and at 100%.</div><div class="pass"><b>Pass:</b> less than about 10 cm sideways over 3 m, and no red <code>Nano FAULT</code> lines in Terminal 1.</div></li>
+        <li><div class="step"><b>Turn test:</b> hold <kbd>a</kbd> for a full turn, then <kbd>d</kbd>. Then hold <kbd>u</kbd> and <kbd>o</kbd>. Watch whether one side stops while the other drives.</div><div class="pass"><b>Pass:</b> both sides keep turning the whole time, with no bouncing and no faults.</div></li>
+        <li><div class="step">Check the Pi's power afterwards: <code>vcgencmd get_throttled</code>.</div></li>
+      </ol>
+    </div>
+
+    <div class="phase">
+      <div class="phase-head"><span class="tag">Phase H</span><h3>Drive with the controller</h3></div>
+      <ol class="steps" style="--p:'H'">
+        <li><div class="step">Stop the keyboard driver. If the controller is plugged into or paired with the Pi, restart Terminal 1 with <code>use_joy_node:=true</code>:<pre>ros2 launch auracle_bringup launch_robot.launch.py namespace:=auracle use_joy_node:=true</pre>If it's on your Windows PC through the UDP bridge, keep <code>use_joy_node:=false</code> and start the bridge as usual.</div></li>
+        <li><div class="step">Controls:
+          <div class="keys">
+            <span><b>LT / RT</b> left / right track</span>
+            <span><b>Back</b> + triggers: reverse</span>
+            <span><b>Y / A</b> forward / back</span>
+            <span><b>X / B</b> turn left / right</span>
+            <span><b>LB + left stick</b> analog drive</span>
+            <span><b>D-pad ↑/↓</b> speed level ±10%</span>
+          </div>
+          <span class="why"><b>Why:</b> it starts at 50%. The controller node already smooths every input, and the firmware fixes now apply to it too.</span></div></li>
+        <li><div class="step">Repeat the straight-line and turn tests from G.4 and G.5. For turns, also try a slow arc with LB + stick and gradually push the stick further sideways.</div><div class="pass"><b>Pass:</b> the arc tightens smoothly, then becomes a spin once. It doesn't keep switching back and forth.</div></li>
+      </ol>
+    </div>
+
+    <div class="phase">
+      <div class="phase-head"><span class="tag">Report back</span><h3>Send me these results</h3></div>
+      <ul class="prose">
+        <li>The battery voltage, and whether the Pi stayed on (with the <code>get_throttled</code> values)</li>
+        <li>The Phase D speeds, and whether wiggling made either side drop to 0</li>
+        <li>Your Phase E counts per turn for each side</li>
+        <li>The lowest smooth PWM and its ticks/s from Phase F</li>
+        <li>The sideways drift over 3 m, and how the turns felt, with the keyboard and the controller</li>
+        <li>Any red <code>Nano FAULT</code> lines</li>
+      </ul>
+      <p class="prose">With these I can put in your real ticks-per-turn values, lower the minimum speed, and tune the turns.</p>
+    </div>
+  </section>
+
+  <section>
+    <span class="eyebrow">Top speed</span>
+    <h2>How fast it can go on a 3S LiPo</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Operating point</th><th class="num">Left</th><th class="num">Right</th><th class="num">Robot</th></tr></thead>
+        <tbody>
+          <tr class="hl"><td>Firmware cap today (1200 ticks/s)</td><td class="num">0.247 m/s</td><td class="num">0.247 m/s</td><td class="num">≈0.25 m/s</td></tr>
+          <tr><td>Full PWM, no load (RB measured 1540 ticks/s; LB extrapolated)</td><td class="num">≈0.33</td><td class="num">≈0.35</td><td class="num">≈0.33</td></tr>
+          <tr><td>Slowest the Nano will drive today (600 ticks/s)</td><td class="num">0.12</td><td class="num">0.12</td><td class="num">—</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="small">With the new mixing, both sides share the stricter limit, so left and right now match. Speeds use your calibrated distance per tick from the drive test. On the ground with a full pack, expect about 0.28–0.30 m/s at full power. The robot gets 15–20% slower as the pack drains. MOSFET motor drivers in place of the L298s would add about 25%, for later.</p>
+  </section>
+
+  <footer>Based on firmware/auracle_firmware, src/auracle_hardware, auracle_bringup configs, and the ROS and system logs on the robot's Raspberry Pi 5. Speed figures are estimates; confirm them with a timed run on the ground.</footer>
+</main>

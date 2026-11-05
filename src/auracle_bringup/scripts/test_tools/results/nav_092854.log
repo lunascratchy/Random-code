@@ -1,0 +1,405 @@
+[INFO] [launch]: All log files can be found below /home/auracle/.ros/log/2026-10-23-09-28-55-402680-auracle-43944
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [map_server-1]: process started with pid [44016]
+[INFO] [amcl-2]: process started with pid [44017]
+[INFO] [lifecycle_manager-3]: process started with pid [44018]
+[INFO] [controller_server-4]: process started with pid [44019]
+[INFO] [planner_server-5]: process started with pid [44020]
+[INFO] [behavior_server-6]: process started with pid [44021]
+[INFO] [bt_navigator-7]: process started with pid [44022]
+[INFO] [waypoint_follower-8]: process started with pid [44023]
+[INFO] [lifecycle_manager-9]: process started with pid [44024]
+[controller_server-4] [INFO] [1792736936.092845705] [auracle.controller_server]: 
+[controller_server-4] 	controller_server lifecycle node launched. 
+[controller_server-4] 	Waiting on external lifecycle transitions to activate
+[controller_server-4] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[controller_server-4] [INFO] [1792736936.162899082] [auracle.controller_server]: Creating controller server
+[lifecycle_manager-3] [INFO] [1792736936.176455637] [auracle.lifecycle_manager_localization]: Creating
+[map_server-1] [INFO] [1792736936.181612967] [auracle.map_server]: 
+[map_server-1] 	map_server lifecycle node launched. 
+[map_server-1] 	Waiting on external lifecycle transitions to activate
+[map_server-1] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[map_server-1] [INFO] [1792736936.181903556] [auracle.map_server]: Creating
+[controller_server-4] [INFO] [1792736936.191634296] [auracle.local_costmap.local_costmap]: 
+[controller_server-4] 	local_costmap lifecycle node launched. 
+[controller_server-4] 	Waiting on external lifecycle transitions to activate
+[controller_server-4] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[controller_server-4] [INFO] [1792736936.192490490] [auracle.local_costmap.local_costmap]: Creating Costmap
+[lifecycle_manager-3] [INFO] [1792736936.223898847] [auracle.lifecycle_manager_localization]: [34m[1mCreating and initializing lifecycle service clients[0m[0m
+[lifecycle_manager-9] [INFO] [1792736936.256514916] [auracle.lifecycle_manager_navigation]: Creating
+[lifecycle_manager-9] [INFO] [1792736936.305793336] [auracle.lifecycle_manager_navigation]: [34m[1mCreating and initializing lifecycle service clients[0m[0m
+[amcl-2] [INFO] [1792736936.317782455] [auracle.amcl]: 
+[amcl-2] 	amcl lifecycle node launched. 
+[amcl-2] 	Waiting on external lifecycle transitions to activate
+[amcl-2] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[amcl-2] [INFO] [1792736936.318691170] [auracle.amcl]: Creating
+[lifecycle_manager-3] [INFO] [1792736936.333155459] [auracle.lifecycle_manager_localization]: [34m[1mStarting managed nodes bringup...[0m[0m
+[lifecycle_manager-3] [INFO] [1792736936.336982662] [auracle.lifecycle_manager_localization]: [34m[1mConfiguring map_server[0m[0m
+[map_server-1] [INFO] [1792736936.352082614] [auracle.map_server]: Configuring
+[map_server-1] [INFO] [1792736936.352203862] [map_io]: Loading yaml file: /home/auracle/auracle_ws/Random-code/src/auracle_bringup/config/map_1.yaml
+[map_server-1] [INFO] [1792736936.352598142] [map_io]: resolution: 0.05
+[map_server-1] [INFO] [1792736936.352625254] [map_io]: origin[0]: -4.892
+[map_server-1] [INFO] [1792736936.352633699] [map_io]: origin[1]: -2.793
+[map_server-1] [INFO] [1792736936.352639051] [map_io]: origin[2]: 0
+[map_server-1] [INFO] [1792736936.352644922] [map_io]: free_thresh: 0.196
+[map_server-1] [INFO] [1792736936.352650478] [map_io]: occupied_thresh: 0.65
+[map_server-1] [INFO] [1792736936.352658441] [map_io]: mode: trinary
+[map_server-1] [INFO] [1792736936.352665516] [map_io]: negate: 0
+[map_server-1] [INFO] [1792736936.353002700] [map_io]: Loading image_file: /home/auracle/auracle_ws/Random-code/src/auracle_bringup/config/map_1.pgm
+[map_server-1] [INFO] [1792736936.363835999] [map_io]: Read map /home/auracle/auracle_ws/Random-code/src/auracle_bringup/config/map_1.pgm: 123 X 65 map @ 0.05 m/cell
+[waypoint_follower-8] [INFO] [1792736936.402836408] [auracle.waypoint_follower]: 
+[waypoint_follower-8] 	waypoint_follower lifecycle node launched. 
+[waypoint_follower-8] 	Waiting on external lifecycle transitions to activate
+[waypoint_follower-8] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[lifecycle_manager-3] [INFO] [1792736936.403550724] [auracle.lifecycle_manager_localization]: [34m[1mConfiguring amcl[0m[0m
+[planner_server-5] [INFO] [1792736936.409627585] [auracle.planner_server]: 
+[planner_server-5] 	planner_server lifecycle node launched. 
+[planner_server-5] 	Waiting on external lifecycle transitions to activate
+[planner_server-5] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[amcl-2] [INFO] [1792736936.418240228] [auracle.amcl]: Configuring
+[amcl-2] [INFO] [1792736936.418410034] [auracle.amcl]: initTransforms
+[waypoint_follower-8] [INFO] [1792736936.418675863] [auracle.waypoint_follower]: Creating
+[behavior_server-6] [INFO] [1792736936.419664749] [auracle.behavior_server]: 
+[behavior_server-6] 	behavior_server lifecycle node launched. 
+[behavior_server-6] 	Waiting on external lifecycle transitions to activate
+[behavior_server-6] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[planner_server-5] [INFO] [1792736936.426069645] [auracle.planner_server]: Creating
+[amcl-2] [INFO] [1792736936.446502436] [auracle.amcl]: initPubSub
+[amcl-2] [INFO] [1792736936.457167393] [auracle.amcl]: Subscribed to map topic.
+[planner_server-5] [INFO] [1792736936.478958386] [auracle.global_costmap.global_costmap]: 
+[planner_server-5] 	global_costmap lifecycle node launched. 
+[planner_server-5] 	Waiting on external lifecycle transitions to activate
+[planner_server-5] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[lifecycle_manager-3] [INFO] [1792736936.484415954] [auracle.lifecycle_manager_localization]: [34m[1mActivating map_server[0m[0m
+[bt_navigator-7] [INFO] [1792736936.492861496] [auracle.bt_navigator]: 
+[bt_navigator-7] 	bt_navigator lifecycle node launched. 
+[bt_navigator-7] 	Waiting on external lifecycle transitions to activate
+[bt_navigator-7] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[bt_navigator-7] [INFO] [1792736936.495494396] [auracle.bt_navigator]: Creating
+[planner_server-5] [INFO] [1792736936.495540621] [auracle.global_costmap.global_costmap]: Creating Costmap
+[map_server-1] [INFO] [1792736936.496639160] [auracle.map_server]: Activating
+[map_server-1] [INFO] [1792736936.496998198] [auracle.map_server]: Creating bond (map_server) to lifecycle manager.
+[amcl-2] [INFO] [1792736936.505898079] [auracle.amcl]: Received a 123 X 65 map @ 0.050 m/pix
+[lifecycle_manager-9] [INFO] [1792736936.512987253] [auracle.lifecycle_manager_navigation]: [34m[1mStarting managed nodes bringup...[0m[0m
+[lifecycle_manager-9] [INFO] [1792736936.513091703] [auracle.lifecycle_manager_navigation]: [34m[1mConfiguring controller_server[0m[0m
+[controller_server-4] [INFO] [1792736936.519210140] [auracle.controller_server]: Configuring controller interface
+[controller_server-4] [INFO] [1792736936.519274199] [auracle.controller_server]: getting progress checker plugins..
+[controller_server-4] [INFO] [1792736936.519543472] [auracle.controller_server]: getting goal checker plugins..
+[controller_server-4] [INFO] [1792736936.519691425] [auracle.controller_server]: Controller frequency set to 20.0000Hz
+[controller_server-4] [INFO] [1792736936.519770095] [auracle.local_costmap.local_costmap]: Configuring
+[controller_server-4] [INFO] [1792736936.534818267] [auracle.local_costmap.local_costmap]: Using plugin "obstacle_layer"
+[controller_server-4] [INFO] [1792736936.542588421] [auracle.local_costmap.local_costmap]: Subscribed to Topics: scan
+[controller_server-4] [INFO] [1792736936.546882909] [auracle.local_costmap.local_costmap]: Initialized plugin "obstacle_layer"
+[controller_server-4] [INFO] [1792736936.546952283] [auracle.local_costmap.local_costmap]: Using plugin "inflation_layer"
+[controller_server-4] [INFO] [1792736936.547517332] [auracle.local_costmap.local_costmap]: Initialized plugin "inflation_layer"
+[controller_server-4] [INFO] [1792736936.568033238] [auracle.controller_server]: Created progress_checker : progress_checker of type nav2_controller::SimpleProgressChecker
+[controller_server-4] [INFO] [1792736936.568636252] [auracle.controller_server]: Controller Server has progress_checker  progress checkers available.
+[controller_server-4] [INFO] [1792736936.570696584] [auracle.controller_server]: Created goal checker : general_goal_checker of type nav2_controller::SimpleGoalChecker
+[controller_server-4] [INFO] [1792736936.571783308] [auracle.controller_server]: Controller Server has general_goal_checker  goal checkers available.
+[controller_server-4] [INFO] [1792736936.576600935] [auracle.controller_server]: Created controller : FollowPath of type nav2_regulated_pure_pursuit_controller::RegulatedPurePursuitController
+[controller_server-4] [INFO] [1792736936.582601180] [auracle.controller_server]: Controller Server has FollowPath  controllers available.
+[lifecycle_manager-9] [INFO] [1792736936.600790612] [auracle.lifecycle_manager_navigation]: [34m[1mConfiguring planner_server[0m[0m
+[planner_server-5] [INFO] [1792736936.601308898] [auracle.planner_server]: Configuring
+[planner_server-5] [INFO] [1792736936.601382865] [auracle.global_costmap.global_costmap]: Configuring
+[lifecycle_manager-3] [INFO] [1792736936.610131294] [auracle.lifecycle_manager_localization]: Server map_server connected with bond.
+[lifecycle_manager-3] [INFO] [1792736936.610234022] [auracle.lifecycle_manager_localization]: [34m[1mActivating amcl[0m[0m
+[amcl-2] [INFO] [1792736936.611966503] [auracle.amcl]: Activating
+[amcl-2] [INFO] [1792736936.612043414] [auracle.amcl]: Creating bond (amcl) to lifecycle manager.
+[planner_server-5] [INFO] [1792736936.613380837] [auracle.global_costmap.global_costmap]: Using plugin "static_layer"
+[planner_server-5] [INFO] [1792736936.620099769] [auracle.global_costmap.global_costmap]: Subscribing to the map topic (/auracle/map) with transient local durability
+[planner_server-5] [INFO] [1792736936.623929269] [auracle.global_costmap.global_costmap]: Initialized plugin "static_layer"
+[planner_server-5] [INFO] [1792736936.624000532] [auracle.global_costmap.global_costmap]: Using plugin "obstacle_layer"
+[planner_server-5] [INFO] [1792736936.624598823] [auracle.global_costmap.global_costmap]: Subscribed to Topics: scan
+[planner_server-5] [INFO] [1792736936.627859552] [auracle.global_costmap.global_costmap]: Initialized plugin "obstacle_layer"
+[planner_server-5] [INFO] [1792736936.627929741] [auracle.global_costmap.global_costmap]: Using plugin "inflation_layer"
+[planner_server-5] [INFO] [1792736936.628495253] [auracle.global_costmap.global_costmap]: Initialized plugin "inflation_layer"
+[planner_server-5] [INFO] [1792736936.655348015] [auracle.planner_server]: Created global planner plugin GridBased of type nav2_navfn_planner::NavfnPlanner
+[planner_server-5] [INFO] [1792736936.655474318] [auracle.planner_server]: Configuring plugin GridBased of type NavfnPlanner
+[planner_server-5] [INFO] [1792736936.655918768] [auracle.planner_server]: Planner Server has GridBased  planners available.
+[planner_server-5] [INFO] [1792736936.656539431] [auracle.global_costmap.global_costmap]: StaticLayer: Resizing costmap to 123 X 65 at 0.050000 m/pix
+[amcl-2] [INFO] [1792736936.664734034] [auracle.amcl]: createLaserObject
+[lifecycle_manager-9] [INFO] [1792736936.685507880] [auracle.lifecycle_manager_navigation]: [34m[1mConfiguring behavior_server[0m[0m
+[behavior_server-6] [INFO] [1792736936.686023704] [auracle.behavior_server]: Configuring
+[behavior_server-6] [INFO] [1792736936.693642202] [auracle.behavior_server]: Creating behavior plugin spin of type nav2_behaviors::Spin
+[behavior_server-6] [INFO] [1792736936.695625770] [auracle.behavior_server]: Creating behavior plugin backup of type nav2_behaviors::BackUp
+[behavior_server-6] [INFO] [1792736936.697180668] [auracle.behavior_server]: Creating behavior plugin drive_on_heading of type nav2_behaviors::DriveOnHeading
+[behavior_server-6] [INFO] [1792736936.698864702] [auracle.behavior_server]: Creating behavior plugin assisted_teleop of type nav2_behaviors::AssistedTeleop
+[behavior_server-6] [INFO] [1792736936.702274624] [auracle.behavior_server]: Creating behavior plugin wait of type nav2_behaviors::Wait
+[behavior_server-6] [INFO] [1792736936.712745108] [auracle.behavior_server]: Configuring spin
+[behavior_server-6] [INFO] [1792736936.719280122] [auracle.behavior_server]: Configuring backup
+[behavior_server-6] [INFO] [1792736936.723752397] [auracle.behavior_server]: Configuring drive_on_heading
+[lifecycle_manager-3] [INFO] [1792736936.724659927] [auracle.lifecycle_manager_localization]: Server amcl connected with bond.
+[lifecycle_manager-3] [INFO] [1792736936.724747691] [auracle.lifecycle_manager_localization]: [34m[1mManaged nodes are active[0m[0m
+[lifecycle_manager-3] [INFO] [1792736936.724775007] [auracle.lifecycle_manager_localization]: [34m[1mCreating bond timer...[0m[0m
+[behavior_server-6] [INFO] [1792736936.727577953] [auracle.behavior_server]: Configuring assisted_teleop
+[behavior_server-6] [INFO] [1792736936.733505768] [auracle.behavior_server]: Configuring wait
+[lifecycle_manager-9] [INFO] [1792736936.751953361] [auracle.lifecycle_manager_navigation]: [34m[1mConfiguring bt_navigator[0m[0m
+[bt_navigator-7] [INFO] [1792736936.754307135] [auracle.bt_navigator]: Configuring
+[bt_navigator-7] [INFO] [1792736936.762926390] [auracle.bt_navigator]: Creating navigator id navigate_to_pose of type nav2_bt_navigator::NavigateToPoseNavigator
+[bt_navigator-7] [INFO] [1792736936.855629880] [auracle.bt_navigator]: Creating navigator id navigate_through_poses of type nav2_bt_navigator::NavigateThroughPosesNavigator
+[lifecycle_manager-9] [INFO] [1792736936.890388970] [auracle.lifecycle_manager_navigation]: [34m[1mConfiguring waypoint_follower[0m[0m
+[waypoint_follower-8] [INFO] [1792736936.893453652] [auracle.waypoint_follower]: Configuring
+[waypoint_follower-8] [INFO] [1792736936.925978809] [auracle.waypoint_follower]: Created waypoint_task_executor : wait_at_waypoint of type nav2_waypoint_follower::WaitAtWaypoint
+[lifecycle_manager-9] [INFO] [1792736936.932327703] [auracle.lifecycle_manager_navigation]: [34m[1mActivating controller_server[0m[0m
+[controller_server-4] [INFO] [1792736936.932744854] [auracle.controller_server]: Activating
+[controller_server-4] [INFO] [1792736936.932809247] [auracle.local_costmap.local_costmap]: Activating
+[controller_server-4] [INFO] [1792736936.932826507] [auracle.local_costmap.local_costmap]: Checking transform
+[controller_server-4] [INFO] [1792736936.932996849] [auracle.local_costmap.local_costmap]: start
+[controller_server-4] [INFO] [1792736937.134667380] [auracle.controller_server]: Activating controller: FollowPath of type regulated_pure_pursuit_controller::RegulatedPurePursuitController
+[controller_server-4] [INFO] [1792736937.134758218] [auracle.controller_server]: Creating bond (controller_server) to lifecycle manager.
+[lifecycle_manager-9] [INFO] [1792736937.240652299] [auracle.lifecycle_manager_navigation]: Server controller_server connected with bond.
+[lifecycle_manager-9] [INFO] [1792736937.240729896] [auracle.lifecycle_manager_navigation]: [34m[1mActivating planner_server[0m[0m
+[planner_server-5] [INFO] [1792736937.241161326] [auracle.planner_server]: Activating
+[planner_server-5] [INFO] [1792736937.241271462] [auracle.global_costmap.global_costmap]: Activating
+[planner_server-5] [INFO] [1792736937.241301315] [auracle.global_costmap.global_costmap]: Checking transform
+[planner_server-5] [INFO] [1792736937.241387375] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736937.741450807] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736938.241436216] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[amcl-2] [WARN] [1792736938.506678963] [auracle.amcl]: AMCL cannot publish a pose or update the transform. Please set the initial pose...
+[planner_server-5] [INFO] [1792736938.741431718] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736939.241433831] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736939.741438945] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736940.241442947] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[amcl-2] [WARN] [1792736940.606538695] [auracle.amcl]: AMCL cannot publish a pose or update the transform. Please set the initial pose...
+[planner_server-5] [INFO] [1792736940.741436949] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736941.241434877] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736941.741439139] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736942.241434836] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[amcl-2] [WARN] [1792736942.706622971] [auracle.amcl]: AMCL cannot publish a pose or update the transform. Please set the initial pose...
+[planner_server-5] [INFO] [1792736942.741435755] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736943.241436249] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736943.741443909] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736944.241432699] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736944.741440082] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[amcl-2] [WARN] [1792736944.806524042] [auracle.amcl]: AMCL cannot publish a pose or update the transform. Please set the initial pose...
+[planner_server-5] [INFO] [1792736945.241437668] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736945.741430791] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736946.241433970] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736946.741429334] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[amcl-2] [WARN] [1792736946.906633628] [auracle.amcl]: AMCL cannot publish a pose or update the transform. Please set the initial pose...
+[planner_server-5] [INFO] [1792736947.241434772] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736947.741433766] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736948.241436630] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736948.741436087] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[amcl-2] [WARN] [1792736949.006574199] [auracle.amcl]: AMCL cannot publish a pose or update the transform. Please set the initial pose...
+[planner_server-5] [INFO] [1792736949.241434636] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736949.741434611] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736950.241435179] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736950.741460413] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[amcl-2] [WARN] [1792736951.106899782] [auracle.amcl]: AMCL cannot publish a pose or update the transform. Please set the initial pose...
+[planner_server-5] [INFO] [1792736951.241439147] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736951.741445715] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736952.241444987] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736952.741434795] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[amcl-2] [WARN] [1792736953.206502488] [auracle.amcl]: AMCL cannot publish a pose or update the transform. Please set the initial pose...
+[planner_server-5] [INFO] [1792736953.241438363] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736953.741430616] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736954.241434369] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736954.741439270] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736955.241435757] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[amcl-2] [WARN] [1792736955.356466557] [auracle.amcl]: AMCL cannot publish a pose or update the transform. Please set the initial pose...
+[planner_server-5] [INFO] [1792736955.741434002] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736956.241436026] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736956.741442179] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736957.241440573] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[amcl-2] [WARN] [1792736957.456569705] [auracle.amcl]: AMCL cannot publish a pose or update the transform. Please set the initial pose...
+[planner_server-5] [INFO] [1792736957.741434615] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736958.241438212] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736958.741431810] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736959.241437148] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736959.741436116] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736960.241438102] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[amcl-2] [WARN] [1792736959.556576522] [auracle.amcl]: AMCL cannot publish a pose or update the transform. Please set the initial pose...
+[planner_server-5] [INFO] [1792736960.741435292] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736961.241441297] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[amcl-2] [WARN] [1792736961.656591561] [auracle.amcl]: AMCL cannot publish a pose or update the transform. Please set the initial pose...
+[planner_server-5] [INFO] [1792736961.741431284] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736962.241437974] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736962.741436905] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736963.241435928] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[amcl-2] [WARN] [1792736963.706732088] [auracle.amcl]: AMCL cannot publish a pose or update the transform. Please set the initial pose...
+[planner_server-5] [INFO] [1792736963.741431266] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736964.241433271] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736964.741436221] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736965.241441077] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736965.741436712] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[amcl-2] [WARN] [1792736965.806900273] [auracle.amcl]: AMCL cannot publish a pose or update the transform. Please set the initial pose...
+[planner_server-5] [INFO] [1792736966.241434643] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736966.741432481] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736967.241436690] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736967.741437009] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[amcl-2] [WARN] [1792736967.906544577] [auracle.amcl]: AMCL cannot publish a pose or update the transform. Please set the initial pose...
+[planner_server-5] [INFO] [1792736968.241437033] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736968.741438075] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736969.241433857] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736969.741436881] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[amcl-2] [WARN] [1792736969.956718789] [auracle.amcl]: AMCL cannot publish a pose or update the transform. Please set the initial pose...
+[planner_server-5] [INFO] [1792736970.241436034] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736970.741439428] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736971.241446360] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736971.741433163] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[amcl-2] [WARN] [1792736972.056561496] [auracle.amcl]: AMCL cannot publish a pose or update the transform. Please set the initial pose...
+[planner_server-5] [INFO] [1792736972.241437465] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736972.741435083] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736973.241437589] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736973.741439762] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[amcl-2] [WARN] [1792736974.156497119] [auracle.amcl]: AMCL cannot publish a pose or update the transform. Please set the initial pose...
+[planner_server-5] [INFO] [1792736974.241437657] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736974.741434997] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736975.241435244] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736975.741435824] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736976.241433646] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[amcl-2] [WARN] [1792736976.256617241] [auracle.amcl]: AMCL cannot publish a pose or update the transform. Please set the initial pose...
+[planner_server-5] [INFO] [1792736976.741408708] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736977.241435436] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736977.741432868] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736978.241439690] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[amcl-2] [WARN] [1792736978.356628993] [auracle.amcl]: AMCL cannot publish a pose or update the transform. Please set the initial pose...
+[planner_server-5] [INFO] [1792736978.741435455] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736979.241486646] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736979.741428412] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736980.241436919] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[amcl-2] [WARN] [1792736980.456638616] [auracle.amcl]: AMCL cannot publish a pose or update the transform. Please set the initial pose...
+[planner_server-5] [INFO] [1792736980.741431684] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736981.241433709] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736981.741434290] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736982.241438981] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[amcl-2] [WARN] [1792736982.506643718] [auracle.amcl]: AMCL cannot publish a pose or update the transform. Please set the initial pose...
+[planner_server-5] [INFO] [1792736982.741430765] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736983.241439031] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736983.741434371] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736984.241436377] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[amcl-2] [WARN] [1792736984.506744187] [auracle.amcl]: AMCL cannot publish a pose or update the transform. Please set the initial pose...
+[planner_server-5] [INFO] [1792736984.741434254] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736985.241432797] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736985.741432007] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736986.241437513] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[amcl-2] [WARN] [1792736986.657026921] [auracle.amcl]: AMCL cannot publish a pose or update the transform. Please set the initial pose...
+[planner_server-5] [INFO] [1792736986.741430087] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736987.241440556] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736987.741428839] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736988.241421789] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736988.741414442] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[amcl-2] [WARN] [1792736988.756498577] [auracle.amcl]: AMCL cannot publish a pose or update the transform. Please set the initial pose...
+[planner_server-5] [INFO] [1792736989.241441466] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736989.741434175] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736990.241436810] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736990.741414315] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[amcl-2] [WARN] [1792736990.856558224] [auracle.amcl]: AMCL cannot publish a pose or update the transform. Please set the initial pose...
+[planner_server-5] [INFO] [1792736991.241434691] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736991.741437974] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736992.241439572] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736992.741433485] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[amcl-2] [WARN] [1792736992.956604909] [auracle.amcl]: AMCL cannot publish a pose or update the transform. Please set the initial pose...
+[planner_server-5] [INFO] [1792736993.241434323] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736993.741429625] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736994.241436501] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736994.741439117] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[amcl-2] [WARN] [1792736995.056568817] [auracle.amcl]: AMCL cannot publish a pose or update the transform. Please set the initial pose...
+[planner_server-5] [INFO] [1792736995.241438308] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736995.741440294] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736996.241438466] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [INFO] [1792736996.741429527] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[amcl-2] [WARN] [1792736997.156606613] [auracle.amcl]: AMCL cannot publish a pose or update the transform. Please set the initial pose...
+[planner_server-5] [INFO] [1792736997.241409996] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[planner_server-5] [ERROR] [1792736997.241512291] [auracle.global_costmap.global_costmap]: Failed to activate global_costmap because transform from base_footprint to map did not become available before timeout
+[lifecycle_manager-9] [ERROR] [1792736997.243049437] [auracle.lifecycle_manager_navigation]: Failed to change state for node: planner_server
+[lifecycle_manager-9] [ERROR] [1792736997.243131621] [auracle.lifecycle_manager_navigation]: Failed to bring up all requested nodes. Aborting bringup.
+[amcl-2] [WARN] [1792736999.256636335] [auracle.amcl]: AMCL cannot publish a pose or update the transform. Please set the initial pose...
+[amcl-2] [WARN] [1792737001.256778021] [auracle.amcl]: AMCL cannot publish a pose or update the transform. Please set the initial pose...
+[amcl-2] [WARN] [1792737003.356516470] [auracle.amcl]: AMCL cannot publish a pose or update the transform. Please set the initial pose...
+[amcl-2] [WARN] [1792737005.456578542] [auracle.amcl]: AMCL cannot publish a pose or update the transform. Please set the initial pose...
+[amcl-2] [WARN] [1792737007.556490855] [auracle.amcl]: AMCL cannot publish a pose or update the transform. Please set the initial pose...
+[amcl-2] [WARN] [1792737009.656613334] [auracle.amcl]: AMCL cannot publish a pose or update the transform. Please set the initial pose...
+[amcl-2] [WARN] [1792737011.756523018] [auracle.amcl]: AMCL cannot publish a pose or update the transform. Please set the initial pose...
+[amcl-2] [WARN] [1792737013.856732830] [auracle.amcl]: AMCL cannot publish a pose or update the transform. Please set the initial pose...
+[amcl-2] [WARN] [1792737015.956653810] [auracle.amcl]: AMCL cannot publish a pose or update the transform. Please set the initial pose...
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [lifecycle_manager-9]: sending signal 'SIGINT' to process[lifecycle_manager-9]
+[INFO] [waypoint_follower-8]: sending signal 'SIGINT' to process[waypoint_follower-8]
+[INFO] [bt_navigator-7]: sending signal 'SIGINT' to process[bt_navigator-7]
+[INFO] [behavior_server-6]: sending signal 'SIGINT' to process[behavior_server-6]
+[INFO] [planner_server-5]: sending signal 'SIGINT' to process[planner_server-5]
+[INFO] [controller_server-4]: sending signal 'SIGINT' to process[controller_server-4]
+[INFO] [lifecycle_manager-3]: sending signal 'SIGINT' to process[lifecycle_manager-3]
+[INFO] [amcl-2]: sending signal 'SIGINT' to process[amcl-2]
+[INFO] [map_server-1]: sending signal 'SIGINT' to process[map_server-1]
+[lifecycle_manager-9] [INFO] [1792737017.403877520] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[lifecycle_manager-9] [INFO] [1792737017.403953538] [auracle.lifecycle_manager_navigation]: Running Nav2 LifecycleManager rcl preshutdown (lifecycle_manager_navigation)
+[waypoint_follower-8] [INFO] [1792737017.413521822] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[waypoint_follower-8] [INFO] [1792737017.413626377] [auracle.waypoint_follower]: Running Nav2 LifecycleNode rcl preshutdown (waypoint_follower)
+[waypoint_follower-8] [INFO] [1792737017.413859617] [auracle.waypoint_follower]: Cleaning up
+[waypoint_follower-8] [INFO] [1792737017.414949296] [auracle.waypoint_follower]: Destroying bond (waypoint_follower) to lifecycle manager.
+[behavior_server-6] [INFO] [1792737017.419659920] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[behavior_server-6] [INFO] [1792737017.420180250] [auracle.behavior_server]: Running Nav2 LifecycleNode rcl preshutdown (behavior_server)
+[bt_navigator-7] [INFO] [1792737017.420373101] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[bt_navigator-7] [INFO] [1792737017.420458656] [auracle.bt_navigator]: Running Nav2 LifecycleNode rcl preshutdown (bt_navigator)
+[bt_navigator-7] [INFO] [1792737017.420614507] [auracle.bt_navigator]: Cleaning up
+[behavior_server-6] [INFO] [1792737017.421807723] [auracle.behavior_server]: Cleaning up
+[planner_server-5] [INFO] [1792737017.424906948] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[planner_server-5] [INFO] [1792737017.425023892] [auracle.planner_server]: Running Nav2 LifecycleNode rcl preshutdown (planner_server)
+[planner_server-5] [INFO] [1792737017.425131002] [auracle.planner_server]: Cleaning up
+[lifecycle_manager-9] [2m2026-10-23T06:30:17.424937Z[0m [31mERROR[0m rx-0 ThreadId(07) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 24
+[behavior_server-6] [INFO] [1792737017.429803422] [auracle.behavior_server]: Destroying bond (behavior_server) to lifecycle manager.
+[controller_server-4] [INFO] [1792737017.431349248] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[controller_server-4] [INFO] [1792737017.432015985] [auracle.controller_server]: Running Nav2 LifecycleNode rcl preshutdown (controller_server)
+[controller_server-4] [INFO] [1792737017.432154021] [auracle.controller_server]: Deactivating
+[controller_server-4] [INFO] [1792737017.432258613] [auracle.controller_server]: Deactivating controller: FollowPath of type regulated_pure_pursuit_controller::RegulatedPurePursuitController
+[controller_server-4] [INFO] [1792737017.432325650] [auracle.local_costmap.local_costmap]: Deactivating
+[lifecycle_manager-3] [INFO] [1792737017.435964076] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[lifecycle_manager-3] [INFO] [1792737017.436069075] [auracle.lifecycle_manager_localization]: Running Nav2 LifecycleManager rcl preshutdown (lifecycle_manager_localization)
+[lifecycle_manager-3] [INFO] [1792737017.436157686] [auracle.lifecycle_manager_localization]: [34m[1mTerminating bond timer...[0m[0m
+[lifecycle_manager-9] [2m2026-10-23T06:30:17.436095Z[0m [31mERROR[0m rx-3 ThreadId(12) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 24
+[lifecycle_manager-9] [2m2026-10-23T06:30:17.442560Z[0m [31mERROR[0m rx-3 ThreadId(12) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 24
+[planner_server-5] [INFO] [1792737017.437826196] [auracle.global_costmap.global_costmap]: Cleaning up
+[amcl-2] [INFO] [1792737017.443018928] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[amcl-2] [INFO] [1792737017.443127057] [auracle.amcl]: Running Nav2 LifecycleNode rcl preshutdown (amcl)
+[amcl-2] [INFO] [1792737017.443231279] [auracle.amcl]: Deactivating
+[amcl-2] [INFO] [1792737017.443276815] [auracle.amcl]: Destroying bond (amcl) to lifecycle manager.
+[bt_navigator-7] [INFO] [1792737017.447786273] [auracle.bt_navigator]: Completed Cleaning up
+[bt_navigator-7] [INFO] [1792737017.447904180] [auracle.bt_navigator]: Destroying bond (bt_navigator) to lifecycle manager.
+[planner_server-5] [INFO] [1792737017.449780152] [auracle.planner_server]: Cleaning up plugin GridBased of type NavfnPlanner
+[planner_server-5] [INFO] [1792737017.449911410] [auracle.planner_server]: Destroying plugin GridBased of type NavfnPlanner
+[planner_server-5] [INFO] [1792737017.456393136] [auracle.planner_server]: Destroying bond (planner_server) to lifecycle manager.
+[lifecycle_manager-9] [2m2026-10-23T06:30:17.451547Z[0m [31mERROR[0m rx-3 ThreadId(12) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 24
+[lifecycle_manager-9] [2m2026-10-23T06:30:17.455636Z[0m [31mERROR[0m rx-0 ThreadId(07) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 24
+[lifecycle_manager-9] [2m2026-10-23T06:30:17.455894Z[0m [31mERROR[0m rx-3 ThreadId(12) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 24
+[map_server-1] [INFO] [1792737017.455909713] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[map_server-1] [INFO] [1792737017.456021823] [auracle.map_server]: Running Nav2 LifecycleNode rcl preshutdown (map_server)
+[map_server-1] [INFO] [1792737017.456140804] [auracle.map_server]: Deactivating
+[map_server-1] [INFO] [1792737017.456168656] [auracle.map_server]: Destroying bond (map_server) to lifecycle manager.
+[bt_navigator-7] [2m2026-10-23T06:30:17.461006Z[0m [31mERROR[0m rx-0 ThreadId(07) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 20
+[map_server-1] [INFO] [1792737017.474707448] [auracle.map_server]: Cleaning up
+[map_server-1] [INFO] [1792737017.474933725] [auracle.map_server]: Destroying bond (map_server) to lifecycle manager.
+[lifecycle_manager-9] [2m2026-10-23T06:30:17.479101Z[0m [31mERROR[0m rx-0 ThreadId(07) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 24
+[amcl-2] [INFO] [1792737017.481504802] [auracle.amcl]: Cleaning up
+[amcl-2] [INFO] [1792737017.488042638] [auracle.amcl]: Destroying bond (amcl) to lifecycle manager.
+[bt_navigator-7] [2m2026-10-23T06:30:17.499628Z[0m [31mERROR[0m rx-0 ThreadId(07) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 20
+[bt_navigator-7] [2m2026-10-23T06:30:17.544341Z[0m [31mERROR[0m rx-0 ThreadId(07) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 20
+[controller_server-4] [INFO] [1792737017.545296192] [auracle.controller_server]: Destroying bond (controller_server) to lifecycle manager.
+[controller_server-4] [INFO] [1792737017.556385542] [auracle.controller_server]: Cleaning up
+[controller_server-4] [INFO] [1792737017.556463467] [auracle.controller_server]: Cleaning up controller: FollowPath of type regulated_pure_pursuit_controller::RegulatedPurePursuitController
+[controller_server-4] [INFO] [1792737017.556609429] [auracle.local_costmap.local_costmap]: Cleaning up
+[bt_navigator-7] [2m2026-10-23T06:30:17.594406Z[0m [31mERROR[0m rx-4 ThreadId(15) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 20
+[controller_server-4] [INFO] [1792737017.625583478] [auracle.controller_server]: Destroying bond (controller_server) to lifecycle manager.
+[waypoint_follower-8] [INFO] [1792737017.631864501] [auracle.waypoint_follower]: Destroying
+[lifecycle_manager-3] [INFO] [1792737017.635081891] [auracle.lifecycle_manager_localization]: Destroying lifecycle_manager_localization
+[lifecycle_manager-9] [INFO] [1792737017.639117815] [auracle.lifecycle_manager_navigation]: Destroying lifecycle_manager_navigation
+[bt_navigator-7] [2m2026-10-23T06:30:17.646853Z[0m [31mERROR[0m rx-0 ThreadId(07) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 20
+[behavior_server-6] [INFO] [1792737017.657725310] [auracle.behavior_server]: Destroying
+[INFO] [waypoint_follower-8]: process has finished cleanly [pid 44023]
+[map_server-1] [INFO] [1792737017.659323265] [auracle.map_server]: Destroying
+[amcl-2] [INFO] [1792737017.672047514] [auracle.amcl]: Destroying
+[INFO] [lifecycle_manager-3]: process has finished cleanly [pid 44018]
+[planner_server-5] [INFO] [1792737017.681569872] [auracle.global_costmap.global_costmap]: Destroying
+[planner_server-5] [INFO] [1792737017.683281992] [auracle.planner_server]: Destroying
+[bt_navigator-7] [INFO] [1792737017.690541992] [auracle.bt_navigator]: Destroying
+[INFO] [lifecycle_manager-9]: process has finished cleanly [pid 44024]
+[INFO] [behavior_server-6]: process has finished cleanly [pid 44021]
+[INFO] [amcl-2]: process has finished cleanly [pid 44017]
+[INFO] [map_server-1]: process has finished cleanly [pid 44016]
+[INFO] [planner_server-5]: process has finished cleanly [pid 44020]
+[INFO] [bt_navigator-7]: process has finished cleanly [pid 44022]
+[controller_server-4] [INFO] [1792737017.715931471] [auracle.local_costmap.local_costmap]: Destroying
+[controller_server-4] [INFO] [1792737017.716616597] [auracle.controller_server]: Destroying
+[INFO] [controller_server-4]: process has finished cleanly [pid 44019]

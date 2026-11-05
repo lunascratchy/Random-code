@@ -1,0 +1,12 @@
+== drive_test.py 0.5
+asked +0.500 m | encoders: left +0.554  right +0.493  mean +0.523 m
+heading change (gyro) -11.6 deg   (+ = turned left)
+== drive_test.py -0.5
+asked -0.500 m | encoders: left -0.526  right -0.519  mean -0.522 m
+heading change (gyro) +47.3 deg   (+ = turned left)
+== spin_test.py 90
+gyro turned +93.6 deg | encoders: left -0.270  right +0.191 m
+effective wheel_separation = 0.282 m
+== spin_test.py -90
+gyro turned -92.2 deg | encoders: left +0.303  right -0.264 m
+effective wheel_separation = 0.353 m

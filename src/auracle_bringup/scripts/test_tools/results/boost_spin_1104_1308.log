@@ -1,0 +1,8 @@
+== spin 360
+gyro turned +359.4 deg | encoders: left -1.664  right +1.632 m
+effective wheel_separation = 0.525 m
+26.29 s total
+== spin -360
+gyro turned -359.3 deg | encoders: left +2.128  right -2.118 m
+effective wheel_separation = 0.677 m
+30.56 s total

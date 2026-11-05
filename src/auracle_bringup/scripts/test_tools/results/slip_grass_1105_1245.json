@@ -1,0 +1,24 @@
+[
+ {
+  "dir": "fwd",
+  "wheels": 0.901,
+  "lidar": 0.128,
+  "slip_pct": 85.8,
+  "gyro_yaw": 3.1,
+  "lidar_yaw": 2.4,
+  "fit_cm": 9.3,
+  "secs": 4.5,
+  "points": 1933
+ },
+ {
+  "dir": "back",
+  "wheels": 0.89,
+  "lidar": 0.236,
+  "slip_pct": 73.4,
+  "gyro_yaw": -5.2,
+  "lidar_yaw": -3.3,
+  "fit_cm": 7.0,
+  "secs": 4.4,
+  "points": 2948
+ }
+]

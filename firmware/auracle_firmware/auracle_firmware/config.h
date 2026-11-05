@@ -137,7 +137,7 @@ constexpr float MAX_PWM_STEP          = 12.0f;    // max PWM change per control 
 // spike that browns out the Pi when it runs off the same LiPo. Decreases are not limited.
 constexpr uint8_t PWM_RISE_PER_CALL   = 18;   // was 35 per 50 ms; same ~700 PWM/s at 25 ms
 constexpr float TARGET_RAMP_TICKS_S2  = 4000.0f;  // setpoint ramp (ticks/s per second). Was 2000 (~0.42 m/s^2), slower than diff_cont
-constexpr float OVERSPEED_COAST_RATIO = 1.6f;    // above this x target: cut PWM to 0. Was 1.25: fronts and rough ground drag the rears past it, and the cut caused bursts (2026-11-04)
+constexpr float OVERSPEED_COAST_RATIO = 1.4f;    // above this x target: cut PWM to 0. 1.25 caused bursts in spins; at 1.6 wheels reached 1.75x target on grass (2026-11-05)
 constexpr unsigned long KICK_MS       = 350;    // was 450; the soft-start ramp is 2x faster at 25 ms
 constexpr float KICK_EXIT_TICKS_S     = 150.0f;   // kick ends early once the wheel is this fast
 

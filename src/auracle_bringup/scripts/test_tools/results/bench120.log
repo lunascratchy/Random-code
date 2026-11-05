@@ -1,0 +1,33 @@
+Opened /dev/arduino. Waiting for the Nano to boot (keep the robot still)...
+Nano is READY.
+
+L       0 ticks/s  R       0 ticks/s   | total L       0  R       0
+L      18 ticks/s  R       0 ticks/s   | total L      10  R       0   <-- LEFT reads ~0   <-- RIGHT reads ~0
+L     212 ticks/s  R       0 ticks/s   | total L     116  R       0   <-- RIGHT reads ~0
+L     498 ticks/s  R     105 ticks/s   | total L     390  R      58
+L     729 ticks/s  R     256 ticks/s   | total L     791  R     199
+L     794 ticks/s  R     292 ticks/s   | total L    1188  R     345
+L     809 ticks/s  R     300 ticks/s   | total L    1633  R     510
+L     818 ticks/s  R     298 ticks/s   | total L    2083  R     674
+L     822 ticks/s  R     298 ticks/s   | total L    2535  R     838
+L     820 ticks/s  R     324 ticks/s   | total L    2986  R    1016
+L     820 ticks/s  R     316 ticks/s   | total L    3396  R    1174
+L     824 ticks/s  R     333 ticks/s   | total L    3849  R    1357
+L     824 ticks/s  R     324 ticks/s   | total L    4302  R    1535
+L     831 ticks/s  R     298 ticks/s   | total L    4759  R    1699
+L     838 ticks/s  R     300 ticks/s   | total L    5220  R    1864
+L     834 ticks/s  R     296 ticks/s   | total L    5637  R    2012
+L     835 ticks/s  R     304 ticks/s   | total L    6096  R    2179
+L     835 ticks/s  R     311 ticks/s   | total L    6555  R    2350
+L     838 ticks/s  R     305 ticks/s   | total L    7016  R    2518
+L     836 ticks/s  R     309 ticks/s   | total L    7476  R    2688
+L     842 ticks/s  R     310 ticks/s   | total L    7897  R    2843
+L     838 ticks/s  R     302 ticks/s   | total L    8358  R    3009
+L     840 ticks/s  R     305 ticks/s   | total L    8820  R    3177
+L     844 ticks/s  R     305 ticks/s   | total L    9284  R    3345
+L     842 ticks/s  R     300 ticks/s   | total L    9747  R    3510
+L     844 ticks/s  R     298 ticks/s   | total L   10169  R    3659
+L     845 ticks/s  R     302 ticks/s   | total L   10634  R    3825
+
+Final counts since start: L 11016  R 3961
+Sent stop. Done.

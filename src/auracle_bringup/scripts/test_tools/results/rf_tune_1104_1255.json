@@ -1,0 +1,81 @@
+{
+ "time": "2026-11-04 12:53:29",
+ "rear_pwm": 100,
+ "gz_bias": -0.003,
+ "alone_fwd": [
+  null,
+  null
+ ],
+ "alone_rev": [
+  225,
+  210
+ ],
+ "offsets": {
+  "None": {
+   "fwd": {
+    "lb": 579,
+    "rb": 427,
+    "yaw": -4.6
+   },
+   "rev": {
+    "lb": -708,
+    "rb": -709,
+    "yaw": 10.7
+   }
+  },
+  "-20": {
+   "fwd": {
+    "lb": 702,
+    "rb": 613,
+    "yaw": -3.6
+   },
+   "rev": {
+    "lb": -740,
+    "rb": -795,
+    "yaw": 9.7
+   }
+  },
+  "0": {
+   "fwd": {
+    "lb": 750,
+    "rb": 651,
+    "yaw": -3.7
+   },
+   "rev": {
+    "lb": -738,
+    "rb": -806,
+    "yaw": 9.8
+   }
+  },
+  "20": {
+   "fwd": {
+    "lb": 777,
+    "rb": 684,
+    "yaw": -4.1
+   },
+   "rev": {
+    "lb": -739,
+    "rb": -815,
+    "yaw": 9.3
+   }
+  },
+  "40": {
+   "fwd": {
+    "lb": 806,
+    "rb": 715,
+    "yaw": -3.4
+   },
+   "rev": {
+    "lb": -754,
+    "rb": -849,
+    "yaw": 8.3
+   }
+  }
+ },
+ "firmware": {
+  "drive_test.py 0.5": "asked +0.500 m | encoders: left +0.550  right +0.496  mean +0.523 m\nheading change (gyro) -12.7 deg   (+ = turned left)\n",
+  "drive_test.py -0.5": "asked -0.500 m | encoders: left -0.471  right -0.526  mean -0.498 m\nheading change (gyro) +45.2 deg   (+ = turned left)\n",
+  "spin_test.py 90": "gyro turned +94.1 deg | encoders: left -0.259  right +0.178 m\neffective wheel_separation = 0.266 m\n",
+  "spin_test.py -90": "gyro turned -92.1 deg | encoders: left +0.328  right -0.265 m\neffective wheel_separation = 0.369 m\n"
+ }
+}

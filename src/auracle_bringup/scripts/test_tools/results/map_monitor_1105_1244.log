@@ -1,0 +1,4 @@
+12:44:35 monitor started
+12:45:05 scan 7.5 Hz (175 pts, filter removed 0.0) | imu 40 | odom 20 | ekf 30 | slam tf 0 | map msgs 0 | teleop 6 Hz | stalls 0 (total 0) | cmd max 0.20 m/s, 0.00 rad/s, odom max 0.35 m/s | driven 1.6 m | no map yet | max jolt-tilt 13 deg, yaw 10 deg/s | SLAM jumps 0 | PC clock +405 ms | Pi 50C, throttled 0x0
+12:45:05 WARN PC clock is +405 ms off the Pi
+12:45:34 monitor stopped

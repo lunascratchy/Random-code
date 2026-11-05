@@ -1,0 +1,36 @@
+[INFO] [launch]: All log files can be found below /home/auracle/.ros/log/2026-10-23-08-46-37-014174-auracle-5736
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [async_slam_toolbox_node-1]: process started with pid [5833]
+[async_slam_toolbox_node-1] [INFO] [1792734397.627245868] [auracle.slam_toolbox]: Node using stack size 40000000
+[async_slam_toolbox_node-1] [INFO] [1792734397.679838665] [auracle.slam_toolbox]: Configuring
+[async_slam_toolbox_node-1] [INFO] [1792734397.783397217] [auracle.slam_toolbox]: Using solver plugin solver_plugins::CeresSolver
+[async_slam_toolbox_node-1] [INFO] [1792734397.783755940] [auracle.slam_toolbox]: CeresSolver: Using HuberLoss loss function.
+[async_slam_toolbox_node-1] [INFO] [1792734397.783784607] [auracle.slam_toolbox]: CeresSolver: Using SCHUR_JACOBI preconditioner.
+[INFO] [launch.user]: [slam] slam_toolbox configured, activating.
+[async_slam_toolbox_node-1] [INFO] [1792734397.825510284] [auracle.slam_toolbox]: Activating
+[async_slam_toolbox_node-1] Registering sensor: [Custom Described Lidar]
+[async_slam_toolbox_node-1] [WARN] [1792734418.973029354] [rcl_lifecycle]: No transition matching 1 found for current state active
+[async_slam_toolbox_node-1] [WARN] [1792734418.973070724] [rcl_lifecycle]: No transition matching 1 found for current state active
+[async_slam_toolbox_node-1] [ERROR] [1792734418.973086390] [auracle.slam_toolbox]: Unable to start transition 1 from current state active: Transition is not registered., at ./src/rcl_lifecycle.c:355
+[async_slam_toolbox_node-1] Save To File /home/auracle/maps/map_0849.posegraph 
+[async_slam_toolbox_node-1] Mapper <- Module
+[async_slam_toolbox_node-1] Mapper <- m_pSequentialScanMatcher
+[async_slam_toolbox_node-1] Mapper <- m_pGraph
+[async_slam_toolbox_node-1] MapperGraph <- Graph; Graph <- m_Edges; Graph <- m_Vertices
+[async_slam_toolbox_node-1] MapperGraph <- m_pMapper; MapperGraph <- m_pLoopScanMatcher; MapperGraph <- m_pTraversal
+[async_slam_toolbox_node-1] Mapper <- m_pMapperSensorManager
+[async_slam_toolbox_node-1] MapperSensorManager <- m_ScanManagers; MapperSensorManager <- m_Scans
+[async_slam_toolbox_node-1] Mapper <- m_Listeners
+[async_slam_toolbox_node-1] **Finished serializing Mapper**
+[async_slam_toolbox_node-1] Save To File
+[async_slam_toolbox_node-1] **Serializing Dataset**
+[async_slam_toolbox_node-1] Dataset <- m_SensorNameLookup
+[async_slam_toolbox_node-1] Dataset <- m_Data
+[async_slam_toolbox_node-1] Dataset <- m_Lasers
+[async_slam_toolbox_node-1] Dataset <- m_pDatasetInfo
+[async_slam_toolbox_node-1] **Finished serializing Dataset**
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [async_slam_toolbox_node-1]: sending signal 'SIGINT' to process[async_slam_toolbox_node-1]
+[async_slam_toolbox_node-1] [INFO] [1792734683.952067115] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[async_slam_toolbox_node-1] Unregistering sensor: Custom Described Lidar
+[INFO] [async_slam_toolbox_node-1]: process has finished cleanly [pid 5833]

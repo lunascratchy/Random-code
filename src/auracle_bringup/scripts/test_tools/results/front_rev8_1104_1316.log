@@ -1,0 +1,6 @@
+== spin_test.py 360
+gyro turned +359.9 deg | encoders: left -1.586  right +1.557 m
+effective wheel_separation = 0.500 m
+== spin_test.py -360
+gyro turned -360.4 deg | encoders: left +1.352  right -1.359 m
+effective wheel_separation = 0.431 m

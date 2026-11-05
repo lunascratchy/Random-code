@@ -296,6 +296,16 @@ Also: 75 mm spiked wheels: URDF `wheel_radius` 0.0375 (was 0.0239), base_footpri
 - After that run (not yet driven): footprint 34 x 31 cm (measured), inflation 0.40 / scaling 4, goal tolerance 0.12, rotate_to_heading_min_angle 0.3, cost-regulated speed on, desired_linear_vel 0.20.
 - The monitor's tilt is computed from single accelerometer samples and overstates: it read 116 deg on a robot that did not flip. Treat it as a jolt signal.
 
+## 4.19 Grass skid, lidar position, trial 4 (2026-11-05)
+- Trial 4: 15.1 m in about 2.5 minutes, 0 stalls, 5 SLAM corrections (16-36 cm, mostly distance, in one 35 s stretch). Drivable area 5.9 x 3.3 m. `~/maps/trial_4_clean` erases a false wall 15 cm from the chamber wall at the start. Likely cause: the start is the one place the robot returns to, and by then the map has drifted, so the same wall gets drawn twice. Not proven.
+- Slip test on the grass strip (`slip_test.py`, 0.8 m each way at 0.20 m/s): wheels reported 0.90 m, the robot moved about 0.45 m by eye, so about 50% slip. The scan match gave 0.13 / 0.24 m with a poor 7-9 cm fit, so its figures are not used. Wheels reached 0.35 m/s going straight at a commanded 0.20, about 1.75x target.
+- `OVERSPEED_COAST_RATIO` 1.6 -> 1.4 (flashed, not yet driven). 1.25 caused bursts in spins, so watch for them.
+- slam_toolbox trusts the lidar over wheel distance: `distance_variance_penalty` 0.05, `minimum_distance_penalty` 0.2, `minimum_travel_distance` 0.05, `minimum_time_interval` 0.13 (not yet driven). If maps stretch along plain corridors, raise the penalty toward 0.10.
+- Lidar position measured: 15 cm from front, 13 cm from right on a 34 x 31 cm robot. `lidar.xacro` x 0.17, y -0.025 (was 0.2, 0). Assumes the rotation centre is the middle of the robot.
+- Nav2 on trial_3b: 15 goals reported success over 17.7 m, 2 wall hits, before the footprint and inflation changes. Those changes have not been driven in a Nav2 run yet.
+- Open: the right rear encoder A wire is still unreliable (B-only workaround); the encoder also dropped out fully once from a loose connection; PC clock is about 400 ms off, so run SLAM and Nav2 on the Pi; lidar odometry (`rf2o`, built from source) is the next step if grass drift stays bad.
+- Test tools and their results are copied to `src/auracle_bringup/scripts/test_tools/` (working copies stay in `~/auracle_tools`). Left out: raw `power_*.log` and `scan_calib.npz`.
+
 ## 5. Pending / open issues
 
 | Issue | Status / next step |

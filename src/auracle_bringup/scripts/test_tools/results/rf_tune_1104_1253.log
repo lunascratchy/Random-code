@@ -1,0 +1,23 @@
+1  RF alone, on the floor (first PWM where the robot moves / last before it stops)
+    fwd: starts at None, stops below None
+    rev: starts at 225, stops below 210
+2  rears PWM 100, RF = rear + offset (ticks/s, yaw deg/s, + = left)
+    offset  None: fwd LB   579 RB   427 yaw   -4.6 | rev LB  -708 RB  -709 yaw  +10.7
+    offset   -20: fwd LB   702 RB   613 yaw   -3.6 | rev LB  -740 RB  -795 yaw   +9.7
+    offset     0: fwd LB   750 RB   651 yaw   -3.7 | rev LB  -738 RB  -806 yaw   +9.8
+    offset    20: fwd LB   777 RB   684 yaw   -4.1 | rev LB  -739 RB  -815 yaw   +9.3
+    offset    40: fwd LB   806 RB   715 yaw   -3.4 | rev LB  -754 RB  -849 yaw   +8.3
+3  current firmware: forward, back, spin left, spin right
+  drive_test.py 0.5
+    asked +0.500 m | encoders: left +0.550  right +0.496  mean +0.523 m
+    heading change (gyro) -12.7 deg   (+ = turned left)
+  drive_test.py -0.5
+    asked -0.500 m | encoders: left -0.471  right -0.526  mean -0.498 m
+    heading change (gyro) +45.2 deg   (+ = turned left)
+  spin_test.py 90
+    gyro turned +94.1 deg | encoders: left -0.259  right +0.178 m
+    effective wheel_separation = 0.266 m
+  spin_test.py -90
+    gyro turned -92.1 deg | encoders: left +0.328  right -0.265 m
+    effective wheel_separation = 0.369 m
+saved /home/auracle/auracle_tools/runs/rf_tune_1104_1255.json

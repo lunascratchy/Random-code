@@ -1,0 +1,391 @@
+[INFO] [launch]: All log files can be found below /home/auracle/.ros/log/2026-10-23-09-30-26-923107-auracle-46726
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [map_server-1]: process started with pid [46802]
+[INFO] [amcl-2]: process started with pid [46803]
+[INFO] [lifecycle_manager-3]: process started with pid [46804]
+[INFO] [controller_server-4]: process started with pid [46805]
+[INFO] [planner_server-5]: process started with pid [46806]
+[INFO] [behavior_server-6]: process started with pid [46807]
+[INFO] [bt_navigator-7]: process started with pid [46808]
+[INFO] [waypoint_follower-8]: process started with pid [46809]
+[INFO] [lifecycle_manager-9]: process started with pid [46810]
+[bt_navigator-7] [INFO] [1792737027.584529685] [auracle.bt_navigator]: 
+[bt_navigator-7] 	bt_navigator lifecycle node launched. 
+[bt_navigator-7] 	Waiting on external lifecycle transitions to activate
+[bt_navigator-7] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[bt_navigator-7] [INFO] [1792737027.591726416] [auracle.bt_navigator]: Creating
+[waypoint_follower-8] [INFO] [1792737027.621167706] [auracle.waypoint_follower]: 
+[waypoint_follower-8] 	waypoint_follower lifecycle node launched. 
+[waypoint_follower-8] 	Waiting on external lifecycle transitions to activate
+[waypoint_follower-8] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[waypoint_follower-8] [INFO] [1792737027.627913921] [auracle.waypoint_follower]: Creating
+[amcl-2] [INFO] [1792737027.641456666] [auracle.amcl]: 
+[amcl-2] 	amcl lifecycle node launched. 
+[amcl-2] 	Waiting on external lifecycle transitions to activate
+[amcl-2] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[amcl-2] [INFO] [1792737027.642294605] [auracle.amcl]: Creating
+[planner_server-5] [INFO] [1792737027.689148319] [auracle.planner_server]: 
+[planner_server-5] 	planner_server lifecycle node launched. 
+[planner_server-5] 	Waiting on external lifecycle transitions to activate
+[planner_server-5] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[planner_server-5] [INFO] [1792737027.718295611] [auracle.planner_server]: Creating
+[planner_server-5] [INFO] [1792737027.780215671] [auracle.global_costmap.global_costmap]: 
+[planner_server-5] 	global_costmap lifecycle node launched. 
+[planner_server-5] 	Waiting on external lifecycle transitions to activate
+[planner_server-5] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[planner_server-5] [INFO] [1792737027.783170745] [auracle.global_costmap.global_costmap]: Creating Costmap
+[behavior_server-6] [INFO] [1792737027.810848472] [auracle.behavior_server]: 
+[behavior_server-6] 	behavior_server lifecycle node launched. 
+[behavior_server-6] 	Waiting on external lifecycle transitions to activate
+[behavior_server-6] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[controller_server-4] [INFO] [1792737027.854729002] [auracle.controller_server]: 
+[controller_server-4] 	controller_server lifecycle node launched. 
+[controller_server-4] 	Waiting on external lifecycle transitions to activate
+[controller_server-4] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[controller_server-4] [INFO] [1792737027.865370396] [auracle.controller_server]: Creating controller server
+[controller_server-4] [INFO] [1792737027.875303812] [auracle.local_costmap.local_costmap]: 
+[controller_server-4] 	local_costmap lifecycle node launched. 
+[controller_server-4] 	Waiting on external lifecycle transitions to activate
+[controller_server-4] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[controller_server-4] [INFO] [1792737027.878006554] [auracle.local_costmap.local_costmap]: Creating Costmap
+[lifecycle_manager-3] [INFO] [1792737027.894131560] [auracle.lifecycle_manager_localization]: Creating
+[lifecycle_manager-3] [INFO] [1792737027.905501764] [auracle.lifecycle_manager_localization]: [34m[1mCreating and initializing lifecycle service clients[0m[0m
+[map_server-1] [INFO] [1792737027.917641537] [auracle.map_server]: 
+[map_server-1] 	map_server lifecycle node launched. 
+[map_server-1] 	Waiting on external lifecycle transitions to activate
+[map_server-1] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[map_server-1] [INFO] [1792737027.918643290] [auracle.map_server]: Creating
+[lifecycle_manager-3] [INFO] [1792737027.926005816] [auracle.lifecycle_manager_localization]: [34m[1mStarting managed nodes bringup...[0m[0m
+[lifecycle_manager-3] [INFO] [1792737027.926120686] [auracle.lifecycle_manager_localization]: [34m[1mConfiguring map_server[0m[0m
+[map_server-1] [INFO] [1792737027.935010665] [auracle.map_server]: Configuring
+[map_server-1] [INFO] [1792737027.935821937] [map_io]: Loading yaml file: /home/auracle/auracle_ws/Random-code/src/auracle_bringup/config/map_1.yaml
+[map_server-1] [INFO] [1792737027.936221972] [map_io]: resolution: 0.05
+[map_server-1] [INFO] [1792737027.936247490] [map_io]: origin[0]: -4.892
+[map_server-1] [INFO] [1792737027.936253953] [map_io]: origin[1]: -2.793
+[map_server-1] [INFO] [1792737027.936259805] [map_io]: origin[2]: 0
+[map_server-1] [INFO] [1792737027.936265694] [map_io]: free_thresh: 0.196
+[map_server-1] [INFO] [1792737027.936271064] [map_io]: occupied_thresh: 0.65
+[map_server-1] [INFO] [1792737027.936280083] [map_io]: mode: trinary
+[map_server-1] [INFO] [1792737027.936287416] [map_io]: negate: 0
+[map_server-1] [INFO] [1792737027.936679228] [map_io]: Loading image_file: /home/auracle/auracle_ws/Random-code/src/auracle_bringup/config/map_1.pgm
+[map_server-1] [INFO] [1792737027.937348391] [map_io]: Read map /home/auracle/auracle_ws/Random-code/src/auracle_bringup/config/map_1.pgm: 123 X 65 map @ 0.05 m/cell
+[lifecycle_manager-9] [INFO] [1792737027.956062602] [auracle.lifecycle_manager_navigation]: Creating
+[lifecycle_manager-3] [INFO] [1792737027.959552191] [auracle.lifecycle_manager_localization]: [34m[1mConfiguring amcl[0m[0m
+[amcl-2] [INFO] [1792737027.961625640] [auracle.amcl]: Configuring
+[amcl-2] [INFO] [1792737027.961784621] [auracle.amcl]: initTransforms
+[lifecycle_manager-9] [INFO] [1792737027.963877848] [auracle.lifecycle_manager_navigation]: [34m[1mCreating and initializing lifecycle service clients[0m[0m
+[lifecycle_manager-9] [INFO] [1792737027.972600884] [auracle.lifecycle_manager_navigation]: [34m[1mStarting managed nodes bringup...[0m[0m
+[lifecycle_manager-9] [INFO] [1792737027.972713124] [auracle.lifecycle_manager_navigation]: [34m[1mConfiguring controller_server[0m[0m
+[controller_server-4] [INFO] [1792737027.976962670] [auracle.controller_server]: Configuring controller interface
+[controller_server-4] [INFO] [1792737027.977023984] [auracle.controller_server]: getting progress checker plugins..
+[controller_server-4] [INFO] [1792737027.977237335] [auracle.controller_server]: getting goal checker plugins..
+[controller_server-4] [INFO] [1792737027.979388747] [auracle.controller_server]: Controller frequency set to 20.0000Hz
+[controller_server-4] [INFO] [1792737027.979489080] [auracle.local_costmap.local_costmap]: Configuring
+[amcl-2] [INFO] [1792737027.981656751] [auracle.amcl]: initPubSub
+[amcl-2] [INFO] [1792737027.994388168] [auracle.amcl]: Subscribed to map topic.
+[controller_server-4] [INFO] [1792737028.000539276] [auracle.local_costmap.local_costmap]: Using plugin "obstacle_layer"
+[lifecycle_manager-3] [INFO] [1792737028.008831463] [auracle.lifecycle_manager_localization]: [34m[1mActivating map_server[0m[0m
+[controller_server-4] [INFO] [1792737028.009208275] [auracle.local_costmap.local_costmap]: Subscribed to Topics: scan
+[map_server-1] [INFO] [1792737028.009468014] [auracle.map_server]: Activating
+[map_server-1] [INFO] [1792737028.009806234] [auracle.map_server]: Creating bond (map_server) to lifecycle manager.
+[amcl-2] [INFO] [1792737028.010941134] [auracle.amcl]: Received a 123 X 65 map @ 0.050 m/pix
+[controller_server-4] [INFO] [1792737028.012673642] [auracle.local_costmap.local_costmap]: Initialized plugin "obstacle_layer"
+[controller_server-4] [INFO] [1792737028.012743511] [auracle.local_costmap.local_costmap]: Using plugin "inflation_layer"
+[controller_server-4] [INFO] [1792737028.013335434] [auracle.local_costmap.local_costmap]: Initialized plugin "inflation_layer"
+[controller_server-4] [INFO] [1792737028.033206119] [auracle.controller_server]: Created progress_checker : progress_checker of type nav2_controller::SimpleProgressChecker
+[controller_server-4] [INFO] [1792737028.033549691] [auracle.controller_server]: Controller Server has progress_checker  progress checkers available.
+[controller_server-4] [INFO] [1792737028.034562888] [auracle.controller_server]: Created goal checker : general_goal_checker of type nav2_controller::SimpleGoalChecker
+[controller_server-4] [INFO] [1792737028.034847979] [auracle.controller_server]: Controller Server has general_goal_checker  goal checkers available.
+[controller_server-4] [INFO] [1792737028.036504579] [auracle.controller_server]: Created controller : FollowPath of type nav2_regulated_pure_pursuit_controller::RegulatedPurePursuitController
+[controller_server-4] [INFO] [1792737028.041563528] [auracle.controller_server]: Controller Server has FollowPath  controllers available.
+[lifecycle_manager-9] [INFO] [1792737028.060761718] [auracle.lifecycle_manager_navigation]: [34m[1mConfiguring planner_server[0m[0m
+[planner_server-5] [INFO] [1792737028.061349251] [auracle.planner_server]: Configuring
+[planner_server-5] [INFO] [1792737028.061408973] [auracle.global_costmap.global_costmap]: Configuring
+[planner_server-5] [INFO] [1792737028.068496575] [auracle.global_costmap.global_costmap]: Using plugin "static_layer"
+[planner_server-5] [INFO] [1792737028.075663713] [auracle.global_costmap.global_costmap]: Subscribing to the map topic (/auracle/map) with transient local durability
+[planner_server-5] [INFO] [1792737028.080853161] [auracle.global_costmap.global_costmap]: Initialized plugin "static_layer"
+[planner_server-5] [INFO] [1792737028.080922105] [auracle.global_costmap.global_costmap]: Using plugin "obstacle_layer"
+[planner_server-5] [INFO] [1792737028.082816945] [auracle.global_costmap.global_costmap]: Subscribed to Topics: scan
+[planner_server-5] [INFO] [1792737028.086185164] [auracle.global_costmap.global_costmap]: Initialized plugin "obstacle_layer"
+[planner_server-5] [INFO] [1792737028.086261348] [auracle.global_costmap.global_costmap]: Using plugin "inflation_layer"
+[planner_server-5] [INFO] [1792737028.087451729] [auracle.global_costmap.global_costmap]: Initialized plugin "inflation_layer"
+[planner_server-5] [INFO] [1792737028.120489107] [auracle.global_costmap.global_costmap]: StaticLayer: Resizing costmap to 123 X 65 at 0.050000 m/pix
+[planner_server-5] [INFO] [1792737028.123144645] [auracle.planner_server]: Created global planner plugin GridBased of type nav2_navfn_planner::NavfnPlanner
+[planner_server-5] [INFO] [1792737028.123231071] [auracle.planner_server]: Configuring plugin GridBased of type NavfnPlanner
+[planner_server-5] [INFO] [1792737028.125905535] [auracle.planner_server]: Planner Server has GridBased  planners available.
+[lifecycle_manager-3] [INFO] [1792737028.135687453] [auracle.lifecycle_manager_localization]: Server map_server connected with bond.
+[lifecycle_manager-3] [INFO] [1792737028.135789082] [auracle.lifecycle_manager_localization]: [34m[1mActivating amcl[0m[0m
+[lifecycle_manager-9] [INFO] [1792737028.139446002] [auracle.lifecycle_manager_navigation]: [34m[1mConfiguring behavior_server[0m[0m
+[behavior_server-6] [INFO] [1792737028.140307182] [auracle.behavior_server]: Configuring
+[amcl-2] [INFO] [1792737028.140454903] [auracle.amcl]: Activating
+[amcl-2] [INFO] [1792737028.140529810] [auracle.amcl]: initialPoseReceived
+[amcl-2] [INFO] [1792737028.140733420] [auracle.amcl]: Setting pose (1792737028.140732): 0.400 0.080 0.000
+[amcl-2] [INFO] [1792737028.141406619] [auracle.amcl]: Creating bond (amcl) to lifecycle manager.
+[behavior_server-6] [INFO] [1792737028.147577690] [auracle.behavior_server]: Creating behavior plugin spin of type nav2_behaviors::Spin
+[behavior_server-6] [INFO] [1792737028.149441937] [auracle.behavior_server]: Creating behavior plugin backup of type nav2_behaviors::BackUp
+[behavior_server-6] [INFO] [1792737028.152506825] [auracle.behavior_server]: Creating behavior plugin drive_on_heading of type nav2_behaviors::DriveOnHeading
+[behavior_server-6] [INFO] [1792737028.156018969] [auracle.behavior_server]: Creating behavior plugin assisted_teleop of type nav2_behaviors::AssistedTeleop
+[behavior_server-6] [INFO] [1792737028.160624883] [auracle.behavior_server]: Creating behavior plugin wait of type nav2_behaviors::Wait
+[behavior_server-6] [INFO] [1792737028.170505208] [auracle.behavior_server]: Configuring spin
+[behavior_server-6] [INFO] [1792737028.181156842] [auracle.behavior_server]: Configuring backup
+[behavior_server-6] [INFO] [1792737028.184834300] [auracle.behavior_server]: Configuring drive_on_heading
+[behavior_server-6] [INFO] [1792737028.189937174] [auracle.behavior_server]: Configuring assisted_teleop
+[behavior_server-6] [INFO] [1792737028.203141403] [auracle.behavior_server]: Configuring wait
+[amcl-2] [INFO] [1792737028.207035378] [auracle.amcl]: createLaserObject
+[lifecycle_manager-9] [INFO] [1792737028.214825846] [auracle.lifecycle_manager_navigation]: [34m[1mConfiguring bt_navigator[0m[0m
+[bt_navigator-7] [INFO] [1792737028.215381694] [auracle.bt_navigator]: Configuring
+[bt_navigator-7] [INFO] [1792737028.224266488] [auracle.bt_navigator]: Creating navigator id navigate_to_pose of type nav2_bt_navigator::NavigateToPoseNavigator
+[lifecycle_manager-3] [INFO] [1792737028.262144871] [auracle.lifecycle_manager_localization]: Server amcl connected with bond.
+[lifecycle_manager-3] [INFO] [1792737028.262236963] [auracle.lifecycle_manager_localization]: [34m[1mManaged nodes are active[0m[0m
+[lifecycle_manager-3] [INFO] [1792737028.262259926] [auracle.lifecycle_manager_localization]: [34m[1mCreating bond timer...[0m[0m
+[bt_navigator-7] [INFO] [1792737028.311818530] [auracle.bt_navigator]: Creating navigator id navigate_through_poses of type nav2_bt_navigator::NavigateThroughPosesNavigator
+[lifecycle_manager-9] [INFO] [1792737028.343751693] [auracle.lifecycle_manager_navigation]: [34m[1mConfiguring waypoint_follower[0m[0m
+[waypoint_follower-8] [INFO] [1792737028.344481651] [auracle.waypoint_follower]: Configuring
+[waypoint_follower-8] [INFO] [1792737028.363731340] [auracle.waypoint_follower]: Created waypoint_task_executor : wait_at_waypoint of type nav2_waypoint_follower::WaitAtWaypoint
+[lifecycle_manager-9] [INFO] [1792737028.368939751] [auracle.lifecycle_manager_navigation]: [34m[1mActivating controller_server[0m[0m
+[controller_server-4] [INFO] [1792737028.369811079] [auracle.controller_server]: Activating
+[controller_server-4] [INFO] [1792737028.369884263] [auracle.local_costmap.local_costmap]: Activating
+[controller_server-4] [INFO] [1792737028.369903115] [auracle.local_costmap.local_costmap]: Checking transform
+[controller_server-4] [INFO] [1792737028.370128966] [auracle.local_costmap.local_costmap]: start
+[controller_server-4] [INFO] [1792737028.571912783] [auracle.controller_server]: Activating controller: FollowPath of type regulated_pure_pursuit_controller::RegulatedPurePursuitController
+[controller_server-4] [INFO] [1792737028.571984875] [auracle.controller_server]: Creating bond (controller_server) to lifecycle manager.
+[lifecycle_manager-9] [INFO] [1792737028.682293658] [auracle.lifecycle_manager_navigation]: Server controller_server connected with bond.
+[lifecycle_manager-9] [INFO] [1792737028.682402250] [auracle.lifecycle_manager_navigation]: [34m[1mActivating planner_server[0m[0m
+[planner_server-5] [INFO] [1792737028.683633520] [auracle.planner_server]: Activating
+[planner_server-5] [INFO] [1792737028.683722278] [auracle.global_costmap.global_costmap]: Activating
+[planner_server-5] [INFO] [1792737028.683748612] [auracle.global_costmap.global_costmap]: Checking transform
+[planner_server-5] [INFO] [1792737028.683893796] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Lookup would require extrapolation into the past.  Requested time 1792737028.636084 but the earliest data is at time 1792737029.142125, when looking up transform from frame [base_footprint] to frame [map]
+[planner_server-5] [INFO] [1792737029.183913563] [auracle.global_costmap.global_costmap]: Timed out waiting for transform from base_footprint to map to become available, tf error: Lookup would require extrapolation into the past.  Requested time 1792737029.136041 but the earliest data is at time 1792737029.142125, when looking up transform from frame [base_footprint] to frame [map]
+[planner_server-5] [INFO] [1792737029.684006830] [auracle.global_costmap.global_costmap]: start
+[planner_server-5] [INFO] [1792737030.735292921] [auracle.planner_server]: Activating plugin GridBased of type NavfnPlanner
+[planner_server-5] [INFO] [1792737030.736516283] [auracle.planner_server]: Creating bond (planner_server) to lifecycle manager.
+[lifecycle_manager-9] [INFO] [1792737030.846339328] [auracle.lifecycle_manager_navigation]: Server planner_server connected with bond.
+[lifecycle_manager-9] [INFO] [1792737030.846409254] [auracle.lifecycle_manager_navigation]: [34m[1mActivating behavior_server[0m[0m
+[behavior_server-6] [INFO] [1792737030.847169360] [auracle.behavior_server]: Activating
+[behavior_server-6] [INFO] [1792737030.847228600] [auracle.behavior_server]: Activating spin
+[behavior_server-6] [INFO] [1792737030.847254156] [auracle.behavior_server]: Activating backup
+[behavior_server-6] [INFO] [1792737030.847277063] [auracle.behavior_server]: Activating drive_on_heading
+[behavior_server-6] [INFO] [1792737030.847297637] [auracle.behavior_server]: Activating assisted_teleop
+[behavior_server-6] [INFO] [1792737030.847409451] [auracle.behavior_server]: Activating wait
+[behavior_server-6] [INFO] [1792737030.847449451] [auracle.behavior_server]: Creating bond (behavior_server) to lifecycle manager.
+[lifecycle_manager-9] [INFO] [1792737030.955918301] [auracle.lifecycle_manager_navigation]: Server behavior_server connected with bond.
+[lifecycle_manager-9] [INFO] [1792737030.955990727] [auracle.lifecycle_manager_navigation]: [34m[1mActivating bt_navigator[0m[0m
+[bt_navigator-7] [INFO] [1792737030.957082127] [auracle.bt_navigator]: Activating
+[bt_navigator-7] [INFO] [1792737031.071683845] [auracle.bt_navigator]: Creating bond (bt_navigator) to lifecycle manager.
+[lifecycle_manager-9] [INFO] [1792737031.180809561] [auracle.lifecycle_manager_navigation]: Server bt_navigator connected with bond.
+[lifecycle_manager-9] [INFO] [1792737031.180883153] [auracle.lifecycle_manager_navigation]: [34m[1mActivating waypoint_follower[0m[0m
+[waypoint_follower-8] [INFO] [1792737031.181768629] [auracle.waypoint_follower]: Activating
+[waypoint_follower-8] [INFO] [1792737031.181848314] [auracle.waypoint_follower]: Creating bond (waypoint_follower) to lifecycle manager.
+[lifecycle_manager-9] [INFO] [1792737031.289084376] [auracle.lifecycle_manager_navigation]: Server waypoint_follower connected with bond.
+[lifecycle_manager-9] [INFO] [1792737031.289170634] [auracle.lifecycle_manager_navigation]: [34m[1mManaged nodes are active[0m[0m
+[lifecycle_manager-9] [INFO] [1792737031.289194171] [auracle.lifecycle_manager_navigation]: [34m[1mCreating bond timer...[0m[0m
+[amcl-2] [INFO] [1792737276.432882823] [auracle.amcl]: initialPoseReceived
+[amcl-2] [WARN] [1792737276.433027581] [auracle.amcl]: Failed to transform initial pose in time (Lookup would require extrapolation into the future.  Requested time 1792737276.432956 but the latest data is at time 1792737276.386049, when looking up transform from frame [base_footprint] to frame [odom])
+[amcl-2] [INFO] [1792737276.433059247] [auracle.amcl]: Setting pose (1792737276.433058): -3.000 -1.950 3.130
+[bt_navigator-7] [INFO] [1792737292.440058490] [auracle.bt_navigator]: Begin navigating from current location (-2.98, -1.94) to (-3.27, -1.78)
+[controller_server-4] [INFO] [1792737292.461426096] [auracle.controller_server]: Received a goal, begin computing control effort.
+[controller_server-4] [WARN] [1792737292.461530132] [auracle.controller_server]: No goal checker was specified in parameter 'current_goal_checker'. Server will use only plugin loaded general_goal_checker . This warning will appear once.
+[controller_server-4] [WARN] [1792737292.461588761] [auracle.controller_server]: No progress checker was specified in parameter 'current_progress_checker'. Server will use only plugin loaded progress_checker . This warning will appear once.
+[controller_server-4] [INFO] [1792737293.511727620] [auracle.controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1792737294.561727147] [auracle.controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1792737295.561723453] [auracle.controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1792737296.611738963] [auracle.controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1792737297.611730114] [auracle.controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1792737298.661725513] [auracle.controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1792737299.661724868] [auracle.controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1792737300.711727248] [auracle.controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1792737301.711748325] [auracle.controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1792737302.761734798] [auracle.controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1792737303.761734356] [auracle.controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1792737304.811732922] [auracle.controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1792737305.811724925] [auracle.controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1792737306.861727250] [auracle.controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1792737307.661784314] [auracle.controller_server]: Reached the goal!
+[bt_navigator-7] [INFO] [1792737307.690518663] [auracle.bt_navigator]: Goal succeeded
+[amcl-2] [INFO] [1792737489.877559931] [auracle.amcl]: initialPoseReceived
+[amcl-2] [WARN] [1792737489.877704873] [auracle.amcl]: Failed to transform initial pose in time (Lookup would require extrapolation into the future.  Requested time 1792737489.877630 but the latest data is at time 1792737489.836039, when looking up transform from frame [base_footprint] to frame [odom])
+[amcl-2] [INFO] [1792737489.877753465] [auracle.amcl]: Setting pose (1792737489.877753): -3.983 0.033 0.043
+[bt_navigator-7] [INFO] [1792737495.370637795] [auracle.bt_navigator]: Begin navigating from current location (-3.94, -0.05) to (-3.43, 0.00)
+[controller_server-4] [INFO] [1792737495.391553677] [auracle.controller_server]: Received a goal, begin computing control effort.
+[controller_server-4] [INFO] [1792737496.441765607] [auracle.controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1792737497.491753373] [auracle.controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1792737498.491748941] [auracle.controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1792737499.541761540] [auracle.controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1792737500.541759313] [auracle.controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1792737501.591751116] [auracle.controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1792737502.591749166] [auracle.controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1792737503.641756191] [auracle.controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1792737504.641758797] [auracle.controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1792737505.691747748] [auracle.controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1792737506.691747872] [auracle.controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1792737507.741756730] [auracle.controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1792737508.741759114] [auracle.controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1792737509.791705788] [auracle.controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1792737510.791747578] [auracle.controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1792737511.841758640] [auracle.controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1792737512.841764524] [auracle.controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1792737513.891749882] [auracle.controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1792737514.891749766] [auracle.controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1792737515.941758216] [auracle.controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1792737516.941755785] [auracle.controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1792737517.991757921] [auracle.controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1792737518.991752583] [auracle.controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1792737520.041760515] [auracle.controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1792737521.041760602] [auracle.controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1792737522.041754153] [auracle.controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1792737523.091747419] [auracle.controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1792737524.141759777] [auracle.controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1792737525.141754846] [auracle.controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1792737526.191749148] [auracle.controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1792737527.191754958] [auracle.controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1792737528.241759538] [auracle.controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1792737529.241760718] [auracle.controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1792737530.291749280] [auracle.controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1792737531.291747534] [auracle.controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1792737532.341767244] [auracle.controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1792737533.341758591] [auracle.controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1792737534.391750561] [auracle.controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1792737535.391750574] [auracle.controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1792737535.891794821] [auracle.controller_server]: Reached the goal!
+[bt_navigator-7] [INFO] [1792737535.921031708] [auracle.bt_navigator]: Goal succeeded
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [lifecycle_manager-9]: sending signal 'SIGINT' to process[lifecycle_manager-9]
+[INFO] [waypoint_follower-8]: sending signal 'SIGINT' to process[waypoint_follower-8]
+[INFO] [bt_navigator-7]: sending signal 'SIGINT' to process[bt_navigator-7]
+[INFO] [behavior_server-6]: sending signal 'SIGINT' to process[behavior_server-6]
+[INFO] [planner_server-5]: sending signal 'SIGINT' to process[planner_server-5]
+[INFO] [controller_server-4]: sending signal 'SIGINT' to process[controller_server-4]
+[INFO] [lifecycle_manager-3]: sending signal 'SIGINT' to process[lifecycle_manager-3]
+[INFO] [amcl-2]: sending signal 'SIGINT' to process[amcl-2]
+[INFO] [map_server-1]: sending signal 'SIGINT' to process[map_server-1]
+[lifecycle_manager-9] [INFO] [1792737813.832518421] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[lifecycle_manager-9] [INFO] [1792737813.832626771] [auracle.lifecycle_manager_navigation]: Running Nav2 LifecycleManager rcl preshutdown (lifecycle_manager_navigation)
+[lifecycle_manager-9] [INFO] [1792737813.832692048] [auracle.lifecycle_manager_navigation]: [34m[1mTerminating bond timer...[0m[0m
+[waypoint_follower-8] [INFO] [1792737813.835856517] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[waypoint_follower-8] [INFO] [1792737813.835980237] [auracle.waypoint_follower]: Running Nav2 LifecycleNode rcl preshutdown (waypoint_follower)
+[waypoint_follower-8] [INFO] [1792737813.836089217] [auracle.waypoint_follower]: Deactivating
+[waypoint_follower-8] [INFO] [1792737813.836130179] [auracle.waypoint_follower]: Destroying bond (waypoint_follower) to lifecycle manager.
+[bt_navigator-7] [INFO] [1792737813.836466156] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[bt_navigator-7] [INFO] [1792737813.836548154] [auracle.bt_navigator]: Running Nav2 LifecycleNode rcl preshutdown (bt_navigator)
+[bt_navigator-7] [INFO] [1792737813.836656208] [auracle.bt_navigator]: Deactivating
+[bt_navigator-7] [INFO] [1792737813.836705226] [auracle.bt_navigator]: Destroying bond (bt_navigator) to lifecycle manager.
+[behavior_server-6] [INFO] [1792737813.843511917] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[behavior_server-6] [INFO] [1792737813.843635192] [auracle.behavior_server]: Running Nav2 LifecycleNode rcl preshutdown (behavior_server)
+[behavior_server-6] [INFO] [1792737813.843777801] [auracle.behavior_server]: Deactivating
+[behavior_server-6] [INFO] [1792737813.843863041] [auracle.behavior_server]: Destroying bond (behavior_server) to lifecycle manager.
+[waypoint_follower-8] [INFO] [1792737813.847034769] [auracle.waypoint_follower]: Cleaning up
+[waypoint_follower-8] [INFO] [1792737813.848528283] [auracle.waypoint_follower]: Destroying bond (waypoint_follower) to lifecycle manager.
+[bt_navigator-7] [INFO] [1792737813.847220989] [auracle.bt_navigator]: Cleaning up
+[waypoint_follower-8] [2m2026-10-23T06:43:33.854126Z[0m [31mERROR[0m rx-3 ThreadId(14) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 36
+[waypoint_follower-8] [2m2026-10-23T06:43:33.854283Z[0m [31mERROR[0m rx-3 ThreadId(14) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 36
+[waypoint_follower-8] [2m2026-10-23T06:43:33.854325Z[0m [31mERROR[0m rx-3 ThreadId(14) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 36
+[waypoint_follower-8] [2m2026-10-23T06:43:33.859957Z[0m [31mERROR[0m rx-6 ThreadId(17) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 36
+[behavior_server-6] [INFO] [1792737813.857501570] [auracle.behavior_server]: Cleaning up
+[planner_server-5] [INFO] [1792737813.858098431] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[planner_server-5] [INFO] [1792737813.858219966] [auracle.planner_server]: Running Nav2 LifecycleNode rcl preshutdown (planner_server)
+[planner_server-5] [INFO] [1792737813.858374538] [auracle.planner_server]: Deactivating
+[planner_server-5] [INFO] [1792737813.858435833] [auracle.global_costmap.global_costmap]: Deactivating
+[waypoint_follower-8] [2m2026-10-23T06:43:33.864380Z[0m [31mERROR[0m rx-3 ThreadId(14) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 36
+[waypoint_follower-8] [2m2026-10-23T06:43:33.872613Z[0m [31mERROR[0m rx-6 ThreadId(17) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 36
+[behavior_server-6] [INFO] [1792737813.866384154] [auracle.behavior_server]: Destroying bond (behavior_server) to lifecycle manager.
+[behavior_server-6] [2m2026-10-23T06:43:33.866746Z[0m [31mERROR[0m rx-2 ThreadId(09) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 58
+[behavior_server-6] [2m2026-10-23T06:43:33.872517Z[0m [31mERROR[0m rx-2 ThreadId(09) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 58
+[behavior_server-6] [2m2026-10-23T06:43:33.873734Z[0m [31mERROR[0m rx-3 ThreadId(15) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 58
+[controller_server-4] [INFO] [1792737813.870798993] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[controller_server-4] [INFO] [1792737813.870901251] [auracle.controller_server]: Running Nav2 LifecycleNode rcl preshutdown (controller_server)
+[controller_server-4] [INFO] [1792737813.871016378] [auracle.controller_server]: Deactivating
+[controller_server-4] [INFO] [1792737813.871051470] [auracle.controller_server]: Deactivating controller: FollowPath of type regulated_pure_pursuit_controller::RegulatedPurePursuitController
+[controller_server-4] [INFO] [1792737813.871107488] [auracle.local_costmap.local_costmap]: Deactivating
+[lifecycle_manager-3] [INFO] [1792737813.899670415] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[lifecycle_manager-3] [INFO] [1792737813.899738895] [auracle.lifecycle_manager_localization]: Running Nav2 LifecycleManager rcl preshutdown (lifecycle_manager_localization)
+[lifecycle_manager-3] [INFO] [1792737813.899805913] [auracle.lifecycle_manager_localization]: [34m[1mTerminating bond timer...[0m[0m
+[behavior_server-6] [2m2026-10-23T06:43:33.899784Z[0m [31mERROR[0m rx-2 ThreadId(09) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 58
+[behavior_server-6] [2m2026-10-23T06:43:33.903949Z[0m [31mERROR[0m rx-3 ThreadId(15) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 58
+[amcl-2] [INFO] [1792737813.908342928] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[amcl-2] [INFO] [1792737813.908450056] [auracle.amcl]: Running Nav2 LifecycleNode rcl preshutdown (amcl)
+[amcl-2] [INFO] [1792737813.908556425] [auracle.amcl]: Deactivating
+[amcl-2] [INFO] [1792737813.908593962] [auracle.amcl]: Destroying bond (amcl) to lifecycle manager.
+[waypoint_follower-8] [2m2026-10-23T06:43:33.912240Z[0m [31mERROR[0m rx-6 ThreadId(17) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 36
+[map_server-1] [INFO] [1792737813.913543755] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[map_server-1] [INFO] [1792737813.913633069] [auracle.map_server]: Running Nav2 LifecycleNode rcl preshutdown (map_server)
+[map_server-1] [INFO] [1792737813.913735919] [auracle.map_server]: Deactivating
+[map_server-1] [INFO] [1792737813.913760844] [auracle.map_server]: Destroying bond (map_server) to lifecycle manager.
+[waypoint_follower-8] [2m2026-10-23T06:43:33.916653Z[0m [31mERROR[0m rx-3 ThreadId(14) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 36
+[waypoint_follower-8] [2m2026-10-23T06:43:33.919030Z[0m [31mERROR[0m rx-6 ThreadId(17) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 36
+[behavior_server-6] [2m2026-10-23T06:43:33.921565Z[0m [31mERROR[0m rx-2 ThreadId(09) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 58
+[behavior_server-6] [2m2026-10-23T06:43:33.921853Z[0m [31mERROR[0m rx-3 ThreadId(15) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 58
+[behavior_server-6] [2m2026-10-23T06:43:33.923450Z[0m [31mERROR[0m rx-3 ThreadId(15) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 58
+[lifecycle_manager-9] [2m2026-10-23T06:43:33.923623Z[0m [31mERROR[0m rx-2 ThreadId(10) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 24
+[lifecycle_manager-9] [2m2026-10-23T06:43:33.923664Z[0m [31mERROR[0m rx-2 ThreadId(10) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 24
+[lifecycle_manager-9] [2m2026-10-23T06:43:33.923679Z[0m [31mERROR[0m rx-2 ThreadId(10) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 24
+[waypoint_follower-8] [2m2026-10-23T06:43:33.923862Z[0m [31mERROR[0m rx-6 ThreadId(17) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 36
+[waypoint_follower-8] [2m2026-10-23T06:43:33.925936Z[0m [31mERROR[0m rx-3 ThreadId(14) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 36
+[behavior_server-6] [2m2026-10-23T06:43:33.926167Z[0m [31mERROR[0m rx-2 ThreadId(09) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 58
+[lifecycle_manager-9] [2m2026-10-23T06:43:33.928554Z[0m [31mERROR[0m rx-1 ThreadId(08) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 24
+[map_server-1] [INFO] [1792737813.944417313] [auracle.map_server]: Cleaning up
+[map_server-1] [INFO] [1792737813.944538552] [auracle.map_server]: Destroying bond (map_server) to lifecycle manager.
+[map_server-1] [2m2026-10-23T06:43:33.953166Z[0m [31mERROR[0m rx-4 ThreadId(16) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 21
+[map_server-1] [2m2026-10-23T06:43:33.953261Z[0m [31mERROR[0m rx-4 ThreadId(16) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 21
+[lifecycle_manager-9] [2m2026-10-23T06:43:33.953779Z[0m [31mERROR[0m rx-1 ThreadId(08) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 24
+[lifecycle_manager-9] [WARN] [1792737813.957275539] [rmw_zenoh_cpp]: unable to publish message since the zenoh session is closed
+[map_server-1] [2m2026-10-23T06:43:33.957429Z[0m [31mERROR[0m rx-4 ThreadId(16) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 21
+[amcl-2] [INFO] [1792737813.959027197] [auracle.amcl]: Cleaning up
+[amcl-2] [INFO] [1792737813.963396851] [auracle.amcl]: Destroying bond (amcl) to lifecycle manager.
+[lifecycle_manager-9] [2m2026-10-23T06:43:33.967535Z[0m [31mERROR[0m rx-1 ThreadId(08) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 9
+[lifecycle_manager-9] [2m2026-10-23T06:43:33.967568Z[0m [31mERROR[0m rx-1 ThreadId(08) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 9
+[lifecycle_manager-9] [2m2026-10-23T06:43:33.967574Z[0m [31mERROR[0m rx-1 ThreadId(08) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 9
+[lifecycle_manager-9] [2m2026-10-23T06:43:33.967578Z[0m [31mERROR[0m rx-1 ThreadId(08) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 9
+[lifecycle_manager-3] [2m2026-10-23T06:43:33.969621Z[0m [31mERROR[0m rx-2 ThreadId(10) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 9
+[lifecycle_manager-3] [2m2026-10-23T06:43:33.970033Z[0m [31mERROR[0m rx-2 ThreadId(10) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 9
+[lifecycle_manager-3] [2m2026-10-23T06:43:33.970041Z[0m [31mERROR[0m rx-2 ThreadId(10) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 9
+[lifecycle_manager-3] [2m2026-10-23T06:43:33.970045Z[0m [31mERROR[0m rx-2 ThreadId(10) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 9
+[behavior_server-6] [2m2026-10-23T06:43:33.972126Z[0m [31mERROR[0m rx-2 ThreadId(09) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 58
+[behavior_server-6] [2m2026-10-23T06:43:33.972160Z[0m [31mERROR[0m rx-2 ThreadId(09) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 58
+[behavior_server-6] [2m2026-10-23T06:43:33.972206Z[0m [31mERROR[0m rx-2 ThreadId(09) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 58
+[controller_server-4] [INFO] [1792737813.977426763] [auracle.controller_server]: Destroying bond (controller_server) to lifecycle manager.
+[waypoint_follower-8] [2m2026-10-23T06:43:33.986431Z[0m [31mERROR[0m rx-6 ThreadId(17) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 36
+[waypoint_follower-8] [2m2026-10-23T06:43:33.986456Z[0m [31mERROR[0m rx-6 ThreadId(17) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 36
+[waypoint_follower-8] [2m2026-10-23T06:43:33.986460Z[0m [31mERROR[0m rx-6 ThreadId(17) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 36
+[waypoint_follower-8] [2m2026-10-23T06:43:33.989645Z[0m [31mERROR[0m rx-3 ThreadId(14) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 36
+[waypoint_follower-8] [2m2026-10-23T06:43:33.989834Z[0m [31mERROR[0m rx-3 ThreadId(14) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 9
+[waypoint_follower-8] [2m2026-10-23T06:43:33.989844Z[0m [31mERROR[0m rx-3 ThreadId(14) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 9
+[waypoint_follower-8] [2m2026-10-23T06:43:33.989847Z[0m [31mERROR[0m rx-3 ThreadId(14) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 9
+[waypoint_follower-8] [2m2026-10-23T06:43:33.989850Z[0m [31mERROR[0m rx-3 ThreadId(14) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 9
+[controller_server-4] [INFO] [1792737813.987803454] [auracle.controller_server]: Cleaning up
+[controller_server-4] [INFO] [1792737813.987874471] [auracle.controller_server]: Cleaning up controller: FollowPath of type regulated_pure_pursuit_controller::RegulatedPurePursuitController
+[controller_server-4] [INFO] [1792737813.988008395] [auracle.local_costmap.local_costmap]: Cleaning up
+[behavior_server-6] [2m2026-10-23T06:43:33.988240Z[0m [31mERROR[0m rx-3 ThreadId(15) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 58
+[behavior_server-6] [2m2026-10-23T06:43:33.988472Z[0m [31mERROR[0m rx-3 ThreadId(15) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 9
+[behavior_server-6] [2m2026-10-23T06:43:33.988490Z[0m [31mERROR[0m rx-3 ThreadId(15) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 9
+[behavior_server-6] [2m2026-10-23T06:43:33.988496Z[0m [31mERROR[0m rx-3 ThreadId(15) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 9
+[behavior_server-6] [2m2026-10-23T06:43:33.988499Z[0m [31mERROR[0m rx-3 ThreadId(15) [2mzenoh::api::session[0m[2m:[0m Received Data for unknown expr_id: 9
+[bt_navigator-7] [INFO] [1792737813.994298409] [auracle.bt_navigator]: Completed Cleaning up
+[bt_navigator-7] [INFO] [1792737813.994431221] [auracle.bt_navigator]: Destroying bond (bt_navigator) to lifecycle manager.
+[controller_server-4] [INFO] [1792737814.014738517] [auracle.controller_server]: Destroying bond (controller_server) to lifecycle manager.
+[lifecycle_manager-3] [INFO] [1792737814.160074538] [auracle.lifecycle_manager_localization]: Destroying lifecycle_manager_localization
+[waypoint_follower-8] [INFO] [1792737814.165057590] [auracle.waypoint_follower]: Destroying
+[lifecycle_manager-9] [INFO] [1792737814.170214529] [auracle.lifecycle_manager_navigation]: Destroying lifecycle_manager_navigation
+[amcl-2] [INFO] [1792737814.174634071] [auracle.amcl]: Destroying
+[behavior_server-6] [INFO] [1792737814.175360486] [auracle.behavior_server]: Destroying
+[map_server-1] [INFO] [1792737814.200759221] [auracle.map_server]: Destroying
+[INFO] [lifecycle_manager-3]: process has finished cleanly [pid 46804]
+[INFO] [behavior_server-6]: process has finished cleanly [pid 46807]
+[INFO] [waypoint_follower-8]: process has finished cleanly [pid 46809]
+[bt_navigator-7] [INFO] [1792737814.236790680] [auracle.bt_navigator]: Destroying
+[controller_server-4] [INFO] [1792737814.236926400] [auracle.local_costmap.local_costmap]: Destroying
+[controller_server-4] [INFO] [1792737814.237855756] [auracle.controller_server]: Destroying
+[INFO] [lifecycle_manager-9]: process has finished cleanly [pid 46810]
+[INFO] [amcl-2]: process has finished cleanly [pid 46803]
+[INFO] [map_server-1]: process has finished cleanly [pid 46802]
+[INFO] [bt_navigator-7]: process has finished cleanly [pid 46808]
+[INFO] [controller_server-4]: process has finished cleanly [pid 46805]
+[planner_server-5] [INFO] [1792737814.684332268] [auracle.planner_server]: Deactivating plugin GridBased of type NavfnPlanner
+[planner_server-5] [INFO] [1792737814.684407433] [auracle.planner_server]: Destroying bond (planner_server) to lifecycle manager.
+[planner_server-5] [INFO] [1792737814.694597701] [auracle.planner_server]: Cleaning up
+[planner_server-5] [INFO] [1792737814.696475098] [auracle.global_costmap.global_costmap]: Cleaning up
+[planner_server-5] [INFO] [1792737814.698750266] [auracle.planner_server]: Cleaning up plugin GridBased of type NavfnPlanner
+[planner_server-5] [INFO] [1792737814.699147001] [auracle.planner_server]: Destroying plugin GridBased of type NavfnPlanner
+[planner_server-5] [INFO] [1792737814.702396062] [auracle.planner_server]: Destroying bond (planner_server) to lifecycle manager.
+[planner_server-5] [INFO] [1792737814.708168176] [auracle.global_costmap.global_costmap]: Destroying
+[planner_server-5] [INFO] [1792737814.708681594] [auracle.planner_server]: Destroying
+[INFO] [planner_server-5]: process has finished cleanly [pid 46806]

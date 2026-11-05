@@ -1,0 +1,19 @@
+[  0.0 s] 1 straight 0.8 m forward
+         asked +0.800 m | encoders: left +0.845  right +0.775  mean +0.810 m
+         heading change (gyro) -33.2 deg   (+ = turned left)
+[ 13.1 s] 2 back 0.25 m
+         asked -0.250 m | encoders: left -0.302  right -0.217  mean -0.259 m
+         heading change (gyro) +11.6 deg   (+ = turned left)
+[ 27.2 s] 3 LF floor sweep
+[ 35.0 s]    LF 140: forward, then back
+[ 38.0 s]    LF 170: forward, then back
+[ 41.0 s]    LF 200: forward, then back
+[ 44.1 s]    LF 230: forward, then back
+[ 47.1 s]    LF 255: forward, then back
+[ 51.1 s] 4 spin left 360
+         gyro turned +361.1 deg | encoders: left -0.957  right +0.253 m
+         effective wheel_separation = 0.192 m
+[ 71.0 s] 5 spin right 360
+         gyro turned -358.9 deg | encoders: left +1.281  right -1.126 m
+         effective wheel_separation = 0.384 m
+[ 94.6 s] done
