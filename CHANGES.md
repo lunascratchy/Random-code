@@ -306,6 +306,22 @@ Also: 75 mm spiked wheels: URDF `wheel_radius` 0.0375 (was 0.0239), base_footpri
 - Open: the right rear encoder A wire is still unreliable (B-only workaround); the encoder also dropped out fully once from a loose connection; PC clock is about 400 ms off, so run SLAM and Nav2 on the Pi; lidar odometry (`rf2o`, built from source) is the next step if grass drift stays bad.
 - Test tools and their results are copied to `src/auracle_bringup/scripts/test_tools/` (working copies stay in `~/auracle_tools`). Left out: raw `power_*.log` and `scan_calib.npz`.
 
+## 4.20 Grass skid: trial_5b analysis, lidar odometry, SLAM params back (2026-11-05)
+- trial_5b vs trial_3b (the clean hallway map): 3b has straight, single walls. 5b has doubled walls at different angles, a long wall bowed into a curve, and several diagonal ghost lines inside the arena. That is heading and distance error building up during the run, not just noise.
+- Two suspects, not separable from the maps alone: (1) the grass, where wheels report about twice the real distance (4.19) and that wheel vx is fused in the EKF; (2) the 4.19 SLAM changes (`distance_variance_penalty` 0.05, `minimum_distance_penalty` 0.2, `minimum_travel_distance` 0.05, `minimum_time_interval` 0.13), which were "not yet driven" and let the scan matcher slide along plain walls. trial_3b was made before them.
+- Fix for (1): new `use_lidar_odom` argument on `launch_robot.launch.py` (default true when `rf2o_laser_odometry` is installed, else false = old behaviour). `rf2o` reads `scan_filtered`, `odom_cov_relay.py` adds covariance (rf2o publishes zeros), and the EKF loads `config/ekf_lidar_odom.yaml` on top of `ekf.yaml`: forward speed from rf2o, yaw rate from the IMU gyro, wheel odometry not fused.
+- Fix for (2): slam_toolbox values back to the trial_3b ones (0.15 / 0.5 / 0.1 m / 0.2 s). With lidar odometry as the prior, the matcher no longer needs to be told to ignore the wheels.
+- Not tested on the robot. Check on the Pi: `ros2 topic hz /auracle/odom_rf2o` (about 20 Hz). Then map the same loop twice, once with `use_lidar_odom:=true` and once `:=false`, to see which suspect it was.
+- Revert: `use_lidar_odom:=false`.
+
+## 4.21 Behaviour-tree mission (2026-11-05)
+- Nav2 on `trial_6a` worked well (lidar odometry + wheels + IMU fused, SLAM params back to the trial_3b values).
+- `src/auracle_bt` is now a real package (it had no `package.xml`/`CMakeLists.txt`, so it was never built). `bt_runner` is a mission runner above Nav2: it sends NavigateThroughPoses goals and does not drive. Default tree `behavior_trees/region_tree.xml`: WaitForNav2 (action server + AMCL up) -> SetInitialPose (the `start` pose in the route file, sent to `/auracle/initialpose`) -> LoadWaypoints (`route` in `config/route.yaml`) -> FollowWaypoints. No clicking. The old vision-driven `sorting_tree.xml` still loads with `tree_file:=...`.
+- `config/route.yaml` ships with an empty `route`, so the mission refuses to run until you fill it in. Coordinates: RViz "Publish Point" + `ros2 topic echo /auracle/clicked_point` (not 2D Goal Pose, which would send the robot there).
+- Park the robot exactly where you started mapping `trial_6a`, facing the same way: `start` is (0, 0, 0).
+- Run on the Pi: `ros2 launch auracle_bt mission.launch.py` (namespace auracle). Stop it with Ctrl+C (cancels the Nav2 goal). Teleop still wins in twist_mux; the robot only stops for `key_drive` while it is running.
+- Not built or run yet: first build on the Pi: `colcon build --symlink-install --packages-select auracle_bt`.
+
 ## 5. Pending / open issues
 
 | Issue | Status / next step |

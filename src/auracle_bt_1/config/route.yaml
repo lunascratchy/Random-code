@@ -1,0 +1,22 @@
+# Mission route for the map you are navigating on (map frame, metres, same numbers RViz shows).
+#
+# start: where the robot is parked when the mission is launched. The runner gives AMCL this pose
+#        before moving. For a map saved by slam_toolbox that is (0, 0, 0) IF you park the robot
+#        exactly where you started mapping, facing the same way.
+# route: the points to drive through, in order. Space them >= 1 m apart: Nav2 drops a via-point
+#        that is within 0.7 m of the robot (RemovePassedGoals in its default tree).
+#        yaw is the heading in radians (0 = along +x of the map). The final heading is ignored
+#        (yaw_goal_tolerance 3.14 in nav2_params.yaml).
+#
+# Get coordinates: in RViz add the "Publish Point" tool (toolbar "+"), click a spot, and read
+#   ros2 topic echo /auracle/clicked_point
+# Do NOT use 2D Goal Pose for this: with Nav2 running, it sends the robot there.
+#
+# route is empty on purpose: the mission refuses to run until you fill it in.
+start: {x: 0.0, y: 0.0, yaw: 0.0}
+route: []
+# Example (delete the [] above and use this shape):
+# route:
+#   - {x: 1.20, y: 0.40, yaw: 0.0}
+#   - {x: 2.40, y: 0.40, yaw: 0.0}
+#   - {x: 3.60, y: 0.60, yaw: 0.0}
