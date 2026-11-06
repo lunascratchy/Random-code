@@ -1,10 +1,10 @@
 // auracle_bt_1 mission runner.
 //
 // Sits above Nav2: it sends goals to the NavigateThroughPoses action, it does not drive.
-// Default tree (behavior_trees/goal_tree.xml): wait for Nav2 -> wait for the 2D Pose Estimate you
-// give in RViz -> then, for every 2D Goal Pose you click, drive there. No coordinates to collect.
+// Default tree (behavior_trees/region_tree.xml): wait for Nav2 -> wait for the 2D Pose Estimate you
+// give in RViz -> drive route_N from config/route.yaml, stop at its last point, exit.
 // Other trees (pass tree_file, a bare name is looked up in behavior_trees/):
-//   region_tree.xml  start pose + route_N from config/route.yaml (coordinates needed)
+//   goal_tree.xml    2D Pose Estimate, then drive to every 2D Goal Pose you click
 //   sorting_tree.xml old vision-driven tree (lives in src/auracle_bt, not installed here: pass its full path)
 //
 // Run with the same namespace as Nav2 (launch/mission.launch.py, namespace:=auracle), so the
@@ -387,7 +387,7 @@ int main(int argc, char ** argv) {
   std::string tree_file = node->get_parameter("tree_file").as_string();
   std::string route_file = node->get_parameter("route_file").as_string();
   const std::string share = share_dir("auracle_bt_1");
-  if (tree_file.empty()) tree_file = "goal_tree.xml";
+  if (tree_file.empty()) tree_file = "region_tree.xml";
   if (tree_file.find('/') == std::string::npos) tree_file = share + "/behavior_trees/" + tree_file;
   if (route_file.empty()) route_file = share + "/config/route.yaml";
 

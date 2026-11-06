@@ -16,10 +16,11 @@ def generate_launch_description():
         ros2 launch auracle_bt_1 mission.launch.py map:=<map.yaml>
 
     Starts Nav2 + AMCL on the map (start_nav:=true) and the mission runner. The runner waits for
-    Nav2, asks for a 2D Pose Estimate, then drives to every 2D Goal Pose you click. No RViz here:
-    on the laptop run  ros2 launch auracle_bt_1 mission_rviz.launch.py
+    Nav2, asks for a 2D Pose Estimate, drives route_N from config/route.yaml, stops at its last
+    point and exits. Pick the route with route:=1|2|3. No RViz here: on the laptop run
+    ros2 launch auracle_bringup localization_nav_rviz.launch.py namespace:=auracle use_nav:=false
 
-    Old route mode (coordinates in route.yaml): tree_file:=region_tree.xml route:=2"""
+    Click-your-goals mode: tree_file:=goal_tree.xml (with mission_rviz.launch.py on the laptop)"""
     bringup = get_package_share_directory('auracle_bringup')
     ns = LaunchConfiguration('namespace')
 
@@ -51,16 +52,16 @@ def generate_launch_description():
 
     return LaunchDescription([
         DeclareLaunchArgument('route', default_value='1',
-                              description='region_tree.xml only: 1, 2 or 3, which route_N in route.yaml to drive'),
+                              description='1, 2 or 3, which route_N in route.yaml to drive'),
         DeclareLaunchArgument('map', default_value=os.path.expanduser('~/maps/trial_6a.yaml')),
         DeclareLaunchArgument('start_nav', default_value='true',
                               description='false if Nav2 is already running'),
         DeclareLaunchArgument('namespace', default_value='auracle'),
         DeclareLaunchArgument('use_sim_time', default_value='false'),
         DeclareLaunchArgument('route_file', default_value='',
-                              description='region_tree.xml only. empty = share/auracle_bt_1/config/route.yaml'),
+                              description='empty = share/auracle_bt_1/config/route.yaml'),
         DeclareLaunchArgument('tree_file', default_value='',
-                              description='empty = goal_tree.xml (pose estimate + 2D Goal Pose). Name or full path'),
+                              description='empty = region_tree.xml (pose estimate + route). Name or full path'),
         nav,
         runner,
     ])

@@ -331,6 +331,11 @@ Also: 75 mm spiked wheels: URDF `wheel_radius` 0.0375 (was 0.0239), base_footpri
 - Open: `route_1`..`route_3` in `config/route.yaml` are still empty and an empty route refuses to run. The repo has no region coordinates (map_1 has no labelled regions), so they have to come from somewhere before the robot can move.
 - Run (Pi, after `launch_robot.launch.py`): `ros2 launch auracle_bt_1 mission.launch.py namespace:=auracle route:=2 map:=<map.yaml>`. Laptop (RViz only, normal launch, click only 2D Pose Estimate): `ros2 launch auracle_bringup localization_nav_rviz.launch.py namespace:=auracle use_nav:=false`. Build: `colcon build --symlink-install --packages-select auracle_bt_1`. Not run on the robot yet.
 
+## 4.23 Behaviour tree: code now matches 4.22 (2026-11-05)
+- 4.22 described the design, but the committed code still defaulted to `goal_tree.xml`, and `region_tree.xml` still used the fixed `SetInitialPose`. Default is now `region_tree.xml`: WaitForNav2 -> WaitForInitialPose -> LoadWaypoints -> FollowWaypoints, then the runner exits. Nav2 keeps running after it exits.
+- `goal_tree.xml`, `mission_rviz.launch.py` and `rviz/mission.rviz` were NOT removed, despite what 4.22 says. Use with `tree_file:=goal_tree.xml`. `start` removed from `route.yaml`, so `SetInitialPose` no longer has a pose to read.
+- Open: `route_1`..`route_3` still empty. Not run on the robot.
+
 ## 5. Pending / open issues
 
 | Issue | Status / next step |

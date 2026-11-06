@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4" main_tree_to_execute="RegionTree">
-  <!-- Launch -> wait until Nav2 and AMCL are up -> tell AMCL where the robot is parked ->
-       load the route from route.yaml -> drive it. Needs no one to click anything. -->
+  <!-- Launch -> wait for Nav2 -> ask for the 2D Pose Estimate in RViz (the only click) ->
+       load route_N from route.yaml -> drive through it, stop at its last point, and exit. -->
   <BehaviorTree ID="RegionTree">
     <Sequence name="Mission">
-      <WaitForNav2/>
-      <SetInitialPose file="{route_file}"/>
+      <WaitForNav2 need_amcl="false"/>
+      <WaitForInitialPose/>
       <LoadWaypoints file="{route_file}" path_name="{route_key}" goals="{goals}"/>
       <FollowWaypoints goals="{goals}"/>
     </Sequence>
