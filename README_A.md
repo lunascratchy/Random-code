@@ -624,6 +624,23 @@ Load a different map into a running Nav2 without restarting it
 source install/setup.bash && ros2 service call /auracle/map_server/load_map nav2_msgs/srv/LoadMap "{map_url: $HOME/maps/trial_2_clean.yaml}"
 ```
 
+**Behaviour Trees**
+Launch robot (pi)
+Mark (pi). If map swapped, swap here
+```
+source install/setup.bash && ros2 launch auracle_bt_1 mission.launch.py map:=$HOME/maps/trial_6a.yaml mark:=true
+```
+(pc)
+```
+source install/setup.bash && ros2 launch auracle_bt_1 mission_rviz.launch.py
+```
+In RViz, pick the Publish Point tool in the toolbar. The log says “click the centre of LOAD 1”. Click the six spots in order. It then logs “saved … regions.yaml” and exits.
+RUN
+```
+source install/setup.bash && ros2 launch auracle_bt_1 mission.launch.py map:=$HOME/maps/trial_6a.yaml route:=2
+```
+Click 2D Pose Estimate in the laptop RViz once and the robot goes.
+
 ### Cleaning a map
 `trial_2_clean` is `trial_2` with two short inner walls erased: an L right in front of and beside the start point, inside the 1.2 x 0.7 m start chamber (map_1 has no walls there). With them, Nav2 saw the start pose inside a wall and every plan failed ("Failed to create plan with tolerance of: 0.5"). The chamber walls themselves were kept. Made with:
 ```
