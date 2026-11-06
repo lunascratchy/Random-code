@@ -6,6 +6,7 @@
 // The regions live in config/regions.yaml. Fill it once with mark:=true (mark_tree.xml): you click the
 // centre of each region with RViz "Publish Point" and the runner writes the file.
 // Other trees (pass tree_file, a bare name is looked up in behavior_trees/):
+//   region_auto_tree.xml  same as the default, but the start pose comes from `start` in regions.yaml (auto_pose:=true): no click
 //   mark_tree.xml    record the six regions from Publish Point clicks (mark:=true selects it)
 //   goal_tree.xml    2D Pose Estimate, then drive to every 2D Goal Pose you click
 //   sorting_tree.xml old vision-driven tree (lives in src/auracle_bt, not installed here: pass its full path)
@@ -352,6 +353,8 @@ private:
     }
     f << "# Written by mark mode (mark:=true). Map frame, metres. Heading = load point towards offload point.\n";
     f << std::fixed << std::setprecision(3);
+    f << "# Where the robot is parked at launch (auto_pose:=true). (0,0,0) = where you started mapping, facing the same way.\n";
+    f << "start: {x: 0.0, y: 0.0, yaw: 0.0}\n";
     for (int n = 0; n < 3; ++n) {
       const auto & a = pts_[n];
       const auto & b = pts_[n + 3];
@@ -465,12 +468,14 @@ int main(int argc, char ** argv) {
   node->declare_parameter<std::string>("route_file", "");
   node->declare_parameter<int>("route", 1);   // 1, 2, 3: load_N then offload_N in regions.yaml
   node->declare_parameter<bool>("mark", false);   // true: record the regions instead of driving
+  node->declare_parameter<bool>("auto_pose", false);   // true: set the start pose from regions.yaml, no RViz click
 
   std::string tree_file = node->get_parameter("tree_file").as_string();
   std::string route_file = node->get_parameter("route_file").as_string();
   const std::string share = share_dir("auracle_bt_1");
   const bool mark = node->get_parameter("mark").as_bool();
-  if (tree_file.empty()) tree_file = mark ? "mark_tree.xml" : "region_tree.xml";
+  if (tree_file.empty()) tree_file = mark ? "mark_tree.xml"
+    : (node->get_parameter("auto_pose").as_bool() ? "region_auto_tree.xml" : "region_tree.xml");
   if (tree_file.find('/') == std::string::npos) tree_file = share + "/behavior_trees/" + tree_file;
   if (route_file.empty()) route_file = share + "/config/regions.yaml";
 

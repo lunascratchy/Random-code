@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4" main_tree_to_execute="RegionAutoTree">
+  <!-- auto_pose:=true. No clicks: park the robot where mapping started, launch, it goes.
+       Launch -> wait for Nav2 -> set the start pose from `start` in regions.yaml ->
+       drive to LOAD region N, pause, drive to OFFLOAD region N, exit. -->
+  <BehaviorTree ID="RegionAutoTree">
+    <Sequence name="Mission">
+      <WaitForNav2 need_amcl="false"/>
+      <SetInitialPose file="{route_file}"/>
+      <LoadWaypoints file="{route_file}" path_name="{load_key}" goals="{goals}"/>
+      <FollowWaypoints goals="{goals}"/>
+      <Sleep msec="3000"/>   <!-- stands in for loading -->
+      <LoadWaypoints file="{route_file}" path_name="{offload_key}" goals="{goals}"/>
+      <FollowWaypoints goals="{goals}"/>
+    </Sequence>
+  </BehaviorTree>
+</root>

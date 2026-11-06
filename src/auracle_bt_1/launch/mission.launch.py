@@ -20,6 +20,9 @@ def generate_launch_description():
     and exits. Pick N with route:=1|2|3. Regions are in config/regions.yaml.
     No RViz here: on the laptop run  ros2 launch auracle_bt_1 mission_rviz.launch.py
 
+    auto_pose:=true: no click at all. Park the robot where you started mapping, facing the same
+    way, and it sets (0,0,0) as the start pose itself, then drives.
+
     First time: mark:=true. Click the centre of LOAD 1,2,3 then OFFLOAD 1,2,3 with the RViz
     Publish Point tool; the runner writes regions.yaml and exits. The robot does not move.
     Click-your-goals mode: tree_file:=goal_tree.xml"""
@@ -48,6 +51,7 @@ def generate_launch_description():
             'use_sim_time': LaunchConfiguration('use_sim_time'),
             'route': ParameterValue(LaunchConfiguration('route'), value_type=int),
             'mark': ParameterValue(LaunchConfiguration('mark'), value_type=bool),
+            'auto_pose': ParameterValue(LaunchConfiguration('auto_pose'), value_type=bool),
             'route_file': LaunchConfiguration('route_file'),
             'tree_file': LaunchConfiguration('tree_file'),
         }],
@@ -56,6 +60,8 @@ def generate_launch_description():
     return LaunchDescription([
         DeclareLaunchArgument('route', default_value='1',
                               description='1, 2 or 3: drive to load_N then offload_N'),
+        DeclareLaunchArgument('auto_pose', default_value='false',
+                              description='true: robot is parked at the mapping start (0,0,0), no 2D Pose Estimate click'),
         DeclareLaunchArgument('mark', default_value='false',
                               description='true: record the six regions from Publish Point clicks'),
         DeclareLaunchArgument('map', default_value=os.path.expanduser('~/maps/trial_6a.yaml')),

@@ -345,6 +345,8 @@ Also: 75 mm spiked wheels: URDF `wheel_radius` 0.0375 (was 0.0239), base_footpri
 - Notes: click inside free space, not in the inflated cells, or Nav2 rejects the goal. A click made before the runner prints "Set the robot's position" is missed: click 2D Pose Estimate again. Load and offload closer than 0.5 m apart log a warning.
 - Not compiled or run yet. First build on the Pi: `colcon build --symlink-install --packages-select auracle_bt_1`.
 
+- `auto_pose:=true` (added later the same day): no RViz click at all. New `behavior_trees/region_auto_tree.xml` sets the start pose from `start` in `regions.yaml` (mark mode writes `start: {x: 0, y: 0, yaw: 0}`), then drives load N and offload N. Only valid if the robot is parked where mapping started, facing the same way, because the map's origin is the robot's pose when mapping began. Coordinates are static per saved map; collect them on the saved map (mark mode), not during mapping and not by tape measure.
+
 ## 5. Pending / open issues
 
 | Issue | Status / next step |
