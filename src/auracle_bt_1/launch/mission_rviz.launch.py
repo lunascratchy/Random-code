@@ -31,7 +31,8 @@ def generate_launch_description():
         ros2 launch auracle_bt_1 mission_rviz.launch.py
 
     Same layout as auracle_bringup's auracle.rviz, but 2D Goal Pose publishes to
-    /<namespace>/mission_goal, which bt_runner listens to. Use 2D Pose Estimate first, then 2D Goal Pose."""
+    /<namespace>/mission_goal, which bt_runner listens to. Also has the Publish Point tool (-> /<namespace>/clicked_point) for mark mode.
+    Use 2D Pose Estimate first, then (goal_tree only) 2D Goal Pose."""
     return LaunchDescription([
         DeclareLaunchArgument('namespace', default_value='auracle'),
         DeclareLaunchArgument('use_sim_time', default_value='false'),

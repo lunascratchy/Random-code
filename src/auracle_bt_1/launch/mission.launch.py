@@ -16,11 +16,13 @@ def generate_launch_description():
         ros2 launch auracle_bt_1 mission.launch.py map:=<map.yaml>
 
     Starts Nav2 + AMCL on the map (start_nav:=true) and the mission runner. The runner waits for
-    Nav2, asks for a 2D Pose Estimate, drives route_N from config/route.yaml, stops at its last
-    point and exits. Pick the route with route:=1|2|3. No RViz here: on the laptop run
-    ros2 launch auracle_bringup localization_nav_rviz.launch.py namespace:=auracle use_nav:=false
+    Nav2, asks for a 2D Pose Estimate, drives to load region N, pauses, drives to offload region N
+    and exits. Pick N with route:=1|2|3. Regions are in config/regions.yaml.
+    No RViz here: on the laptop run  ros2 launch auracle_bt_1 mission_rviz.launch.py
 
-    Click-your-goals mode: tree_file:=goal_tree.xml (with mission_rviz.launch.py on the laptop)"""
+    First time: mark:=true. Click the centre of LOAD 1,2,3 then OFFLOAD 1,2,3 with the RViz
+    Publish Point tool; the runner writes regions.yaml and exits. The robot does not move.
+    Click-your-goals mode: tree_file:=goal_tree.xml"""
     bringup = get_package_share_directory('auracle_bringup')
     ns = LaunchConfiguration('namespace')
 
@@ -45,6 +47,7 @@ def generate_launch_description():
         parameters=[{
             'use_sim_time': LaunchConfiguration('use_sim_time'),
             'route': ParameterValue(LaunchConfiguration('route'), value_type=int),
+            'mark': ParameterValue(LaunchConfiguration('mark'), value_type=bool),
             'route_file': LaunchConfiguration('route_file'),
             'tree_file': LaunchConfiguration('tree_file'),
         }],
@@ -52,16 +55,18 @@ def generate_launch_description():
 
     return LaunchDescription([
         DeclareLaunchArgument('route', default_value='1',
-                              description='1, 2 or 3, which route_N in route.yaml to drive'),
+                              description='1, 2 or 3: drive to load_N then offload_N'),
+        DeclareLaunchArgument('mark', default_value='false',
+                              description='true: record the six regions from Publish Point clicks'),
         DeclareLaunchArgument('map', default_value=os.path.expanduser('~/maps/trial_6a.yaml')),
         DeclareLaunchArgument('start_nav', default_value='true',
                               description='false if Nav2 is already running'),
         DeclareLaunchArgument('namespace', default_value='auracle'),
         DeclareLaunchArgument('use_sim_time', default_value='false'),
         DeclareLaunchArgument('route_file', default_value='',
-                              description='empty = share/auracle_bt_1/config/route.yaml'),
+                              description='empty = share/auracle_bt_1/config/regions.yaml'),
         DeclareLaunchArgument('tree_file', default_value='',
-                              description='empty = region_tree.xml (pose estimate + route). Name or full path'),
+                              description='empty = region_tree.xml (or mark_tree.xml when mark:=true). Name or full path'),
         nav,
         runner,
     ])

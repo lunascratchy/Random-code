@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4" main_tree_to_execute="RegionTree">
   <!-- Launch -> wait for Nav2 -> ask for the 2D Pose Estimate in RViz (the only click) ->
-       load route_N from route.yaml -> drive through it, stop at its last point, and exit. -->
+       drive to LOAD region N, pause, drive to OFFLOAD region N, exit.
+       The regions come from config/regions.yaml (fill it once with mark:=true). -->
   <BehaviorTree ID="RegionTree">
     <Sequence name="Mission">
       <WaitForNav2 need_amcl="false"/>
       <WaitForInitialPose/>
-      <LoadWaypoints file="{route_file}" path_name="{route_key}" goals="{goals}"/>
+      <LoadWaypoints file="{route_file}" path_name="{load_key}" goals="{goals}"/>
+      <FollowWaypoints goals="{goals}"/>
+      <Sleep msec="3000"/>   <!-- stands in for loading -->
+      <LoadWaypoints file="{route_file}" path_name="{offload_key}" goals="{goals}"/>
       <FollowWaypoints goals="{goals}"/>
     </Sequence>
   </BehaviorTree>

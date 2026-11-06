@@ -334,7 +334,16 @@ Also: 75 mm spiked wheels: URDF `wheel_radius` 0.0375 (was 0.0239), base_footpri
 ## 4.23 Behaviour tree: code now matches 4.22 (2026-11-05)
 - 4.22 described the design, but the committed code still defaulted to `goal_tree.xml`, and `region_tree.xml` still used the fixed `SetInitialPose`. Default is now `region_tree.xml`: WaitForNav2 -> WaitForInitialPose -> LoadWaypoints -> FollowWaypoints, then the runner exits. Nav2 keeps running after it exits.
 - `goal_tree.xml`, `mission_rviz.launch.py` and `rviz/mission.rviz` were NOT removed, despite what 4.22 says. Use with `tree_file:=goal_tree.xml`. `start` removed from `route.yaml`, so `SetInitialPose` no longer has a pose to read.
-- Open: `route_1`..`route_3` still empty. Not run on the robot.
+- Open: `route_1`..`route_3` still empty. Not run on the robot. (Superseded by 4.24: regions are marked in RViz.)
+
+## 4.24 Behaviour tree: regions marked in RViz, route N = load N then offload N (2026-11-06)
+- Why: a route of hand-collected coordinates was the open item in 4.22/4.23. A 2D Pose Estimate only says where the robot is; Nav2 still needs goals. The regions are now marked once by clicking on the map, and the runner writes them to a file.
+- `config/regions.yaml` replaces `config/route.yaml` (`load_1..3`, `offload_1..3`, each `{x, y, yaw}` in the map frame). It ships empty, and an empty entry refuses to run. `route.yaml` is no longer read anywhere; it can stay in the folder or be deleted.
+- Mark (once): `ros2 launch auracle_bt_1 mission.launch.py map:=$HOME/maps/trial_6a.yaml mark:=true` on the Pi, `ros2 launch auracle_bt_1 mission_rviz.launch.py` on the laptop. With the RViz **Publish Point** tool click the centre of LOAD 1, 2, 3, then OFFLOAD 1, 2, 3 (the log prompts each). `RecordRegions` (new node, `behavior_trees/mark_tree.xml`) writes `regions.yaml`, heading = load point towards its offload point, and exits. The robot does not move. No undo: relaunch with `mark:=true` to redo all six. Needs `--symlink-install` for the file to land in the source folder.
+- Run: `ros2 launch auracle_bt_1 mission.launch.py map:=$HOME/maps/trial_6a.yaml route:=N`, then one 2D Pose Estimate click. `region_tree.xml`: WaitForNav2 -> WaitForInitialPose -> drive to `load_N` -> 3 s pause (stands in for loading) -> drive to `offload_N`, then the runner exits.
+- `bt_runner.cpp`: new `RecordRegions` node, `mark` parameter, `clicked_point` subscription (only kept while marking), blackboard keys `load_key`/`offload_key` instead of `route_key`, default file `regions.yaml`. `mission.launch.py`: `mark:=` argument. `mission.rviz`: Publish Point tool on `/auracle/clicked_point`. `goal_tree.xml` (click-your-goals) is unchanged.
+- Notes: click inside free space, not in the inflated cells, or Nav2 rejects the goal. A click made before the runner prints "Set the robot's position" is missed: click 2D Pose Estimate again. Load and offload closer than 0.5 m apart log a warning.
+- Not compiled or run yet. First build on the Pi: `colcon build --symlink-install --packages-select auracle_bt_1`.
 
 ## 5. Pending / open issues
 

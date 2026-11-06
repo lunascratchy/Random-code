@@ -2,8 +2,11 @@
 //
 // Sits above Nav2: it sends goals to the NavigateThroughPoses action, it does not drive.
 // Default tree (behavior_trees/region_tree.xml): wait for Nav2 -> wait for the 2D Pose Estimate you
-// give in RViz -> drive route_N from config/route.yaml, stop at its last point, exit.
+// give in RViz -> drive to LOAD region N, pause, drive to OFFLOAD region N, exit.
+// The regions live in config/regions.yaml. Fill it once with mark:=true (mark_tree.xml): you click the
+// centre of each region with RViz "Publish Point" and the runner writes the file.
 // Other trees (pass tree_file, a bare name is looked up in behavior_trees/):
+//   mark_tree.xml    record the six regions from Publish Point clicks (mark:=true selects it)
 //   goal_tree.xml    2D Pose Estimate, then drive to every 2D Goal Pose you click
 //   sorting_tree.xml old vision-driven tree (lives in src/auracle_bt, not installed here: pass its full path)
 //
@@ -15,6 +18,7 @@
 #include <rclcpp/rclcpp.hpp>
 #include <rclcpp_action/rclcpp_action.hpp>
 #include <std_msgs/msg/string.hpp>
+#include <geometry_msgs/msg/point_stamped.hpp>
 #include <geometry_msgs/msg/pose_stamped.hpp>
 #include <geometry_msgs/msg/pose_with_covariance_stamped.hpp>
 #include <nav2_msgs/action/navigate_through_poses.hpp>
@@ -23,8 +27,11 @@
 #include <yaml-cpp/yaml.h>
 
 #include <algorithm>
+#include <array>
 #include <chrono>
 #include <cmath>
+#include <fstream>
+#include <iomanip>
 #include <memory>
 #include <string>
 #include <vector>
@@ -41,6 +48,8 @@ struct Shared {
   bool accepting_goal{false};       // WaitForGoal is running: a clicked goal is taken
   bool goal_ready{false};
   geometry_msgs::msg::PoseStamped goal;
+  bool recording{false};            // RecordRegions is running: Publish Point clicks are kept
+  std::vector<geometry_msgs::msg::PointStamped> clicks;
 };
 
 static std::string share_dir(const std::string & pkg) {
@@ -291,6 +300,78 @@ private:
   bool sent_second_{false};
 };
 
+// Mark mode: take six Publish Point clicks (LOAD 1..3, then OFFLOAD 1..3) and write them to the
+// regions file. Each region gets the heading from its load point towards its offload point.
+class RecordRegions : public BT::StatefulActionNode {
+public:
+  RecordRegions(const std::string & n, const BT::NodeConfig & c,
+                rclcpp::Node::SharedPtr node, std::shared_ptr<Shared> s)
+  : BT::StatefulActionNode(n, c), node_(node), state_(s) {}
+  static BT::PortsList providedPorts() { return {BT::InputPort<std::string>("file")}; }
+  BT::NodeStatus onStart() override {
+    if (!getInput("file", file_) || file_.empty()) {
+      RCLCPP_ERROR(node_->get_logger(), "RecordRegions: no file");
+      return BT::NodeStatus::FAILURE;
+    }
+    pts_.clear();
+    state_->clicks.clear();
+    state_->recording = true;
+    RCLCPP_INFO(node_->get_logger(),
+      "Mark mode: RViz Publish Point tool, click the CENTRE of each region, in this order: "
+      "LOAD 1, 2, 3, then OFFLOAD 1, 2, 3");
+    prompt();
+    return BT::NodeStatus::RUNNING;
+  }
+  BT::NodeStatus onRunning() override {
+    auto clicks = std::move(state_->clicks);
+    state_->clicks.clear();
+    for (const auto & c : clicks) {
+      if (!c.header.frame_id.empty() && c.header.frame_id != "map")
+        RCLCPP_WARN(node_->get_logger(), "click is in frame '%s', not 'map'", c.header.frame_id.c_str());
+      pts_.push_back({c.point.x, c.point.y});
+      RCLCPP_INFO(node_->get_logger(), "%s = (%.2f, %.2f)", label(pts_.size() - 1).c_str(),
+                  c.point.x, c.point.y);
+      if (pts_.size() == 6) { state_->recording = false; return save(); }
+      prompt();
+    }
+    return BT::NodeStatus::RUNNING;
+  }
+  void onHalted() override { state_->recording = false; }
+private:
+  static std::string label(size_t i) {
+    return i < 3 ? "LOAD " + std::to_string(i + 1) : "OFFLOAD " + std::to_string(i - 2);
+  }
+  void prompt() {
+    RCLCPP_INFO(node_->get_logger(), "click the centre of %s", label(pts_.size()).c_str());
+  }
+  BT::NodeStatus save() {
+    std::ofstream f(file_);
+    if (!f) {
+      RCLCPP_ERROR(node_->get_logger(), "cannot write %s", file_.c_str());
+      return BT::NodeStatus::FAILURE;
+    }
+    f << "# Written by mark mode (mark:=true). Map frame, metres. Heading = load point towards offload point.\n";
+    f << std::fixed << std::setprecision(3);
+    for (int n = 0; n < 3; ++n) {
+      const auto & a = pts_[n];
+      const auto & b = pts_[n + 3];
+      const double dist = std::hypot(b[0] - a[0], b[1] - a[1]);
+      if (dist < 0.5)
+        RCLCPP_WARN(node_->get_logger(), "LOAD %d and OFFLOAD %d are only %.2f m apart", n + 1, n + 1, dist);
+      const double yaw = std::atan2(b[1] - a[1], b[0] - a[0]);
+      f << "load_" << n + 1 << ":\n  - {x: " << a[0] << ", y: " << a[1] << ", yaw: " << yaw << "}\n";
+      f << "offload_" << n + 1 << ":\n  - {x: " << b[0] << ", y: " << b[1] << ", yaw: " << yaw << "}\n";
+    }
+    f.close();
+    RCLCPP_INFO(node_->get_logger(), "saved %s. Now run without mark:=true", file_.c_str());
+    return BT::NodeStatus::SUCCESS;
+  }
+  rclcpp::Node::SharedPtr node_;
+  std::shared_ptr<Shared> state_;
+  std::string file_;
+  std::vector<std::array<double, 2>> pts_;
+};
+
 // Read a list of {x, y, yaw} from a yaml file (key = path_name)
 class LoadWaypoints : public BT::SyncActionNode {
 public:
@@ -311,7 +392,7 @@ public:
     try {
       YAML::Node root = YAML::LoadFile(file);
       if (!root[key] || !root[key].IsSequence() || root[key].size() == 0) {
-        RCLCPP_ERROR(log, "'%s' in %s is missing or empty: fill in the route first",
+        RCLCPP_ERROR(log, "'%s' in %s is missing or empty: mark the regions first (mark:=true)",
                      key.c_str(), file.c_str());
         return BT::NodeStatus::FAILURE;
       }
@@ -382,14 +463,16 @@ int main(int argc, char ** argv) {
   auto node = std::make_shared<rclcpp::Node>("bt_runner");   // use_sim_time comes from the launch file
   node->declare_parameter<std::string>("tree_file", "");
   node->declare_parameter<std::string>("route_file", "");
-  node->declare_parameter<int>("route", 1);   // 1, 2, 3: which route in route.yaml (route_1, ...)
+  node->declare_parameter<int>("route", 1);   // 1, 2, 3: load_N then offload_N in regions.yaml
+  node->declare_parameter<bool>("mark", false);   // true: record the regions instead of driving
 
   std::string tree_file = node->get_parameter("tree_file").as_string();
   std::string route_file = node->get_parameter("route_file").as_string();
   const std::string share = share_dir("auracle_bt_1");
-  if (tree_file.empty()) tree_file = "region_tree.xml";
+  const bool mark = node->get_parameter("mark").as_bool();
+  if (tree_file.empty()) tree_file = mark ? "mark_tree.xml" : "region_tree.xml";
   if (tree_file.find('/') == std::string::npos) tree_file = share + "/behavior_trees/" + tree_file;
-  if (route_file.empty()) route_file = share + "/config/route.yaml";
+  if (route_file.empty()) route_file = share + "/config/regions.yaml";
 
   auto state = std::make_shared<Shared>();
   auto label_sub = node->create_subscription<std_msgs::msg::String>(
@@ -399,6 +482,12 @@ int main(int argc, char ** argv) {
   auto amcl_sub = node->create_subscription<geometry_msgs::msg::PoseWithCovarianceStamped>(
     "amcl_pose", rclcpp::QoS(1).transient_local().reliable(),
     [state](geometry_msgs::msg::PoseWithCovarianceStamped::SharedPtr) { state->have_amcl = true; });
+
+  // RViz "Publish Point" (mark mode). Kept only while RecordRegions runs.
+  auto click_sub = node->create_subscription<geometry_msgs::msg::PointStamped>(
+    "clicked_point", 10,
+    [state](geometry_msgs::msg::PointStamped::SharedPtr m) {
+      if (state->recording) state->clicks.push_back(*m); });
 
   // RViz "2D Pose Estimate" publishes here (AMCL reads the same topic). Volatile: only seen while running.
   auto pose_sub = node->create_subscription<geometry_msgs::msg::PoseWithCovarianceStamped>(
@@ -422,14 +511,17 @@ int main(int argc, char ** argv) {
   factory.registerNodeType<WaitForGoal>("WaitForGoal", node, state);
   factory.registerNodeType<NavigateToGoal>("NavigateToGoal", node);
   factory.registerNodeType<SetInitialPose>("SetInitialPose", node);
+  factory.registerNodeType<RecordRegions>("RecordRegions", node, state);
   factory.registerNodeType<LoadWaypoints>("LoadWaypoints");
   factory.registerNodeType<FollowWaypoints>("FollowWaypoints", node);
 
   auto tree = factory.createTreeFromFile(tree_file);
   tree.rootBlackboard()->set("route_file", route_file);   // the trees read it as {route_file}
-  const std::string route_key = "route_" + std::to_string(node->get_parameter("route").as_int());
-  tree.rootBlackboard()->set("route_key", route_key);       // {route_key} in region_tree.xml
-  RCLCPP_INFO(node->get_logger(), "tree: %s | file: %s | %s", tree_file.c_str(), route_file.c_str(), route_key.c_str());
+  const std::string n = std::to_string(node->get_parameter("route").as_int());
+  tree.rootBlackboard()->set("load_key", "load_" + n);          // {load_key} / {offload_key} in region_tree.xml
+  tree.rootBlackboard()->set("offload_key", "offload_" + n);
+  RCLCPP_INFO(node->get_logger(), "tree: %s | file: %s | load_%s then offload_%s",
+              tree_file.c_str(), route_file.c_str(), n.c_str(), n.c_str());
 
   rclcpp::Rate rate(10);
   BT::NodeStatus status = BT::NodeStatus::RUNNING;
