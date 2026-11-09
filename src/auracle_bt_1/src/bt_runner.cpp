@@ -1,12 +1,15 @@
 // auracle_bt_1 mission runner.
 //
 // Sits above Nav2: it sends goals to the NavigateThroughPoses action, it does not drive.
-// Default tree (behavior_trees/region_tree.xml): wait for Nav2 -> wait for the 2D Pose Estimate you
-// give in RViz -> drive to LOAD region N, pause, drive to OFFLOAD region N, exit.
+// Default tree (behavior_trees/region_tree.xml): wait for Nav2 -> set the start pose from `start` in
+// regions.yaml (robot parked where mapping began) -> then forever: wait for a region number N ->
+// drive to LOAD N, pause, drive to OFFLOAD N, drive HOME, turn to the start heading, wait for the next N.
+// Region numbers come from the launch argument route:=N (first one) and from the topic `region`:
+//   ros2 topic pub --once /auracle/region std_msgs/msg/Int32 "{data: 2}"
 // The regions live in config/regions.yaml. Fill it once with mark:=true (mark_tree.xml): you click the
 // centre of each region with RViz "Publish Point" and the runner writes the file.
 // Other trees (pass tree_file, a bare name is looked up in behavior_trees/):
-//   region_auto_tree.xml  same as the default, but the start pose comes from `start` in regions.yaml (auto_pose:=true): no click
+//   region_click_tree.xml same loop, but the start pose is a 2D Pose Estimate click in RViz (auto_pose:=false)
 //   mark_tree.xml    record the six regions from Publish Point clicks (mark:=true selects it)
 //   goal_tree.xml    2D Pose Estimate, then drive to every 2D Goal Pose you click
 //   sorting_tree.xml old vision-driven tree (lives in src/auracle_bt, not installed here: pass its full path)
@@ -18,12 +21,16 @@
 #include <behaviortree_cpp/bt_factory.h>
 #include <rclcpp/rclcpp.hpp>
 #include <rclcpp_action/rclcpp_action.hpp>
+#include <std_msgs/msg/int32.hpp>
 #include <std_msgs/msg/string.hpp>
 #include <geometry_msgs/msg/point_stamped.hpp>
 #include <geometry_msgs/msg/pose_stamped.hpp>
 #include <geometry_msgs/msg/pose_with_covariance_stamped.hpp>
 #include <nav2_msgs/action/navigate_through_poses.hpp>
 #include <nav2_msgs/action/navigate_to_pose.hpp>
+#include <nav2_msgs/action/spin.hpp>
+#include <tf2_ros/buffer.h>
+#include <tf2_ros/transform_listener.h>
 #include <ament_index_cpp/get_package_share_directory.hpp>
 #include <yaml-cpp/yaml.h>
 
@@ -31,6 +38,7 @@
 #include <array>
 #include <chrono>
 #include <cmath>
+#include <deque>
 #include <fstream>
 #include <iomanip>
 #include <memory>
@@ -40,6 +48,7 @@
 using Poses = std::vector<geometry_msgs::msg::PoseStamped>;
 using Nav = nav2_msgs::action::NavigateThroughPoses;
 using Nav1 = nav2_msgs::action::NavigateToPose;
+using Spin = nav2_msgs::action::Spin;
 
 // Things the ROS callbacks in main() tell the tree nodes.
 struct Shared {
@@ -49,6 +58,7 @@ struct Shared {
   bool accepting_goal{false};       // WaitForGoal is running: a clicked goal is taken
   bool goal_ready{false};
   geometry_msgs::msg::PoseStamped goal;
+  std::deque<int> regions;          // region numbers waiting to be run (route:=N, topic `region`)
   bool recording{false};            // RecordRegions is running: Publish Point clicks are kept
   std::vector<geometry_msgs::msg::PointStamped> clicks;
 };
@@ -301,6 +311,118 @@ private:
   bool sent_second_{false};
 };
 
+// Wait for the next region number (1..3) and turn it into the keys of its two regions in the file.
+class WaitForRegion : public BT::StatefulActionNode {
+public:
+  WaitForRegion(const std::string & n, const BT::NodeConfig & c,
+                rclcpp::Node::SharedPtr node, std::shared_ptr<Shared> s)
+  : BT::StatefulActionNode(n, c), node_(node), state_(s) {}
+  static BT::PortsList providedPorts() {
+    return {BT::OutputPort<std::string>("load_key"), BT::OutputPort<std::string>("offload_key")};
+  }
+  BT::NodeStatus onStart() override {
+    last_log_ = node_->now();
+    if (state_->regions.empty())
+      RCLCPP_INFO(node_->get_logger(),
+        "Home. Waiting for the next region: ros2 topic pub --once /auracle/region std_msgs/msg/Int32 \"{data: N}\"");
+    return check();
+  }
+  BT::NodeStatus onRunning() override { return check(); }
+  void onHalted() override {}
+private:
+  BT::NodeStatus check() {
+    while (!state_->regions.empty()) {
+      const int n = state_->regions.front();
+      state_->regions.pop_front();
+      if (n < 1 || n > 3) {
+        RCLCPP_WARN(node_->get_logger(), "region %d ignored: use 1, 2 or 3", n);
+        continue;
+      }
+      setOutput("load_key", "load_" + std::to_string(n));
+      setOutput("offload_key", "offload_" + std::to_string(n));
+      RCLCPP_INFO(node_->get_logger(), "region %d: load, offload, then home", n);
+      return BT::NodeStatus::SUCCESS;
+    }
+    if ((node_->now() - last_log_).seconds() > 30.0) {
+      last_log_ = node_->now();
+      RCLCPP_INFO(node_->get_logger(), "still waiting for a region number on `region` ...");
+    }
+    return BT::NodeStatus::RUNNING;
+  }
+  rclcpp::Node::SharedPtr node_;
+  std::shared_ptr<Shared> state_;
+  rclcpp::Time last_log_;
+};
+
+// Turn on the spot to the heading stored for `path_name` (home) in the file. Nav2 is set up to
+// ignore the final heading of a goal (yaw_goal_tolerance 3.14 in nav2_params.yaml), so the tree
+// does this last turn itself with Nav2's Spin behaviour. Never fails: a missed turn is only logged.
+class FaceHeading : public BT::StatefulActionNode {
+  using GH = rclcpp_action::ClientGoalHandle<Spin>;
+public:
+  FaceHeading(const std::string & n, const BT::NodeConfig & c,
+              rclcpp::Node::SharedPtr node, std::shared_ptr<tf2_ros::Buffer> tf)
+  : BT::StatefulActionNode(n, c), node_(node), tf_(tf) {
+    client_ = rclcpp_action::create_client<Spin>(node_, "spin");
+  }
+  static BT::PortsList providedPorts() {
+    return {BT::InputPort<std::string>("file"), BT::InputPort<std::string>("path_name")};
+  }
+  BT::NodeStatus onStart() override {
+    std::string file, key;
+    if (!getInput("file", file) || !getInput("path_name", key)) return BT::NodeStatus::SUCCESS;
+    double target = 0.0;
+    try {
+      YAML::Node root = YAML::LoadFile(file);
+      target = root[key][0]["yaw"].as<double>();
+    } catch (const std::exception & e) {
+      RCLCPP_WARN(node_->get_logger(), "FaceHeading: cannot read %s in %s: %s", key.c_str(), file.c_str(), e.what());
+      return BT::NodeStatus::SUCCESS;
+    }
+    double cur = 0.0;
+    try {
+      auto t = tf_->lookupTransform("map", "base_footprint", tf2::TimePointZero);
+      const auto & q = t.transform.rotation;
+      cur = std::atan2(2.0 * (q.w * q.z + q.x * q.y), 1.0 - 2.0 * (q.y * q.y + q.z * q.z));
+    } catch (const std::exception & e) {
+      RCLCPP_WARN(node_->get_logger(), "FaceHeading: no map->base_footprint transform: %s", e.what());
+      return BT::NodeStatus::SUCCESS;
+    }
+    const double err = std::atan2(std::sin(target - cur), std::cos(target - cur));
+    if (std::fabs(err) < 0.12) {
+      RCLCPP_INFO(node_->get_logger(), "already facing the start heading");
+      return BT::NodeStatus::SUCCESS;
+    }
+    if (!client_->wait_for_action_server(std::chrono::seconds(3))) {
+      RCLCPP_WARN(node_->get_logger(), "spin is not available: staying at the heading it arrived with");
+      return BT::NodeStatus::SUCCESS;
+    }
+    Spin::Goal g;
+    g.target_yaw = static_cast<float>(err);
+    g.time_allowance = rclcpp::Duration(20, 0);
+    done_ = false; handle_.reset();
+    rclcpp_action::Client<Spin>::SendGoalOptions o;
+    o.goal_response_callback = [this](GH::SharedPtr h) { if (!h) done_ = true; else handle_ = h; };
+    o.result_callback = [this](const GH::WrappedResult & r) {
+      done_ = true;
+      RCLCPP_INFO(node_->get_logger(), "turn to the start heading: %s",
+                  r.code == rclcpp_action::ResultCode::SUCCEEDED ? "done" : "not completed"); };
+    client_->async_send_goal(g, o);
+    RCLCPP_INFO(node_->get_logger(), "turning %.0f deg to the start heading", err * 180.0 / M_PI);
+    return BT::NodeStatus::RUNNING;
+  }
+  BT::NodeStatus onRunning() override {
+    return done_ ? BT::NodeStatus::SUCCESS : BT::NodeStatus::RUNNING;
+  }
+  void onHalted() override { if (handle_) client_->async_cancel_goal(handle_); }
+private:
+  rclcpp::Node::SharedPtr node_;
+  std::shared_ptr<tf2_ros::Buffer> tf_;
+  rclcpp_action::Client<Spin>::SharedPtr client_;
+  GH::SharedPtr handle_;
+  bool done_{false};
+};
+
 // Mark mode: take six Publish Point clicks (LOAD 1..3, then OFFLOAD 1..3) and write them to the
 // regions file. Each region gets the heading from its load point towards its offload point.
 class RecordRegions : public BT::StatefulActionNode {
@@ -355,6 +477,8 @@ private:
     f << std::fixed << std::setprecision(3);
     f << "# Where the robot is parked at launch (auto_pose:=true). (0,0,0) = where you started mapping, facing the same way.\n";
     f << "start: {x: 0.0, y: 0.0, yaw: 0.0}\n";
+    f << "# Home = the start pose: the robot returns here and turns back to this heading after every region.\n";
+    f << "home:\n  - {x: 0.0, y: 0.0, yaw: 0.0}\n";
     for (int n = 0; n < 3; ++n) {
       const auto & a = pts_[n];
       const auto & b = pts_[n + 3];
@@ -466,16 +590,16 @@ int main(int argc, char ** argv) {
   auto node = std::make_shared<rclcpp::Node>("bt_runner");   // use_sim_time comes from the launch file
   node->declare_parameter<std::string>("tree_file", "");
   node->declare_parameter<std::string>("route_file", "");
-  node->declare_parameter<int>("route", 1);   // 1, 2, 3: load_N then offload_N in regions.yaml
+  node->declare_parameter<int>("route", 0);   // first region to run (1..3); 0 = wait for one on topic `region`
   node->declare_parameter<bool>("mark", false);   // true: record the regions instead of driving
-  node->declare_parameter<bool>("auto_pose", false);   // true: set the start pose from regions.yaml, no RViz click
+  node->declare_parameter<bool>("auto_pose", true);   // true: set the start pose from regions.yaml, no RViz click
 
   std::string tree_file = node->get_parameter("tree_file").as_string();
   std::string route_file = node->get_parameter("route_file").as_string();
   const std::string share = share_dir("auracle_bt_1");
   const bool mark = node->get_parameter("mark").as_bool();
   if (tree_file.empty()) tree_file = mark ? "mark_tree.xml"
-    : (node->get_parameter("auto_pose").as_bool() ? "region_auto_tree.xml" : "region_tree.xml");
+    : (node->get_parameter("auto_pose").as_bool() ? "region_tree.xml" : "region_click_tree.xml");
   if (tree_file.find('/') == std::string::npos) tree_file = share + "/behavior_trees/" + tree_file;
   if (route_file.empty()) route_file = share + "/config/regions.yaml";
 
@@ -487,6 +611,18 @@ int main(int argc, char ** argv) {
   auto amcl_sub = node->create_subscription<geometry_msgs::msg::PoseWithCovarianceStamped>(
     "amcl_pose", rclcpp::QoS(1).transient_local().reliable(),
     [state](geometry_msgs::msg::PoseWithCovarianceStamped::SharedPtr) { state->have_amcl = true; });
+
+  // Region numbers to run, one at a time (1..3). route:=N puts the first one in the queue.
+  auto region_sub = node->create_subscription<std_msgs::msg::Int32>(
+    "region", 10,
+    [state](std_msgs::msg::Int32::SharedPtr m) { state->regions.push_back(m->data); });
+  {
+    const int first = static_cast<int>(node->get_parameter("route").as_int());
+    if (first > 0) state->regions.push_back(first);
+  }
+  // map -> base_footprint, for the final turn at home (launch remaps /tf to tf in the namespace)
+  auto tf_buffer = std::make_shared<tf2_ros::Buffer>(node->get_clock());
+  auto tf_listener = std::make_shared<tf2_ros::TransformListener>(*tf_buffer, node, false);
 
   // RViz "Publish Point" (mark mode). Kept only while RecordRegions runs.
   auto click_sub = node->create_subscription<geometry_msgs::msg::PointStamped>(
@@ -516,17 +652,15 @@ int main(int argc, char ** argv) {
   factory.registerNodeType<WaitForGoal>("WaitForGoal", node, state);
   factory.registerNodeType<NavigateToGoal>("NavigateToGoal", node);
   factory.registerNodeType<SetInitialPose>("SetInitialPose", node);
+  factory.registerNodeType<WaitForRegion>("WaitForRegion", node, state);
+  factory.registerNodeType<FaceHeading>("FaceHeading", node, tf_buffer);
   factory.registerNodeType<RecordRegions>("RecordRegions", node, state);
   factory.registerNodeType<LoadWaypoints>("LoadWaypoints");
   factory.registerNodeType<FollowWaypoints>("FollowWaypoints", node);
 
   auto tree = factory.createTreeFromFile(tree_file);
   tree.rootBlackboard()->set("route_file", route_file);   // the trees read it as {route_file}
-  const std::string n = std::to_string(node->get_parameter("route").as_int());
-  tree.rootBlackboard()->set("load_key", "load_" + n);          // {load_key} / {offload_key} in region_tree.xml
-  tree.rootBlackboard()->set("offload_key", "offload_" + n);
-  RCLCPP_INFO(node->get_logger(), "tree: %s | file: %s | load_%s then offload_%s",
-              tree_file.c_str(), route_file.c_str(), n.c_str(), n.c_str());
+  RCLCPP_INFO(node->get_logger(), "tree: %s | file: %s", tree_file.c_str(), route_file.c_str());
 
   rclcpp::Rate rate(10);
   BT::NodeStatus status = BT::NodeStatus::RUNNING;

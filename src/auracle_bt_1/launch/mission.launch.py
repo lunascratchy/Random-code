@@ -11,19 +11,18 @@ from launch_ros.parameter_descriptions import ParameterValue
 
 
 def generate_launch_description():
-    """Mission on the Pi, AFTER launch_robot.launch.py:
+    """Mission on the Pi, AFTER launch_robot.launch.py. Park the robot at the mapping start, then:
 
-        ros2 launch auracle_bt_1 mission.launch.py map:=<map.yaml>
+        ros2 launch auracle_bt_1 mission.launch.py map:=<map.yaml> route:=N
 
     Starts Nav2 + AMCL on the map (start_nav:=true) and the mission runner. The runner waits for
-    Nav2, asks for a 2D Pose Estimate, drives to load region N, pauses, drives to offload region N
-    and exits. Pick N with route:=1|2|3. Regions are in config/regions.yaml.
-    No RViz here: on the laptop run  ros2 launch auracle_bt_1 mission_rviz.launch.py
+    Nav2, sets the start pose (0,0,0) itself, drives to load region N, pauses, drives to offload
+    region N, returns home, turns back to the start heading and waits for the next region:
+        ros2 topic pub --once /auracle/region std_msgs/msg/Int32 "{data: 2}"
+    route:=0 (default) starts by waiting for a region. Regions are in config/regions.yaml.
 
-    auto_pose:=true: no click at all. Park the robot where you started mapping, facing the same
-    way, and it sets (0,0,0) as the start pose itself, then drives.
-
-    First time: mark:=true. Click the centre of LOAD 1,2,3 then OFFLOAD 1,2,3 with the RViz
+    auto_pose:=false asks for a 2D Pose Estimate click instead (laptop: mission_rviz.launch.py).
+    First time per map: mark:=true. Click the centre of LOAD 1,2,3 then OFFLOAD 1,2,3 with the RViz
     Publish Point tool; the runner writes regions.yaml and exits. The robot does not move.
     Click-your-goals mode: tree_file:=goal_tree.xml"""
     bringup = get_package_share_directory('auracle_bringup')
@@ -47,6 +46,7 @@ def generate_launch_description():
         name='bt_runner',
         namespace=ns,
         output='screen',
+        remappings=[('/tf', 'tf'), ('/tf_static', 'tf_static')],
         parameters=[{
             'use_sim_time': LaunchConfiguration('use_sim_time'),
             'route': ParameterValue(LaunchConfiguration('route'), value_type=int),
@@ -58,10 +58,10 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
-        DeclareLaunchArgument('route', default_value='1',
-                              description='1, 2 or 3: drive to load_N then offload_N'),
-        DeclareLaunchArgument('auto_pose', default_value='false',
-                              description='true: robot is parked at the mapping start (0,0,0), no 2D Pose Estimate click'),
+        DeclareLaunchArgument('route', default_value='0',
+                              description='first region to run (1, 2 or 3); 0 = wait for one on the topic region'),
+        DeclareLaunchArgument('auto_pose', default_value='true',
+                              description='true: robot is parked at the mapping start (0,0,0), no click. false: 2D Pose Estimate in RViz'),
         DeclareLaunchArgument('mark', default_value='false',
                               description='true: record the six regions from Publish Point clicks'),
         DeclareLaunchArgument('map', default_value=os.path.expanduser('~/maps/trial_6a.yaml')),

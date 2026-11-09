@@ -347,6 +347,16 @@ Also: 75 mm spiked wheels: URDF `wheel_radius` 0.0375 (was 0.0239), base_footpri
 
 - `auto_pose:=true` (added later the same day): no RViz click at all. New `behavior_trees/region_auto_tree.xml` sets the start pose from `start` in `regions.yaml` (mark mode writes `start: {x: 0, y: 0, yaw: 0}`), then drives load N and offload N. Only valid if the robot is parked where mapping started, facing the same way, because the map's origin is the robot's pose when mapping began. Coordinates are static per saved map; collect them on the saved map (mark mode), not during mapping and not by tape measure.
 
+## 4.25 Behaviour tree: run a region, return home, wait for the next one (2026-11-09)
+- Mission as it will be used: park the robot at the mapping start, launch, and it does region N (load N, pause, offload N), drives **home**, turns back to the start heading, then waits for the next region number. No clicks.
+- Region numbers: `route:=N` on the launch line is the first one (`route:=0`, the default, waits instead). Later ones: `ros2 topic pub --once /auracle/region std_msgs/msg/Int32 "{data: 2}"`. Numbers outside 1..3 are ignored with a warning.
+- `behavior_trees/region_tree.xml` is now this loop with the start pose set from `start` in `regions.yaml` (`auto_pose` defaults to true). `region_click_tree.xml` (new, `auto_pose:=false`) is the same loop with a 2D Pose Estimate click. `region_auto_tree.xml` is deleted. A failed leg is skipped and the robot still goes home.
+- `regions.yaml` gets `home: [{x: 0, y: 0, yaw: 0}]` next to `start` (mark mode now writes both). **A `regions.yaml` marked with 4.24 needs that `home` block added by hand**, or the return leg fails with "home missing or empty".
+- Final heading at home: Nav2 ignores the final heading of a goal (`yaw_goal_tolerance: 3.14` in `nav2_params.yaml`, left as it is because the corridors have no room for a spin), so the new `FaceHeading` node reads map->base_footprint from TF and uses Nav2's Spin behaviour to turn to home's yaw. A failed or skipped turn is only logged.
+- `bt_runner.cpp`: new `WaitForRegion` and `FaceHeading` nodes, `region` subscription, TF buffer, `route` default 0, `auto_pose` default true. `package.xml`/`CMakeLists.txt`: tf2, tf2_ros. `mission.launch.py`: `/tf` remapped into the namespace for the runner (same as the other nodes).
+- Coordinates: they are points in the map frame of one saved map, not ranges. Nav2 treats the goal as reached within `xy_goal_tolerance` (0.12 m); that is the only tolerance. A different map of the same arena only keeps the same numbers if the robot started from the same spot and heading, and even then drift moves far regions by tens of centimetres, so check them on the new map in RViz or re-mark.
+- Not compiled or run yet.
+
 ## 5. Pending / open issues
 
 | Issue | Status / next step |
