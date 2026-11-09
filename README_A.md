@@ -578,6 +578,9 @@ chronyc waitsync 9 0.1 && source install/setup.bash && ros2 launch auracle_bring
 Check if controllers active
 ```Pi terminal
 source install/setup.bash && ros2 control list_controllers -c /auracle/controller_manager
+ros2 topic echo /auracle/diff_cont/odom --once
+ros2 topic echo /auracle/odom_rf2o --once
+ros2 topic echo /auracle/odometry/filtered --once
 ```
 Teleop (teleop_twist keyboard)
 ```
