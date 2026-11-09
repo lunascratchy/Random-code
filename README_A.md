@@ -584,7 +584,7 @@ ros2 topic echo /auracle/odometry/filtered --once
 ```
 Teleop (teleop_twist keyboard)
 ```
-source install/setup.bash && ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r cmd_vel:=cmd_vel_joy -r __ns:=/auracle -p speed:=0.15 -p turn:=0.8
+source install/setup.bash && ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r cmd_vel:=cmd_vel_joy -r __ns:=/auracle -p speed:=0.22 -p turn:=0.8
 ```
 Teleop (modified keyboard)
 ```Pi terminal
@@ -628,10 +628,11 @@ source install/setup.bash && ros2 service call /auracle/map_server/load_map nav2
 ```
 
 **Behaviour Trees**
+Clean map: /home/kitana/ros2_ws/src/auracle_ws/src/auracle_bringup/config/map_1.yaml
 Robot still launched.
-Mark the regions (once per map, robot stays still)
+Mark the regions (once per map, robot stays still) (PI)
 ```
-source install/setup.bash && ros2 launch auracle_bt_1 mission.launch.py map:=$HOME/maps/final.yaml mark:=true
+ros2 launch auracle_bt_1 mission.launch.py map:=$HOME/maps/trial_6a.yaml route_file:=$HOME/maps/trial_6a_regions.yaml mark:=true
 ```
 (pc)
 ```
@@ -640,9 +641,9 @@ source install/setup.bash && ros2 launch auracle_bt_1 mission_rviz.launch.py
 Use only the Publish Point tool. Click the centres of LOAD 1, 2, 3, then OFFLOAD 1, 2, 3, as the log prompts.
 The log says “saved … regions.yaml” and the runner exits. Ctrl+C terminal 2 and close the laptop RViz.
 Check with cat ~/auracle_ws/Random-code/src/auracle_bt_1/config/regions.yaml. It should show a start line and six filled entries.
-RUN
+RUN (Pi)
 ```
-source install/setup.bash && ros2 launch auracle_bt_1 mission.launch.py map:=$HOME/maps/final.yaml route:=2 auto_pose:=true
+source install/setup.bash && ros2 launch auracle_bt_1 mission.launch.py map:=$HOME/maps/trial_7a.yaml route:=2
 ```
 
 
@@ -674,4 +675,29 @@ Trial 2 (2026-10-26) moved after the fixes above (recoveries to cmd_vel_nav, sca
 - Build on auracle dashboard maybe
 - Can i make an SNN that overcomes my constraints, like corrects heading faults if clearly navigation is failing, or something, same way a human can notice a fault and take quick mitigative actions
 - Gazebo sim must run on same speeds as the real robot
+
+
+# AMCL pose estimate
+Park the robot in the start box. Launch the click version once, with auto_pose:=false, plus the laptop RViz (mission_rviz.launch.py):
+```
+ros2 launch auracle_bt_1 mission.launch.py map:=$HOME/maps/trial_6a.yaml route_file:=$HOME/maps/trial_6a_regions.yaml auto_pose:=false
+```
+In RViz, click 2D Pose Estimate on the map at the robot’s real spot, and drag it along the direction the robot faces.
+On the Pi, read where AMCL puts it:
+```
+ros2 topic echo /auracle/amcl_pose --once
+```
+Note position.x, position.y and orientation.z, orientation.w. The heading is yaw = 2 * atan2(z, w)
+Edit ~/maps/trial_6a_regions.yaml so start and home both use that pose:
+   start: {x: <x>, y: <y>, yaw: <yaw>}
+   home:
+     - {x: <x>, y: <y>, yaw: <yaw>}
+
+RUN
+ros2 launch auracle_bt_1 mission.launch.py map:=$HOME/maps/trial_6a.yaml route_file:=$HOME/maps/trial_6a_regions.yaml route:=1
+
+Trial6a
+start: {x: 1.751, y: 0.075, yaw: -0.538}
+home:
+  - {x: 1.751, y: 0.075, yaw: -0.538}
 
