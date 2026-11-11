@@ -85,6 +85,7 @@ def generate_launch_description():
             'use_sim_time': use_sim_time,
             'namespace': namespace,
             'params_file': nav_params,
+            'use_collision_monitor': LaunchConfiguration('use_collision_monitor'),
         }.items(),
         condition=IfCondition(LaunchConfiguration('use_nav'))
     )
@@ -94,6 +95,8 @@ def generate_launch_description():
         declare_namespace,
         declare_use_rviz,
         declare_map,
+        DeclareLaunchArgument('use_collision_monitor', default_value='true',
+                              description='false = Nav2 drives twist_mux directly, no collision monitor'),
         DeclareLaunchArgument('use_nav', default_value='true',
                               description='false = RViz only (laptop), with AMCL + Nav2 running on the Pi'),
         localization,

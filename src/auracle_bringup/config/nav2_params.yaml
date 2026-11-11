@@ -313,33 +313,54 @@ velocity_smoother:
 
 collision_monitor:
   ros__parameters:
+    # Hard stop on the live filtered scan, between Nav2 and twist_mux (navigation_launch.py,
+    # use_collision_monitor). Nav2 -> cmd_vel_nav_raw -> here -> cmd_vel_nav -> twist_mux.
+    # Teleop (cmd_vel_joy) does not pass through it, so you can always drive out.
     base_frame_id: "base_footprint"
     odom_frame_id: "odom"
-    cmd_vel_in_topic: "cmd_vel_smoothed"
-    cmd_vel_out_topic: "cmd_vel"
-    state_topic: "collision_monitor_state"
+    cmd_vel_in_topic: "cmd_vel_nav_raw"
+    cmd_vel_out_topic: "cmd_vel_nav"
+    state_topic: "collision_monitor_state"   # which zone is active: ros2 topic echo /auracle/collision_monitor_state
     transform_tolerance: 0.5
     source_timeout: 1.0
     base_shift_correction: True
     stop_pub_timeout: 2.0
-    # Polygons represent zone around the robot for "stop", "slowdown" and "limit" action types,
-    # and robot footprint for "approach" action type.
-    polygons: ["FootprintApproach"]
-    FootprintApproach:
-      type: "polygon"
-      action_type: "approach"
-      footprint_topic: "local_costmap/published_footprint"
-      time_before_collision: 1.2
-      simulation_time_step: 0.1
-      min_points: 6
-      visualize: False
+    polygons: ["VelocityStop"]
+    # One zone, chosen by the commanded velocity: ahead when driving forward, behind when reversing,
+    # nothing when turning on the spot. Spins are NOT guarded on purpose: in the 0.43 m corridors the
+    # corners (radius 0.23 m) sweep within a few cm of the walls, so any turn guard would freeze
+    # rotate-to-heading. The scan filter removes everything inside +-0.22 / +-0.18 m of the robot,
+    # so the zones start at the footprint edge (+-0.17 m) and see only what lies beyond it.
+    VelocityStop:
+      type: "velocity_polygon"
+      action_type: "stop"
+      min_points: 3          # a thin leg is only 1-3 beams on this lidar; raise if single bad returns stop it
+      holonomic: False
+      visualize: True        # the active zone is published on /auracle/VelocityStop: add it in RViz
       enabled: True
+      velocity_polygons: ["forward", "backward", "rotate_or_stopped"]
+      forward:
+        points: "[[0.45, 0.16], [0.45, -0.16], [0.17, -0.16], [0.17, 0.16]]"   # 0.28 m deep, as wide as the footprint
+        linear_min: 0.02
+        linear_max: 1.0
+        theta_min: -3.0
+        theta_max: 3.0
+      backward:
+        points: "[[-0.17, 0.16], [-0.17, -0.16], [-0.45, -0.16], [-0.45, 0.16]]"
+        linear_min: -1.0
+        linear_max: -0.02
+        theta_min: -3.0
+        theta_max: 3.0
+      rotate_or_stopped:     # last entry = fallback for the whole velocity range; a tiny zone = no guard
+        points: "[[0.0, 0.01], [0.0, -0.01], [-0.01, 0.0]]"
+        linear_min: -1.0
+        linear_max: 1.0
+        theta_min: -3.0
+        theta_max: 3.0
     observation_sources: ["scan"]
     scan:
       type: "scan"
-      topic: "scan"
-      min_height: 0.15
-      max_height: 2.0
+      topic: "scan_filtered"   # the raw scan includes the robot's own wheels and frame
       enabled: True
 
 docking_server:

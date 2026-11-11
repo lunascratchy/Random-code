@@ -18,7 +18,8 @@ from ament_index_python.packages import get_package_share_directory
 
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, SetEnvironmentVariable
-from launch.substitutions import LaunchConfiguration
+from launch.conditions import IfCondition
+from launch.substitutions import LaunchConfiguration, PythonExpression
 from launch_ros.actions import Node
 from nav2_common.launch import RewrittenYaml
 
@@ -33,6 +34,13 @@ def generate_launch_description():
     params_file = LaunchConfiguration('params_file')
     default_bt_xml_filename = LaunchConfiguration('default_bt_xml_filename')
     map_subscribe_transient_local = LaunchConfiguration('map_subscribe_transient_local')
+    use_collision_monitor = LaunchConfiguration('use_collision_monitor')
+
+    # With the collision monitor on, Nav2 publishes to cmd_vel_nav_raw and the monitor republishes
+    # to cmd_vel_nav, which is what twist_mux already listens to (twist_mux.yaml is unchanged).
+    # With it off, Nav2 publishes straight to cmd_vel_nav, exactly as before.
+    nav_cmd_vel = PythonExpression(
+        ["'cmd_vel_nav_raw' if '", use_collision_monitor, "'.lower() == 'true' else 'cmd_vel_nav'"])
 
     lifecycle_nodes = ['controller_server',
                    'planner_server',
@@ -90,6 +98,11 @@ def generate_launch_description():
         description='Full path to the behavior tree xml file to use'),
 
         DeclareLaunchArgument(
+            'use_collision_monitor', default_value='true',
+            description='Run nav2_collision_monitor between Nav2 and twist_mux (hard stop on the live scan). '
+                        'false = the old direct path'),
+
+        DeclareLaunchArgument(
             'map_subscribe_transient_local', default_value='false',
             description='Whether to set the map subscriber QoS to transient local'),
 
@@ -99,7 +112,7 @@ def generate_launch_description():
             namespace=namespace,
             output='screen',
             parameters=[configured_params, {'use_sim_time': use_sim_time}],
-            remappings=remappings + [('cmd_vel', 'cmd_vel_nav')],
+            remappings=remappings + [('cmd_vel', nav_cmd_vel)],
             ),
 
         Node(
@@ -119,7 +132,7 @@ def generate_launch_description():
             output='screen',
             parameters=[configured_params, {'use_sim_time': use_sim_time}],
             # Spin / BackUp / DriveOnHeading must reach twist_mux too, or recoveries never move the robot
-            remappings=remappings + [('cmd_vel', 'cmd_vel_nav')]),
+            remappings=remappings + [('cmd_vel', nav_cmd_vel)]),
 
         Node(
             package='nav2_bt_navigator',
@@ -138,6 +151,30 @@ def generate_launch_description():
             output='screen',
             parameters=[configured_params, {'use_sim_time': use_sim_time}],
             remappings=remappings),
+
+        # Hard stop on the live filtered scan, independent of the costmaps (config: collision_monitor
+        # in nav2_params.yaml). Own lifecycle manager so the Nav2 node list above is untouched.
+        Node(
+            package='nav2_collision_monitor',
+            executable='collision_monitor',
+            name='collision_monitor',
+            namespace=namespace,
+            output='screen',
+            parameters=[configured_params, {'use_sim_time': use_sim_time}],
+            remappings=remappings,
+            condition=IfCondition(use_collision_monitor)),
+
+        Node(
+            package='nav2_lifecycle_manager',
+            executable='lifecycle_manager',
+            namespace=namespace,
+            name='lifecycle_manager_safety',
+            output='screen',
+            parameters=[{'use_sim_time': use_sim_time},
+                        {'autostart': autostart},
+                        {'node_names': ['collision_monitor']},
+                        {'bond_timeout': 10.0}],
+            condition=IfCondition(use_collision_monitor)),
 
         Node(
             package='nav2_lifecycle_manager',

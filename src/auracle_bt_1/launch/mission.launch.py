@@ -36,6 +36,7 @@ def generate_launch_description():
             'use_rviz': 'false',
             'map': LaunchConfiguration('map'),
             'use_sim_time': LaunchConfiguration('use_sim_time'),
+            'use_collision_monitor': LaunchConfiguration('use_collision_monitor'),
         }.items(),
         condition=IfCondition(LaunchConfiguration('start_nav')),
     )
@@ -65,6 +66,8 @@ def generate_launch_description():
         DeclareLaunchArgument('mark', default_value='false',
                               description='true: record the six regions from Publish Point clicks'),
         DeclareLaunchArgument('map', default_value=os.path.expanduser('~/maps/trial_6a.yaml')),
+        DeclareLaunchArgument('use_collision_monitor', default_value='true',
+                              description='false = Nav2 drives twist_mux directly, no collision monitor'),
         DeclareLaunchArgument('start_nav', default_value='true',
                               description='false if Nav2 is already running'),
         DeclareLaunchArgument('namespace', default_value='auracle'),
