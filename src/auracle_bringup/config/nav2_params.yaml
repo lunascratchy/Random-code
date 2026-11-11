@@ -351,8 +351,8 @@ collision_monitor:
         linear_max: -0.02
         theta_min: -3.0
         theta_max: 3.0
-      rotate_or_stopped:     # last entry = fallback for the whole velocity range; a tiny zone = no guard
-        points: "[[0.0, 0.01], [0.0, -0.01], [-0.01, 0.0]]"
+      rotate_or_stopped:     # last entry = fallback for the whole velocity range; a tiny 4-point zone = no guard (3 points made the monitor fail to configure: 'Polygon must have at least three points')
+        points: "[[0.01, 0.01], [0.01, -0.01], [-0.01, -0.01], [-0.01, 0.01]]"
         linear_min: -1.0
         linear_max: 1.0
         theta_min: -3.0

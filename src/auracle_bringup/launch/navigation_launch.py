@@ -58,10 +58,19 @@ def generate_launch_description():
                   ('/tf_static', 'tf_static')]
 
     # Create our own temporary YAML files that include substitutions
+    # The costmap nodes live in the namespace <ns>/local_costmap and <ns>/global_costmap, so a RELATIVE
+    # observation topic ('scan_filtered') resolves to <ns>/local_costmap/scan_filtered, which nobody
+    # publishes: the obstacle layers were blind. Every 'topic:' key in nav2_params.yaml is a scan source
+    # (both costmaps and the collision monitor), so rewrite them all to the absolute name.
+    scan_topic = PythonExpression(
+        ["('/' + '", namespace, "'.strip('/') + '/scan_filtered') if '", namespace,
+         "'.strip('/') else '/scan_filtered'"])
+
     param_substitutions = {
         'use_sim_time': use_sim_time,
         'default_bt_xml_filename': default_bt_xml_filename,
-        'autostart': autostart}
+        'autostart': autostart,
+        'topic': scan_topic}
 
     configured_params = RewrittenYaml(
             source_file=params_file,
