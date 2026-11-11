@@ -313,9 +313,17 @@ velocity_smoother:
 
 collision_monitor:
   ros__parameters:
-    # Hard stop on the live filtered scan, between Nav2 and twist_mux (navigation_launch.py,
+    # Safety layer on the live filtered scan, between Nav2 and twist_mux (navigation_launch.py,
     # use_collision_monitor). Nav2 -> cmd_vel_nav_raw -> here -> cmd_vel_nav -> twist_mux.
     # Teleop (cmd_vel_joy) does not pass through it, so you can always drive out.
+    # 2026-11-11 v2 (CHANGES 4.27): v1 was ONE hard-stop band (x 0.22..0.32), so every trip was a
+    # full stop followed by a ramp up from zero. Now two polygons:
+    #   VelocityApproach: straight driving only. Full speed until an obstacle is closer than
+    #     speed x time_before_collision to a shallow band, then the speed falls smoothly (v = gap / T).
+    #   VelocityStop: arcs only (cornering). Same hard-stop band as v1.
+    # Spins stay unguarded on purpose (0.43 m corridors: the corners sweep within a few cm of the walls).
+    # The scan filter removes everything inside x +-0.22 / y +-0.18 m, so the bands start at x 0.22:
+    # an obstacle that crosses 0.22 m disappears from scan_filtered, so the robot must be stopped before.
     base_frame_id: "base_footprint"
     odom_frame_id: "odom"
     cmd_vel_in_topic: "cmd_vel_nav_raw"
@@ -325,38 +333,76 @@ collision_monitor:
     source_timeout: 1.0
     base_shift_correction: True
     stop_pub_timeout: 2.0
-    polygons: ["VelocityStop"]
-    # One zone, chosen by the commanded velocity: ahead when driving forward, behind when reversing,
-    # nothing when turning on the spot. Spins are NOT guarded on purpose: in the 0.43 m corridors the
-    # corners (radius 0.23 m) sweep within a few cm of the walls, so any turn guard would freeze
-    # rotate-to-heading. The scan filter removes everything inside +-0.22 / +-0.18 m of the robot,
-    # so the zones start at the footprint edge (+-0.17 m) and see only what lies beyond it.
-    VelocityStop:
+    polygons: ["VelocityApproach", "VelocityStop"]
+
+    VelocityApproach:
       type: "velocity_polygon"
-      action_type: "stop"
-      min_points: 4          # needs 4 beams inside the zone; start-box walls were tripping 3. Raise if single bad returns stop it
+      action_type: "approach"
+      time_before_collision: 0.8   # s. Braking starts at 0.2 m/s x 0.8 s = 0.16 m beyond the band. Raise = brakes earlier and stops further away (shyer); lower = later and closer
+      simulation_time_step: 0.1
+      min_points: 4          # needs 4 beams in the band; start-box walls were tripping 3
       holonomic: False
-      visualize: True        # the active zone is published on /auracle/VelocityStop: add it in RViz
+      visualize: True        # /auracle/VelocityApproach
       enabled: True
-      velocity_polygons: ["forward", "backward", "rotate_or_stopped"]
-      forward:
-        points: "[[0.32, 0.13], [0.32, -0.13], [0.22, -0.13], [0.22, 0.13]]"   # 0.10 m deep, just past the scan-filter box; was 0.45 and froze the robot in the start box
+      velocity_polygons: ["forward_straight", "backward_straight", "other"]
+      forward_straight:      # |w| <= 0.25 rad/s counts as straight
+        points: "[[0.28, 0.13], [0.28, -0.13], [0.22, -0.13], [0.22, 0.13]]"   # 6 cm deep (v1 was 10 cm); the approach time does the braking
         linear_min: 0.02
+        linear_max: 1.0
+        theta_min: -0.25
+        theta_max: 0.25
+      backward_straight:
+        points: "[[-0.22, 0.13], [-0.22, -0.13], [-0.28, -0.13], [-0.28, 0.13]]"
+        linear_min: -1.0
+        linear_max: -0.02
+        theta_min: -0.25
+        theta_max: 0.25
+      other:                 # arcs, spins, stopped: tiny zone = no guard here (arcs are VelocityStop's)
+        points: "[[0.0, 0.01], [0.0, -0.01], [-0.01, 0.0]]"
+        linear_min: -1.0
         linear_max: 1.0
         theta_min: -3.0
         theta_max: 3.0
-      backward:
+
+    VelocityStop:
+      type: "velocity_polygon"
+      action_type: "stop"
+      min_points: 4
+      holonomic: False
+      visualize: True        # /auracle/VelocityStop
+      enabled: True
+      velocity_polygons: ["forward_arc_left", "forward_arc_right", "backward_arc_left", "backward_arc_right", "other"]
+      forward_arc_left:      # the v1 forward band, kept for cornering
+        points: "[[0.32, 0.13], [0.32, -0.13], [0.22, -0.13], [0.22, 0.13]]"
+        linear_min: 0.02
+        linear_max: 1.0
+        theta_min: 0.25
+        theta_max: 3.0
+      forward_arc_right:
+        points: "[[0.32, 0.13], [0.32, -0.13], [0.22, -0.13], [0.22, 0.13]]"
+        linear_min: 0.02
+        linear_max: 1.0
+        theta_min: -3.0
+        theta_max: -0.25
+      backward_arc_left:
+        points: "[[-0.22, 0.13], [-0.22, -0.13], [-0.32, -0.13], [-0.32, 0.13]]"
+        linear_min: -1.0
+        linear_max: -0.02
+        theta_min: 0.25
+        theta_max: 3.0
+      backward_arc_right:
         points: "[[-0.22, 0.13], [-0.22, -0.13], [-0.32, -0.13], [-0.32, 0.13]]"
         linear_min: -1.0
         linear_max: -0.02
         theta_min: -3.0
-        theta_max: 3.0
-      rotate_or_stopped:     # last entry = fallback for the whole velocity range; a tiny 4-point zone = no guard (3 points made the monitor fail to configure: 'Polygon must have at least three points')
-        points: "[[0.01, 0.01], [0.01, -0.01], [-0.01, -0.01], [-0.01, 0.01]]"
+        theta_max: -0.25
+      other:                 # straight, spin, stopped: tiny zone = no guard here (straight is VelocityApproach's)
+        points: "[[0.0, 0.01], [0.0, -0.01], [-0.01, 0.0]]"
         linear_min: -1.0
         linear_max: 1.0
         theta_min: -3.0
         theta_max: 3.0
+
     observation_sources: ["scan"]
     scan:
       type: "scan"
