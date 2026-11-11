@@ -105,9 +105,9 @@ controller_server:
       use_velocity_scaled_lookahead_dist: false
       transform_tolerance: 0.5
       use_regulated_linear_velocity_scaling: true
-      regulated_linear_scaling_min_radius: 0.25   # was 0.4: slowed on almost every gentle curve
-      regulated_linear_scaling_min_speed: 0.14     # was 0.10; slowest speed on a tight curve (Nano minimum is 450 ticks/s = ~0.10 m/s)
-      use_cost_regulated_linear_velocity_scaling: false   # was true: once the local costmap really saw the walls (4.28) it held the robot at the 0.10 m/s floor in every 0.43 m corridor
+      regulated_linear_scaling_min_radius: 0.4
+      regulated_linear_scaling_min_speed: 0.10     # Nano minimum is 450 ticks/s = ~0.10 m/s
+      use_cost_regulated_linear_velocity_scaling: true   # slow down near walls
       min_approach_linear_velocity: 0.10
       approach_velocity_scaling_dist: 0.5
       use_collision_detection: true
@@ -146,7 +146,7 @@ local_costmap:
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 4.0     # gentle fall-off keeps paths near the corridor centre
-        inflation_radius: 0.22   # LOCAL only (global stays 0.40 for path centring). Was 0.40: in 0.43 m corridors every cell was inflated cost, which made the controller hesitate
+        inflation_radius: 0.40   # was 0.25; robot hit walls on trial_3b
       obstacle_layer:
         plugin: "nav2_costmap_2d::ObstacleLayer"
         enabled: True
