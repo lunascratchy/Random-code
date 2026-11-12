@@ -110,8 +110,8 @@ controller_server:
       use_cost_regulated_linear_velocity_scaling: false   # was true: once the local costmap really saw the walls (4.28) it held the robot at the 0.10 m/s floor in every 0.43 m corridor
       min_approach_linear_velocity: 0.10
       approach_velocity_scaling_dist: 0.5
-      use_collision_detection: true
-      max_allowed_time_to_collision_up_to_carrot: 1.0
+      use_collision_detection: false   # was true: in 0.43 m corridors it said "collision ahead" every cycle, hit failure_tolerance ("Controller patience exceeded") and aborted. Costmap/planner still keep the path off walls
+      max_allowed_time_to_collision_up_to_carrot: 0.4   # was 1.0: RPP stopped when the local costmap showed a wall near the path ahead
       use_rotate_to_heading: true    # turn on the spot ONCE when heading error > rotate_to_heading_min_angle, then drive. RPP needs allow_reversing false for this
       rotate_to_heading_angular_vel: 0.8            # diff_cont track 0.47 -> ~0.19 m/s per wheel
       rotate_to_heading_min_angle: 0.3   # ~17 deg. Spin sooner: the Nano lifts slow wheels in arcs, so arcs run faster and wider than asked
@@ -257,7 +257,7 @@ behavior_server:
     global_frame: map
     robot_base_frame: base_footprint
     transform_tolerance: 0.3
-    simulate_ahead_time: 2.0
+    simulate_ahead_time: 0.4   # was 2.0: Spin/BackUp abort when the footprint is predicted to hit a wall within this time; 2 s looked far past the corridor
     max_rotational_vel: 1.0
     min_rotational_vel: 0.5   # track 0.47 m: ~0.12 m/s per wheel, above the Nano's 450 ticks/s minimum
     rotational_acc_lim: 3.0
@@ -334,19 +334,19 @@ collision_monitor:
     VelocityStop:
       type: "velocity_polygon"
       action_type: "stop"
-      min_points: 4          # needs 4 beams inside the zone; start-box walls were tripping 3. Raise if single bad returns stop it
+      min_points: 5          # needs 5 beams inside the zone. Raise if single bad returns stop it
       holonomic: False
       visualize: True        # the active zone is published on /auracle/VelocityStop: add it in RViz
       enabled: True
       velocity_polygons: ["forward", "backward", "rotate_or_stopped"]
       forward:
-        points: "[[0.32, 0.13], [0.32, -0.13], [0.22, -0.13], [0.22, 0.13]]"   # 0.10 m deep, just past the scan-filter box; was 0.45 and froze the robot in the start box
+        points: "[[0.27, 0.10], [0.27, -0.10], [0.22, -0.10], [0.22, 0.10]]"   # 5 cm deep, 20 cm wide: just past the scan-filter box. Minimum guard: side walls can never trip it
         linear_min: 0.02
         linear_max: 1.0
         theta_min: -3.0
         theta_max: 3.0
       backward:
-        points: "[[-0.22, 0.13], [-0.22, -0.13], [-0.32, -0.13], [-0.32, 0.13]]"
+        points: "[[-0.22, 0.10], [-0.22, -0.10], [-0.27, -0.10], [-0.27, 0.10]]"
         linear_min: -1.0
         linear_max: -0.02
         theta_min: -3.0
