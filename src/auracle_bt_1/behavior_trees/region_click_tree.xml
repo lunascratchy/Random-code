@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4" main_tree_to_execute="RegionClickTree">
   <!-- auto_pose:=false. Launch -> wait for Nav2 -> wait for a 2D Pose Estimate click in RViz.
-       Then forever: wait for a region number N -> LOAD N -> pause -> OFFLOAD N -> HOME -> turn to the
-       start heading -> wait for the next N. A failed leg is skipped and the robot still goes home.
+       Then forever: wait for a region number N -> LOAD N -> pause -> OFFLOAD N, and STOP there
+       (no return home) -> wait for the next N, which then starts from the offload spot.
        Regions come from config/regions.yaml (fill it once with mark:=true). -->
   <BehaviorTree ID="RegionClickTree">
     <Sequence name="Mission">
@@ -18,13 +18,6 @@
               <Sleep msec="3000"/>   <!-- stands in for loading -->
               <LoadWaypoints file="{route_file}" path_name="{offload_key}" goals="{goals}"/>
               <FollowWaypoints goals="{goals}"/>
-            </Sequence>
-          </ForceSuccess>
-          <ForceSuccess>
-            <Sequence name="Home">
-              <LoadWaypoints file="{route_file}" path_name="home" goals="{goals}"/>
-              <FollowWaypoints goals="{goals}"/>
-              <FaceHeading file="{route_file}" path_name="home"/>
             </Sequence>
           </ForceSuccess>
         </Sequence>

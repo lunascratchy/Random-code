@@ -696,6 +696,9 @@ Edit ~/maps/trial_6a_regions.yaml so start and home both use that pose:
 RUN
 ros2 launch auracle_bt_1 mission.launch.py map:=$HOME/maps/trial_6a.yaml route_file:=$HOME/maps/trial_6a_regions.yaml route:=1
 
+To use collision monitor 
+ros2 launch auracle_bt_1 mission.launch.py map:=$HOME/maps/trial_6a.yaml route_file:=$HOME/maps/trial_6a_regions.yaml route:=1 use_collision_monitor:=true
+
 Trial6a
 start: {x: 1.751, y: 0.075, yaw: -0.538}
 home:
