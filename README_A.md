@@ -590,6 +590,10 @@ Teleop (modified keyboard)
 ```Pi terminal
 source install/setup.bash && ros2 run auracle_bringup key_drive.py --ros-args -r cmd_vel:=cmd_vel_joy -r __ns:=/auracle
 ```
+LAUNCH LIDAR
+```
+ros2 run rplidar_ros rplidar_composition --ros-args -p serial_port:=/dev/rplidar -p serial_baudrate:=115200 -p scan_mode:=Standard
+```
 SLAM (live mapping)
 **PC**
 ```PC terminal
@@ -694,7 +698,7 @@ Edit ~/maps/trial_6a_regions.yaml so start and home both use that pose:
      - {x: <x>, y: <y>, yaw: <yaw>}
 
 RUN
-ros2 launch auracle_bt_1 mission.launch.py map:=$HOME/maps/trial_6a.yaml route_file:=$HOME/maps/trial_6a_regions.yaml route:=1
+source install/setup.bash && ros2 launch auracle_bt_1 mission.launch.py map:=$HOME/maps/trial_6a.yaml route_file:=$HOME/maps/trial_6a_regions.yaml route:=1
 
 To use collision monitor 
 ros2 launch auracle_bt_1 mission.launch.py map:=$HOME/maps/trial_6a.yaml route_file:=$HOME/maps/trial_6a_regions.yaml route:=1 use_collision_monitor:=true

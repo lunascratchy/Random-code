@@ -385,6 +385,15 @@ Also: 75 mm spiked wheels: URDF `wheel_radius` 0.0375 (was 0.0239), base_footpri
 - `nav2_params.yaml`: cost-regulated scaling off; `regulated_linear_scaling_min_radius` 0.4 -> 0.25; `regulated_linear_scaling_min_speed` 0.10 -> 0.14; **local** costmap `inflation_radius` 0.40 -> 0.22 (global costmap stays 0.40 so planned paths still centre in corridors). `desired_linear_vel` stays 0.20 (diff_cont clamps at 0.25). Obstacle awareness is unchanged: the costmap still marks obstacles, the collision monitor still stops at 0.22..0.32 m.
 - If it still hesitates at a corner, it is probably the collision monitor stopping on a wall edge inside the zone: the script prints `state STOP(VelocityStop)` and the points in the zone at that moment. Not driven yet.
 
+## 4.30 Map quality: start walls drawn twice, slam_toolbox only (2026-11-17)
+- Symptom: after a full loop the walls around the start box show twice, at a small angle, and cross each other (screenshots 2026-11-17). Same as 4.19 (`trial_4`) and 4.20 (`trial_5b`): the start is the one place the robot comes back to, so any drift built up during the run shows there as a second copy of the wall.
+- Scope: `mapper_params_online_async.yaml` only. It is read by `slam_mapping.launch.py` and nothing else, so Nav2, AMCL, the EKF, the controllers, the collision monitor and the behaviour trees are untouched. Saved maps are not changed either.
+- Baseline before this change (restore these to revert): `loop_match_minimum_chain_size` 10, `loop_match_minimum_response_coarse` 0.60, `loop_match_minimum_response_fine` 0.70, `angle_variance_penalty` 0.3. Everything else in the file is as in 4.20.
+- Changes: chain size 10 -> **8**, coarse response 0.60 -> **0.55**, fine response 0.70 -> **0.65**, `angle_variance_penalty` 0.3 -> **0.5**. The first three make it easier for the closing loop at the start to be accepted, so the drift is pulled back instead of left as a ghost wall. The fourth keeps the scan matcher closer to the gyro heading. Kept as they were: `HuberLoss`, `loop_match_maximum_variance_coarse` 2.0, `distance_variance_penalty` 0.15, `minimum_travel_distance` 0.1, `minimum_travel_heading` 0.10 and the correlation search settings.
+- Risk: the corridors look alike, so looser loop thresholds can accept a false loop. That shows as a wall jumping or a corridor folding onto another. If so, put the three loop values back first, then `angle_variance_penalty`.
+- Not driven yet. Test: map the same loop as before, stay still for about 3 s at the start, drive out straight for about 0.5 m before the first turn, finish exactly where you started, and compare the start walls with the old map.
+- Not done, in case this is not enough: `minimum_travel_heading` 0.10 -> 0.07 (more scans during pivots, more Pi load), and driving the pivots slower.
+
 ## 5. Pending / open issues
 
 | Issue | Status / next step |
