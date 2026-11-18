@@ -9,7 +9,14 @@ be believed over everything else. This node copies the message and fills the dia
   out: odom_rf2o       (same, with covariance)  -> fused by ekf_lidar_odom.yaml as odom1
 
 If the scan matcher stops publishing, nothing is relayed and the EKF simply coasts on the IMU.
+
+Messages with a NaN / inf anywhere, or a speed the robot cannot reach, are dropped here. One such
+message is enough to put NaN into robot_localization's state for good ("Critical Error, NaNs were
+detected in the output state of the filter"), and rf2o can produce one on its first scans
+(velocity = distance / dt with a dt of ~0).
 """
+import math
+
 import rclpy
 from nav_msgs.msg import Odometry
 from rclpy.node import Node
@@ -25,10 +32,32 @@ class OdomCovRelay(Node):
         self.vx = float(self.get_parameter('twist_vx_var').value)
         self.vyaw = float(self.get_parameter('twist_vyaw_var').value)
         self.pv = float(self.get_parameter('pose_var').value)
+        # The robot tops out at 0.25 m/s and turns at ~1 rad/s: anything far above is a bad match.
+        self.declare_parameter('max_speed', 1.0)        # m/s
+        self.declare_parameter('max_yaw_rate', 6.0)     # rad/s
+        self.max_v = float(self.get_parameter('max_speed').value)
+        self.max_w = float(self.get_parameter('max_yaw_rate').value)
+        self.dropped = 0
         self.pub = self.create_publisher(Odometry, 'odom_rf2o', 10)
         self.create_subscription(Odometry, 'odom_rf2o_raw', self.on_odom, 10)
 
+    @staticmethod
+    def _finite(m: Odometry) -> bool:
+        p = m.pose.pose
+        t = m.twist.twist
+        vals = (p.position.x, p.position.y, p.position.z,
+                p.orientation.x, p.orientation.y, p.orientation.z, p.orientation.w,
+                t.linear.x, t.linear.y, t.linear.z, t.angular.x, t.angular.y, t.angular.z)
+        return all(math.isfinite(v) for v in vals)
+
     def on_odom(self, m: Odometry):
+        t = m.twist.twist
+        if not self._finite(m) or abs(t.linear.x) > self.max_v or abs(t.angular.z) > self.max_w:
+            self.dropped += 1
+            self.get_logger().warn(
+                f'dropped a bad rf2o message (NaN or implausible speed), {self.dropped} so far',
+                throttle_duration_sec=5.0)
+            return
         pose = [0.0] * 36
         twist = [0.0] * 36
         for i in range(6):
