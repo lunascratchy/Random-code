@@ -44,7 +44,7 @@ slam_toolbox:
     use_scan_matching: true
     use_scan_barycenter: true
     minimum_travel_distance: 0.1   # back to the trial_3b value (0.05 tried 2026-11-05, trial_5b map was worse)
-    minimum_travel_heading: 0.10    # ~6 deg: small rotation steps, because wheel yaw is the weak link (no IMU)
+    minimum_travel_heading: 0.05    # was 0.10 (2026-11-18): during pivots scans are 3-10 deg apart; process more of them so each match step is small. Revert to 0.10 if CPU lags
     check_min_dist_and_heading_precisely: false
     scan_buffer_size: 20
     scan_buffer_maximum_scan_distance: 4.0
@@ -54,10 +54,10 @@ slam_toolbox:
     #loop closure parameters
     loop_search_maximum_distance: 2.0
     do_loop_closing: true 
-    loop_match_minimum_chain_size: 8   # was 10 (2026-11-17): the start wall drawn twice was a loop that never closed. Revert first if a false loop appears
+    loop_match_minimum_chain_size: 10
     loop_match_maximum_variance_coarse: 2.0   # stricter: maze corridors repeat, false loops wreck maps
-    loop_match_minimum_response_coarse: 0.55   # was 0.60 (2026-11-17), same reason
-    loop_match_minimum_response_fine: 0.65   # was 0.70 (2026-11-17), same reason
+    loop_match_minimum_response_coarse: 0.60
+    loop_match_minimum_response_fine: 0.70
 
     # Correlation Parameters - Correlation Parameters
     correlation_search_space_dimension: 0.8   # wider: lets scan matching fix bigger odometry errors
@@ -71,11 +71,11 @@ slam_toolbox:
 
     # Scan Matcher Parameters
     distance_variance_penalty: 0.15   # back to the trial_3b value. 0.05 let the matcher slide along plain walls (bowed wall, doubled walls in trial_5b). The slip itself is now removed upstream by lidar odometry
-    angle_variance_penalty: 0.5       # was 0.3 (2026-11-17): the gyro's heading is the one trustworthy channel while skidding, so the matcher may stray less from it. Odom yaw is gyro-based (EKF + IMU)
+    angle_variance_penalty: 0.3
 
     fine_search_angle_offset: 0.00349     
     coarse_search_angle_offset: 0.349   
-    coarse_angle_resolution: 0.0175  # 1 deg, was 2
+    coarse_angle_resolution: 0.035
     minimum_angle_penalty: 0.9
     minimum_distance_penalty: 0.5   # back to the trial_3b value, same reason
     use_response_expansion: true

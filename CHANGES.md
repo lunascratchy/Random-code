@@ -394,6 +394,15 @@ Also: 75 mm spiked wheels: URDF `wheel_radius` 0.0375 (was 0.0239), base_footpri
 - Not driven yet. Test: map the same loop as before, stay still for about 3 s at the start, drive out straight for about 0.5 m before the first turn, finish exactly where you started, and compare the start walls with the old map.
 - Not done, in case this is not enough: `minimum_travel_heading` 0.10 -> 0.07 (more scans during pivots, more Pi load), and driving the pivots slower.
 
+## 4.31 Map quality: 4.30 reverted, scan smear during pivots (2026-11-18)
+- Test: the 4.30 values were tried and the start walls still overlapped. A bag (`map_test`, one full 360 turn) was then analysed against scan-matching (ICP) heading.
+- Findings: gyro/EKF yaw tracks ICP heading almost exactly (slope 1.004, bias about 0), so heading is not the cause. rf2o under-reads rotation by about 17% (slope 0.83), but the EKF takes yaw from the gyro, so this does not reach the map. Wheel yaw is not fused. The A1 scans at 7.6 Hz (0.131 s per sweep); during pivots the robot turns 3.4 deg (median), 7.3 deg (90th percentile), 10.6 deg (max) inside one sweep, which smears walls by about 6 / 12 / 18 cm at 1 / 2 / 3 m. 49% of rotating frames are pure pivots. Forward distance scale is unverified (wheel 5.59 m, rf2o 6.15 m, filtered 6.05 m on straight frames; the ICP translation estimate is not a distance reference because it is degenerate in plain corridors).
+- Scope: `mapper_params_online_async.yaml` only (same as 4.30). Nav2, AMCL, the EKF, the controllers, the collision monitor and the behaviour trees are untouched.
+- Reverted to the baseline: `loop_match_minimum_chain_size` 10, `loop_match_minimum_response_coarse` 0.60, `loop_match_minimum_response_fine` 0.70, `angle_variance_penalty` 0.3, `coarse_angle_resolution` 0.035 (2 deg; assumed to be the earlier value, check it against your own baseline).
+- Changed: `minimum_travel_heading` 0.10 -> **0.05**, so slam_toolbox takes more scans during pivots and each match step is smaller. Revert to 0.10 if the Pi's CPU lags.
+- Mapping procedure: drive the first intersection slowly and avoid pivots in place (the Nano cannot turn in place below about 1 rad/s anyway; use arcs). Optionally lower `max_angular` in `joy_drive.py` from 1.5 to about 0.8 while mapping (not changed).
+- Not tested on the robot. Still open: a 2 m tape-measure drive to calibrate the forward distance scale (wheel vs rf2o weighting), and installing the guarded `odom_cov_relay.py` (see 4.28 and the EKF NaN notes).
+
 ## 5. Pending / open issues
 
 | Issue | Status / next step |
