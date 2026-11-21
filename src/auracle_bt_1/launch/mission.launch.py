@@ -24,7 +24,11 @@ def generate_launch_description():
     auto_pose:=false asks for a 2D Pose Estimate click instead (laptop: mission_rviz.launch.py).
     First time per map: mark:=true. Click the centre of LOAD 1,2,3 then OFFLOAD 1,2,3 with the RViz
     Publish Point tool; the runner writes regions.yaml and exits. The robot does not move.
-    Click-your-goals mode: tree_file:=goal_tree.xml"""
+    Click-your-goals mode: tree_file:=goal_tree.xml
+
+    Camera picks the region: vision:=true. Also starts auracle_vision (camera + waste_detector) and
+    uses vision_tree.xml: look at the screen -> metal/organic/plastic -> region 1/2/3 (map in the XML).
+    vision_model:=waste_yolo26n.onnx goes back to the original 640 px model."""
     bringup = get_package_share_directory('auracle_bringup')
     ns = LaunchConfiguration('namespace')
 
@@ -41,6 +45,16 @@ def generate_launch_description():
         condition=IfCondition(LaunchConfiguration('start_nav')),
     )
 
+    vision = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(get_package_share_directory('auracle_vision'), 'launch', 'vision.launch.py')),
+        launch_arguments={
+            'namespace': ns,
+            'model': LaunchConfiguration('vision_model'),
+        }.items(),
+        condition=IfCondition(LaunchConfiguration('vision')),
+    )
+
     runner = Node(
         package='auracle_bt_1',
         executable='bt_runner',
@@ -53,6 +67,7 @@ def generate_launch_description():
             'route': ParameterValue(LaunchConfiguration('route'), value_type=int),
             'mark': ParameterValue(LaunchConfiguration('mark'), value_type=bool),
             'auto_pose': ParameterValue(LaunchConfiguration('auto_pose'), value_type=bool),
+            'vision': ParameterValue(LaunchConfiguration('vision'), value_type=bool),
             'route_file': LaunchConfiguration('route_file'),
             'tree_file': LaunchConfiguration('tree_file'),
         }],
@@ -70,6 +85,9 @@ def generate_launch_description():
                               description='false (default) = Nav2 drives twist_mux directly, no collision monitor; true = add it'),
         DeclareLaunchArgument('start_nav', default_value='true',
                               description='false if Nav2 is already running'),
+        DeclareLaunchArgument('vision', default_value='false',
+                              description='true: the camera picks the region (vision_tree.xml + auracle_vision)'),
+        DeclareLaunchArgument('vision_model', default_value='waste_yolo26n_320.onnx'),
         DeclareLaunchArgument('namespace', default_value='auracle'),
         DeclareLaunchArgument('use_sim_time', default_value='false'),
         DeclareLaunchArgument('route_file', default_value='',
@@ -77,5 +95,6 @@ def generate_launch_description():
         DeclareLaunchArgument('tree_file', default_value='',
                               description='empty = region_tree.xml (or mark_tree.xml when mark:=true). Name or full path'),
         nav,
+        vision,
         runner,
     ])

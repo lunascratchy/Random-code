@@ -557,6 +557,46 @@ goal in RViz → bt_navigator → global path from planner_server → controller
 
 ## Behaviour trees
 auracle_bt/ is a behavior-tree mission runner that calls NavigateThroughPoses and takes a detector label. It sits above Nav2 and isn’t needed to navigate.
+
+## Vision (auracle_vision) -> behaviour tree
+Pi camera looks at a screen ~30 cm away, sees metal / organic / plastic, and the tree drives to the matching region.
+
+Flow: `WaitForDetection` (bt_runner) publishes `true` on `/auracle/vision/enable` -> `waste_detector` runs the model at 5 Hz on the newest frame -> rolling vote: a class must be the best guess in 6 of the last 10 frames with mean score >= 0.35 -> one `String` on `/auracle/vision/decision` -> the tree maps it to region N (`metal="1" organic="2" plastic="3"` in `behavior_trees/vision_tree.xml`, edit there, no rebuild) -> publishes `false`, detector goes idle -> load N, pause, offload N -> looks again.
+No answer in 30 s (`timeout_s`) -> falls back to `WaitForRegion`, so a number on `/auracle/region` still works. A number on that topic (or `route:=N`) always overrides the camera.
+
+Files:
+1. `auracle_vision/waste_model.py`: no ROS. `WasteModel` (letterbox, ONNX inference, decode, NMS) and `Voter`. Testable on the laptop.
+2. `auracle_vision/detector_node.py`: ROS wrapper. Params: `model`, `threads` (2), `conf` (0.25), `rate_hz` (5), `window` (10), `min_votes` (6), `min_score` (0.35), `roi` (crop to the screen, fractions), `clahe`, `always_on`, `save_dir`.
+3. `launch/vision.launch.py`: `camera_ros` at 640x480 + detector, in the `auracle` namespace.
+4. `models/`: `waste_yolo26n.onnx` (original, 640 px), `waste_yolo26n_320.onnx` (default), `waste_yolo26n_320_int8.onnx`.
+5. `tools/`: `resize_onnx.py` (change an exported YOLO26 ONNX's input size without the .pt), `quantize_int8.py`, `screen_sim.py` + `eval_screen.py` + `analyse.py` (simulated cheap-camera-on-cheap-screen test).
+
+Prerequisites (Pi): `sudo apt install ros-jazzy-camera-ros ros-jazzy-vision-msgs ros-jazzy-cv-bridge` and `pip install onnxruntime --break-system-packages`.
+
+Model changes and why (measured 2026-11-20 on 104 images x 10 simulated screen frames, x86 laptop CPU, 2 threads; time it again on the Pi):
+| model | ms/frame | clean acc | per-frame acc on screen sim |
+|---|---|---|---|
+| 640 (original) | 31 | 45% | 35% |
+| 416 | 16 | 53% | 36% |
+| 320 (default) | 9 | 49% | 31% |
+| 320 int8 | 7.6 | 51% | 31% |
+- 320 px input: ~3.4x faster, accuracy within the noise of this small test set. At 30 cm the object fills the frame, so the extra pixels of 640 buy little. The weights are unchanged; only the anchor grid and the attention reshape sizes were rebuilt (`tools/resize_onnx.py`, checked: the rebuilt 640 model gives bit-identical output).
+- 2 threads instead of 4, and inference only while the tree asks: leaves CPU for AMCL, Nav2 and ros2_control.
+- Resize with INTER_AREA (averages pixels, damps moire when the camera frame is bigger than the model input).
+- CLAHE (contrast boost) raised per-frame accuracy at 320 from 31% to 35% here, for ~50% more time. Off by default, try `clahe:=true` on the real screen.
+- int8: small gain on x86. The Pi 5's A76 cores have int8 dot-product instructions, so it may gain more there. Measure before switching.
+
+**Weak point, read this:** even on clean photos the model is right only ~50% of the time on this test set (it calls many organic and plastic items metal), and ~31-35% per frame on simulated screen photos, which is chance for 3 classes. The test images are not from its training set, so this partly measures a dataset mismatch, but voting cannot fix a model that is wrong more often than right: it just makes it steadily wrong. Fix: put the real images on the real screen, run `ros2 launch auracle_vision vision.launch.py always_on:=true save_dir:=$HOME/screen_frames`, label ~100 frames per class (Roboflow), add them to the dataset and fine-tune from the trained `best.pt`, then re-export (`imgsz=320`).
+
+Run:
+```
+# bench test, no BT (Pi): watch the votes
+ros2 launch auracle_vision vision.launch.py always_on:=true
+ros2 topic echo /auracle/vision/status
+ros2 topic echo /auracle/vision/decision
+# mission with the camera choosing the region (Pi)
+source install/setup.bash && ros2 launch auracle_bt_1 mission.launch.py map:=$HOME/maps/trial_7a.yaml vision:=true
+```
 =============================
 
 # Launching
@@ -707,4 +747,3 @@ Trial6a
 start: {x: 1.751, y: 0.075, yaw: -0.538}
 home:
   - {x: 1.751, y: 0.075, yaw: -0.538}
-

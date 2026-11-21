@@ -20,6 +20,7 @@
   <depend>ament_index_cpp</depend>
   <depend>yaml-cpp</depend>
   <exec_depend>auracle_bringup</exec_depend>
+  <exec_depend>auracle_vision</exec_depend>
 
   <export>
     <build_type>ament_cmake</build_type>

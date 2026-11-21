@@ -12,6 +12,9 @@
 //   region_click_tree.xml same loop, but the start pose is a 2D Pose Estimate click in RViz (auto_pose:=false)
 //   mark_tree.xml    record the six regions from Publish Point clicks (mark:=true selects it)
 //   goal_tree.xml    2D Pose Estimate, then drive to every 2D Goal Pose you click
+//   vision_tree.xml  same loop as region_tree, but the region comes from the camera (vision:=true):
+//                    WaitForDetection asks auracle_vision for a waste class and maps it to a region
+//   vision_click_tree.xml  vision_tree with a 2D Pose Estimate click (vision:=true auto_pose:=false)
 //   sorting_tree.xml old vision-driven tree (lives in src/auracle_bt, not installed here: pass its full path)
 //
 // Run with the same namespace as Nav2 (launch/mission.launch.py, namespace:=auracle), so the
@@ -21,6 +24,7 @@
 #include <behaviortree_cpp/bt_factory.h>
 #include <rclcpp/rclcpp.hpp>
 #include <rclcpp_action/rclcpp_action.hpp>
+#include <std_msgs/msg/bool.hpp>
 #include <std_msgs/msg/int32.hpp>
 #include <std_msgs/msg/string.hpp>
 #include <geometry_msgs/msg/point_stamped.hpp>
@@ -61,6 +65,8 @@ struct Shared {
   std::deque<int> regions;          // region numbers waiting to be run (route:=N, topic `region`)
   bool recording{false};            // RecordRegions is running: Publish Point clicks are kept
   std::vector<geometry_msgs::msg::PointStamped> clicks;
+  bool accepting_vision{false};     // WaitForDetection is running: a vision/decision is taken
+  std::string vision_label;         // that decision ("metal", "organic", "plastic")
 };
 
 static std::string share_dir(const std::string & pkg) {
@@ -354,6 +360,88 @@ private:
   rclcpp::Time last_log_;
 };
 
+// Ask the camera which waste is on the screen and turn the answer into a region (vision_tree.xml).
+// Talks to auracle_vision's waste_detector: publishes true on vision/enable (re-sent every 2 s in case
+// the detector started late or a message was lost), waits for vision/decision, then publishes false
+// so the detector stops using CPU. The class -> region map is in the tree XML (ports metal, organic,
+// plastic), so it changes without a rebuild. A region number on the `region` topic (or route:=N)
+// still wins: it is taken at once, so you can always override the camera by hand.
+// timeout_s > 0: FAILURE after that long with no answer (the tree then falls back to WaitForRegion).
+class WaitForDetection : public BT::StatefulActionNode {
+public:
+  WaitForDetection(const std::string & n, const BT::NodeConfig & c,
+                   rclcpp::Node::SharedPtr node, std::shared_ptr<Shared> s)
+  : BT::StatefulActionNode(n, c), node_(node), state_(s) {
+    pub_ = node_->create_publisher<std_msgs::msg::Bool>("vision/enable", 10);
+  }
+  static BT::PortsList providedPorts() {
+    return {BT::InputPort<int>("metal", 1, "region for metal"),
+            BT::InputPort<int>("organic", 2, "region for organic"),
+            BT::InputPort<int>("plastic", 3, "region for plastic"),
+            BT::InputPort<double>("timeout_s", 0.0, "0 = wait forever"),
+            BT::OutputPort<std::string>("detected_class"),
+            BT::OutputPort<std::string>("load_key"),
+            BT::OutputPort<std::string>("offload_key")};
+  }
+  BT::NodeStatus onStart() override {
+    state_->vision_label.clear();      // an answer from before we asked is stale
+    state_->accepting_vision = true;
+    timeout_ = 0.0;
+    getInput("timeout_s", timeout_);
+    t0_ = node_->now();
+    last_enable_ = t0_;
+    enable(true);
+    RCLCPP_INFO(node_->get_logger(), "Looking at the screen for the waste class ...");
+    return check();
+  }
+  BT::NodeStatus onRunning() override { return check(); }
+  void onHalted() override { stop(); }
+private:
+  BT::NodeStatus check() {
+    // manual override: a region number on the topic beats the camera
+    while (!state_->regions.empty()) {
+      const int n = state_->regions.front();
+      state_->regions.pop_front();
+      if (n < 1 || n > 3) { RCLCPP_WARN(node_->get_logger(), "region %d ignored: use 1, 2 or 3", n); continue; }
+      RCLCPP_INFO(node_->get_logger(), "region %d given by hand: camera skipped", n);
+      return finish(n, "manual");
+    }
+    if (!state_->vision_label.empty()) {
+      const std::string label = state_->vision_label;
+      state_->vision_label.clear();
+      int n = 0;
+      if (label == "metal" || label == "organic" || label == "plastic") getInput(label, n);
+      if (n >= 1 && n <= 3) {
+        RCLCPP_INFO(node_->get_logger(), "camera says %s -> region %d", label.c_str(), n);
+        return finish(n, label);
+      }
+      RCLCPP_WARN(node_->get_logger(), "camera says '%s': no region mapped to it, still looking", label.c_str());
+    }
+    const auto now = node_->now();
+    if (timeout_ > 0.0 && (now - t0_).seconds() > timeout_) {
+      RCLCPP_WARN(node_->get_logger(), "no waste class after %.0f s", timeout_);
+      stop();
+      return BT::NodeStatus::FAILURE;
+    }
+    if ((now - last_enable_).seconds() > 2.0) { last_enable_ = now; enable(true); }
+    return BT::NodeStatus::RUNNING;
+  }
+  BT::NodeStatus finish(int n, const std::string & label) {
+    stop();
+    setOutput("detected_class", label);
+    setOutput("load_key", "load_" + std::to_string(n));
+    setOutput("offload_key", "offload_" + std::to_string(n));
+    return BT::NodeStatus::SUCCESS;
+  }
+  void stop() { state_->accepting_vision = false; enable(false); }
+  void enable(bool on) { std_msgs::msg::Bool m; m.data = on; pub_->publish(m); }
+  rclcpp::Node::SharedPtr node_;
+  std::shared_ptr<Shared> state_;
+  rclcpp::Publisher<std_msgs::msg::Bool>::SharedPtr pub_;
+  rclcpp::Time t0_, last_enable_;
+  double timeout_{0.0};
+};
+
 // Turn on the spot to the heading stored for `path_name` (home) in the file. Nav2 is set up to
 // ignore the final heading of a goal (yaw_goal_tolerance 3.14 in nav2_params.yaml), so the tree
 // does this last turn itself with Nav2's Spin behaviour. Never fails: a missed turn is only logged.
@@ -593,13 +681,19 @@ int main(int argc, char ** argv) {
   node->declare_parameter<int>("route", 0);   // first region to run (1..3); 0 = wait for one on topic `region`
   node->declare_parameter<bool>("mark", false);   // true: record the regions instead of driving
   node->declare_parameter<bool>("auto_pose", true);   // true: set the start pose from regions.yaml, no RViz click
+  node->declare_parameter<bool>("vision", false);   // true: the region comes from the camera (vision_tree.xml)
 
   std::string tree_file = node->get_parameter("tree_file").as_string();
   std::string route_file = node->get_parameter("route_file").as_string();
   const std::string share = share_dir("auracle_bt_1");
   const bool mark = node->get_parameter("mark").as_bool();
-  if (tree_file.empty()) tree_file = mark ? "mark_tree.xml"
-    : (node->get_parameter("auto_pose").as_bool() ? "region_tree.xml" : "region_click_tree.xml");
+  const bool auto_pose = node->get_parameter("auto_pose").as_bool();
+  if (tree_file.empty()) {
+    if (mark) tree_file = "mark_tree.xml";
+    else if (node->get_parameter("vision").as_bool())
+      tree_file = auto_pose ? "vision_tree.xml" : "vision_click_tree.xml";
+    else tree_file = auto_pose ? "region_tree.xml" : "region_click_tree.xml";
+  }
   if (tree_file.find('/') == std::string::npos) tree_file = share + "/behavior_trees/" + tree_file;
   if (route_file.empty()) route_file = share + "/config/regions.yaml";
 
@@ -645,6 +739,12 @@ int main(int argc, char ** argv) {
       state->goal = *m;
       state->goal_ready = true; });
 
+  // Camera answer (auracle_vision waste_detector). Taken only while WaitForDetection runs.
+  auto vision_sub = node->create_subscription<std_msgs::msg::String>(
+    "vision/decision", 10,
+    [state](std_msgs::msg::String::SharedPtr m) {
+      if (state->accepting_vision) state->vision_label = m->data; });
+
   BT::BehaviorTreeFactory factory;
   factory.registerNodeType<GetDetectedClass>("GetDetectedClass", state);
   factory.registerNodeType<WaitForNav2>("WaitForNav2", node, state);
@@ -653,6 +753,7 @@ int main(int argc, char ** argv) {
   factory.registerNodeType<NavigateToGoal>("NavigateToGoal", node);
   factory.registerNodeType<SetInitialPose>("SetInitialPose", node);
   factory.registerNodeType<WaitForRegion>("WaitForRegion", node, state);
+  factory.registerNodeType<WaitForDetection>("WaitForDetection", node, state);
   factory.registerNodeType<FaceHeading>("FaceHeading", node, tf_buffer);
   factory.registerNodeType<RecordRegions>("RecordRegions", node, state);
   factory.registerNodeType<LoadWaypoints>("LoadWaypoints");
